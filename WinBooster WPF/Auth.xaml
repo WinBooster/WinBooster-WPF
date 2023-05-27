@@ -1,0 +1,59 @@
+﻿<hc:Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WinBooster_WPF"
+        xmlns:hc="https://handyorg.github.io/handycontrol" x:Class="WinBooster_WPF.Auth"
+        mc:Ignorable="d"
+    Loaded="Window_Loaded"
+        ShowMaxButton="False"
+        ShowMinButton="False"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Title="Auth" Height="110" Width="210">
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Right">
+            <StackPanel VerticalAlignment="Top" Margin="0,10,10,10"/>
+        </ScrollViewer>
+        <StackPanel x:Name="AuthPanel" Visibility="Visible">
+            <hc:PasswordBox x:Name="PasswordBox" Margin="0 5, 0, 0" Height="30" ShowClearButton="True" ShowEyeButton="True" hc:InfoElement.ShowClearButton="True" hc:InfoElement.Placeholder="Password" Width="200" VerticalAlignment="Top"/>
+            <Button x:Name="PasswordButton" Margin="0 5, 0, 5" Width="200" Height="30" VerticalAlignment="Top" Click="Button_Click">
+                <hc:FloatingBlock.ContentTemplate>
+                    <DataTemplate>
+                        <hc:AnimationPath Duration="00:00:25" StrokeThickness="1" Data="{DynamicResource PasswordGeometry}" Stretch="Uniform" Fill="WhiteSmoke" Width="16" Height="16"/>
+                    </DataTemplate>
+                   
+                </hc:FloatingBlock.ContentTemplate>
+                <Grid>
+                    <hc:AnimationPath x:Name="PasswordAnimation" Margin="0, 0, 50, 0" Duration="00:00:10" Stroke="CornflowerBlue" StrokeThickness="0.8" Data="{DynamicResource PasswordGeometry}" Stretch="Uniform" Fill="Transparent" Width="16" Height="16"/>
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="Auth"></TextBlock>
+                </Grid>
+                
+            </Button>
+        </StackPanel>
+
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="DownloadPanel" Visibility="Hidden">
+            <TextBlock HorizontalAlignment="Center" >Downloading</TextBlock>
+            <hc:StepBar HorizontalAlignment="Center"  Margin="5" x:Name="StepBar" Width="210">
+                <hc:StepBarItem>
+                    <StackPanel>
+                        <TextBlock>RunAsTI</TextBlock>
+                    </StackPanel>
+                </hc:StepBarItem>
+
+                <hc:StepBarItem>
+                    <StackPanel>
+                        <TextBlock>DataBase</TextBlock>
+                    </StackPanel>
+                </hc:StepBarItem>
+                <hc:StepBarItem>
+                    <StackPanel>
+                        <TextBlock>Loading</TextBlock>
+                    </StackPanel>
+                </hc:StepBarItem>
+                
+            </hc:StepBar>
+        </StackPanel>
+    </Grid>
+</hc:Window>

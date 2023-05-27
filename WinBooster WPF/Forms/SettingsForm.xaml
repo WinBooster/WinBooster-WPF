@@ -1,0 +1,65 @@
+﻿<hc:Window x:Class="WinBooster_WPF.SettingsForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WinBooster_WPF"
+        xmlns:hc="https://handyorg.github.io/handycontrol"
+        WindowStartupLocation="CenterScreen"
+        Closing="Window_Closing"
+        ShowMinButton="False"
+        ShowMaxButton="False"
+        ResizeMode="NoResize"
+           Loaded="Window_Loaded"
+        mc:Ignorable="d"
+        Title="WinBooster cleaner" Height="185" Width="245">
+    <Grid>
+        <StackPanel Margin="5">
+            <!--#region Properties 1-->
+            <GroupBox Width="220" Margin="5" Style="{StaticResource GroupBoxTab}" hc:TitleElement.TitlePlacement="Top" Header="Settings" VerticalAlignment="Top" HorizontalAlignment="Left">
+                <Grid>
+                    <!--#region Grid Definitions-->
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <!--#endregion-->
+                    <StackPanel>
+                        <Grid>
+                            <!--#region Grid Definitions-->
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <!--#endregion-->
+
+                            <StackPanel Margin="0">
+                                <hc:PasswordBox x:Name="PasswordBox" Margin="5" ShowEyeButton="True" Width="200" hc:InfoElement.Placeholder="Password"></hc:PasswordBox>
+                            </StackPanel>
+                            <StackPanel Margin="5" Grid.Row="1">
+                                <CheckBox x:Name="DiscordRich" Checked="DiscordRich_Checked" Unchecked="DiscordRich_Unchecked">
+                                    <TextBlock >Discord rich presence</TextBlock>
+                                </CheckBox>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+            </GroupBox>
+            <!--#endregion-->
+        </StackPanel>
+    </Grid>
+</hc:Window>
