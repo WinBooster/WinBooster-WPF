@@ -1,5 +1,7 @@
 ﻿using H.Formatters;
 using H.Pipes;
+using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using WinBooster_WPF.RemoteControl.Pipeline.Messages;
 using WinBoosterNative.pipeline.messages;
@@ -25,11 +27,17 @@ namespace TiWorker
                     MoveFileMessage? moveFile = message.moveFile;
                     if (deleteFile != null)
                     {
-                        try { deleteFile.to.Delete(); } catch { }
+                        Task.Factory.StartNew(() =>
+                        {
+                            try { File.Delete(deleteFile.to); } catch { }
+                        });
                     }
                     else if (moveFile != null)
                     {
-                        try { moveFile.from.MoveTo(moveFile.to.FullName); } catch { }
+                        Task.Factory.StartNew(() =>
+                        {
+                            try { File.Move(moveFile.from, moveFile.to); } catch { }
+                        });
                     }
                 }
             };

@@ -1,19 +1,8 @@
 ﻿using Microsoft.Win32;
-using Org.BouncyCastle.Ocsp;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using WinBooster_WPF.Forms.OptimizeClasses;
 using WinBoosterNative;
 
@@ -27,6 +16,7 @@ namespace WinBooster_WPF.Forms
         public OptimizeForm()
         {
             InitializeComponent();
+            
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -80,7 +70,6 @@ namespace WinBooster_WPF.Forms
 
         private void NagleAlgorithm_Checked(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine("А");
             RegistryKey reg = Registry.LocalMachine;
             /* Включение в интерфейсах */
             RegistryKey Interfaces = reg.OpenSubKey(@"SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\Interfaces", true);
@@ -128,6 +117,11 @@ namespace WinBooster_WPF.Forms
             RegistryKey Software = reg.OpenSubKey(@"Software\Microsoft\MSMQ\Parameters", true);
             Software.DeleteValue("TcpNoDelay");
             Software.DeleteValue("TcpAckFrequency");
+        }
+
+        private void Window_Activated(object sender, EventArgs e)
+        {
+            App.UpdateScreenCapture(this);
         }
     }
 }

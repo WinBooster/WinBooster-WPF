@@ -2,8 +2,9 @@
 
 namespace WinBooster_WPF.RemoteControl.Pipeline.Messages
 {
+    [Serializable]
     public class DeleteFileMessage
     {
-        public FileInfo to;
+        public string to;
     }
 }

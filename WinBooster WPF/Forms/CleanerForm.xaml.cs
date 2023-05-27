@@ -8,11 +8,13 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Interop;
 using System.Windows.Threading;
 using WinBooster_WPF.Forms;
 using WinBoosterNative;
 using WinBoosterNative.database.cleaner;
 using WinBoosterNative.database.cleaner.workers.custom;
+using WinBoosterNative.winapi;
 
 namespace WinBooster_WPF
 {
@@ -292,6 +294,15 @@ namespace WinBooster_WPF
         private bool first = true;
         private void Window_Activated(object sender, EventArgs e)
         {
+            var mainWindowHandle = new WindowInteropHelper(this).Handle;
+            if (App.auth.settings.DisableScreenCapture == true)
+            {
+                var ok = FormProtect.SetWindowDisplayAffinity(mainWindowHandle, 1);
+            }
+            else
+            {
+                var ok = FormProtect.SetWindowDisplayAffinity(mainWindowHandle, 0);
+            }
             if (File.Exists(databasePath))
             {
                 if (first)

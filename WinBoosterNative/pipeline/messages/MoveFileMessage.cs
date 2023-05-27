@@ -2,9 +2,10 @@
 
 namespace WinBooster_WPF.RemoteControl.Pipeline.Messages
 {
+    [Serializable]
     public class MoveFileMessage
     {
-        public FileInfo from;
-        public FileInfo to;
+        public string from;
+        public string to;
     }
 }

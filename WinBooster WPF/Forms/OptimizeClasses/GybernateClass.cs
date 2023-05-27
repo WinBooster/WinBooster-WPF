@@ -8,7 +8,7 @@ namespace WinBooster_WPF.Forms.OptimizeClasses
         /* Проверяем включение */
         public static bool Activated()
         {
-            List<string> cmdtext = new ProcessUtils().StartCmd("chcp 1251 & powercfg /a");
+            List<string> cmdtext = new ProcessUtils().StartCmd("chcp 850 & powercfg /a");
             foreach (string text in cmdtext)
             {
                 string text1 = text;
@@ -27,11 +27,11 @@ namespace WinBooster_WPF.Forms.OptimizeClasses
         {
             if (on)
             {
-                new ProcessUtils().StartCmd("powercfg /h on");
+                new ProcessUtils().StartCmd("chcp 1251 & powercfg /h on");
             }
             else
             {
-                new ProcessUtils().StartCmd("powercfg /h off");
+                new ProcessUtils().StartCmd("chcp 1251 & powercfg /h off");
             }
         }
     }

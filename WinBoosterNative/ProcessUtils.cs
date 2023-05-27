@@ -8,6 +8,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using WinBoosterNative.winapi;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace WinBoosterNative
 {
@@ -28,6 +29,10 @@ namespace WinBoosterNative
             startInfo.RedirectStandardOutput = redirect;
             startInfo.UseShellExecute = false;
             startInfo.CreateNoWindow = true;
+            //startInfo.StandardOutputEncoding = Encoding.UTF8;
+            
+
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
             return startInfo;
         }
         public List<string> StartCmd(string command)
@@ -36,14 +41,19 @@ namespace WinBoosterNative
             if (!string.IsNullOrEmpty(command))
             {
                 System.Diagnostics.Process started = process(command, true);
-                started.Start();
-                using (StreamReader sr = started.StandardOutput)
+                started.OutputDataReceived += new DataReceivedEventHandler((sender, e) =>
                 {
-                    while (!sr.EndOfStream)
+                    string? data = e.Data;
+                    if (!String.IsNullOrEmpty(data))
                     {
-                        read.Add(sr.ReadLine());
+                        read.Add(data);
+                        //Debug.WriteLine(data);
                     }
-                }
+                });
+                started.Start();
+                //started.BeginOutputReadLine();
+                //started.WaitForExit();
+                //started.Close();
             }
             return read;
         }

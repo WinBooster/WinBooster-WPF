@@ -18,6 +18,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WinBoosterNative.database.cleaner;
+using System.Windows.Interop;
+using WinBoosterNative.winapi;
 
 namespace WinBooster_WPF.Forms
 {
@@ -118,7 +120,6 @@ namespace WinBooster_WPF.Forms
             UpdateList();
 
             InitializeComponent();
-
             UpdateList2();
         }
         public static CleanerEnabledSettings enabledSettings = new CleanerEnabledSettings();
@@ -177,6 +178,19 @@ namespace WinBooster_WPF.Forms
         {
             this.Hide();
             e.Cancel = true;
+        }
+
+        private void Window_Activated(object sender, EventArgs e)
+        {
+            var mainWindowHandle = new WindowInteropHelper(this).Handle;
+            if (App.auth.settings.DisableScreenCapture == true)
+            {
+                var ok = FormProtect.SetWindowDisplayAffinity(mainWindowHandle, 1);
+            }
+            else
+            {
+                var ok = FormProtect.SetWindowDisplayAffinity(mainWindowHandle, 0);
+            }
         }
     }
 }

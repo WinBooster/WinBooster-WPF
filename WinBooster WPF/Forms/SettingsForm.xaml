@@ -10,7 +10,8 @@
         ShowMinButton="False"
         ShowMaxButton="False"
         ResizeMode="NoResize"
-           Loaded="Window_Loaded"
+           Activated="Window_Activated"
+        Loaded="Window_Loaded"
         mc:Ignorable="d"
         Title="WinBooster cleaner" Height="185" Width="245">
     <Grid>
@@ -53,6 +54,11 @@
                             <StackPanel Margin="5" Grid.Row="1">
                                 <CheckBox x:Name="DiscordRich" Checked="DiscordRich_Checked" Unchecked="DiscordRich_Unchecked">
                                     <TextBlock >Discord rich presence</TextBlock>
+                                </CheckBox>
+                            </StackPanel>
+                            <StackPanel Margin="5" Grid.Row="2">
+                                <CheckBox x:Name="ScreenShots" Checked="ScreenShots_Checked" Unchecked="ScreenShots_Unchecked">
+                                    <TextBlock >Disable WinBooster capture</TextBlock>
                                 </CheckBox>
                             </StackPanel>
                         </Grid>

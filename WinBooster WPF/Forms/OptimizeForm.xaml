@@ -7,6 +7,7 @@
         xmlns:hc="https://handyorg.github.io/handycontrol"
         Closing="Window_Closing"
         ResizeMode="NoResize"
+           Activated="Window_Activated"
         WindowStartupLocation="CenterScreen"
         ShowMinButton="False"
         ShowMaxButton="False"

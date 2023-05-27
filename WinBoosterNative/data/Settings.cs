@@ -8,5 +8,6 @@
         }
         public string password = string.Empty;
         public bool? discordRich = false;
+        public bool? DisableScreenCapture = true;
     }
 }

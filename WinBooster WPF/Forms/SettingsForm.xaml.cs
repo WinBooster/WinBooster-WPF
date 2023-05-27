@@ -1,12 +1,10 @@
 ﻿using DiscordRPC;
 using HandyControl.Controls;
 using HandyControl.Data;
-using System;
-using System.IO;
-using System.Threading.Tasks;
 using System.Windows.Controls;
-using System.Windows.Threading;
+using System.Windows.Interop;
 using WinBoosterNative.data;
+using WinBoosterNative.winapi;
 
 namespace WinBooster_WPF
 {
@@ -26,6 +24,7 @@ namespace WinBooster_WPF
         {
             App.auth.settings.password = PasswordBox.Password;  
             App.auth.settings.discordRich = DiscordRich.IsChecked;
+            App.auth.settings.DisableScreenCapture = ScreenShots.IsChecked;
             App.auth.settings.SaveFile(App.auth.settings.GetPath(), Settings.protection_password, Settings.protection_salt);
             this.Hide();
             e.Cancel = true;
@@ -40,6 +39,15 @@ namespace WinBooster_WPF
             else
             {
                 DiscordRich.IsChecked = false;
+            }
+
+            if (App.auth.settings.DisableScreenCapture == true)
+            {
+                ScreenShots.IsChecked = true;
+            }
+            else
+            {
+                ScreenShots.IsChecked = false;
             }
         }
 
@@ -67,6 +75,45 @@ namespace WinBooster_WPF
         {
             App.client.SetPresence(null);
             App.client.ClearPresence();
+        }
+
+        private void ScreenShots_Checked(object sender, System.Windows.RoutedEventArgs e)
+        {
+            App.auth.settings.DisableScreenCapture = true;
+            var mainWindowHandle = new WindowInteropHelper(this).Handle;
+            var ok = FormProtect.SetWindowDisplayAffinity(mainWindowHandle, 1);
+            App.UpdateScreenCapture(App.auth.main);
+            App.UpdateScreenCapture(App.auth.main.antiScreen);
+            App.UpdateScreenCapture(App.auth.main.optimizeForm);
+            App.UpdateScreenCapture(App.auth.main.settingsForm);
+            App.UpdateScreenCapture(App.auth.main.cleanerForm);
+            App.UpdateScreenCapture(App.auth.main.cleanerForm.clearListForm);
+        }
+
+        private void ScreenShots_Unchecked(object sender, System.Windows.RoutedEventArgs e)
+        {
+            App.auth.settings.DisableScreenCapture = false;
+            var mainWindowHandle = new WindowInteropHelper(this).Handle;
+            var ok = FormProtect.SetWindowDisplayAffinity(mainWindowHandle, 0);
+            App.UpdateScreenCapture(App.auth.main);
+            App.UpdateScreenCapture(App.auth.main.antiScreen);
+            App.UpdateScreenCapture(App.auth.main.optimizeForm);
+            App.UpdateScreenCapture(App.auth.main.settingsForm);
+            App.UpdateScreenCapture(App.auth.main.cleanerForm);
+            App.UpdateScreenCapture(App.auth.main.cleanerForm.clearListForm);
+        }
+
+        private void Window_Activated(object sender, System.EventArgs e)
+        {
+            //var mainWindowHandle = new WindowInteropHelper(this).Handle;
+            //if (App.auth.settings.DisableScreenCapture == true)
+            //{
+            //    var ok = FormProtect.SetWindowDisplayAffinity(mainWindowHandle, 1);
+            //}
+            //else
+            //{
+            //    var ok = FormProtect.SetWindowDisplayAffinity(mainWindowHandle, 0);
+            //}
         }
     }
 }

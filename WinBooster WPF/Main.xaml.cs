@@ -1,9 +1,10 @@
 ﻿using DiscordRPC;
 using HandyControl.Controls;
 using HandyControl.Data;
+using System;
 using System.Diagnostics;
 using System.Net;
-using System.Security.Policy;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using WinBooster_WPF.Data;
 using WinBooster_WPF.Forms;
@@ -16,6 +17,7 @@ namespace WinBooster_WPF
         public CleanerForm cleanerForm = new CleanerForm();
         public SettingsForm settingsForm = new SettingsForm();
         public OptimizeForm optimizeForm = new OptimizeForm();
+        public AntiScreenShareForm antiScreen = new AntiScreenShareForm();
         public Main()
         {
             InitializeComponent();
@@ -47,7 +49,6 @@ namespace WinBooster_WPF
         {
             App.SuperExit();
         }
-
         public BoosterVersion? version;
         private void Window_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
@@ -123,14 +124,30 @@ namespace WinBooster_WPF
             Task.Factory.StartNew(() =>
             {
                 ProcessStartInfo processStartInfo = new ProcessStartInfo("C:\\Program Files\\WinBooster\\RunAsTI.exe");
-                processStartInfo.Arguments = 
-                Process.Start(new ProcessStartInfo("C:\\Program Files\\WinBooster\\") { UseShellExecute = true });
+                processStartInfo.Arguments = "\"C:\\Program Files\\WinBooster\\TrustedWorker.exe\"";
+                var process = Process.Start(processStartInfo);
+                //SetParent(process.Handle, Process.GetCurrentProcess().Handle);
             });
         }
-
+        [DllImport("user32.dll")]
+        static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
         private void Button_Click_2(object sender, System.Windows.RoutedEventArgs e)
         {
             optimizeForm.Show();
+        }
+
+        private void Button_Click_3(object sender, System.Windows.RoutedEventArgs e)
+        {
+            antiScreen.Show();
+        }
+        private void Window_Activated(object sender, EventArgs e)
+        {
+            App.UpdateScreenCapture(App.auth.main);
+            App.UpdateScreenCapture(App.auth.main.antiScreen);
+            App.UpdateScreenCapture(App.auth.main.optimizeForm);
+            App.UpdateScreenCapture(App.auth.main.settingsForm);
+            App.UpdateScreenCapture(App.auth.main.cleanerForm);
+            App.UpdateScreenCapture(App.auth.main.cleanerForm.clearListForm);
         }
     }
 }
