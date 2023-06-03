@@ -1,12 +1,17 @@
-﻿using WinBoosterNative.database.cleaner.workers.custom;
-
-namespace WinBoosterNative.database.cleaner
+﻿namespace WinBoosterNative.database.cleaner
 {
     public class CleanerDatabaseUtil
     {
         public static List<ICleanerWorker> GetWorker(CleanerCategory dataBase)
         {
             List<ICleanerWorker> temp = new List<ICleanerWorker>();
+            if (dataBase.custom != null)
+            {
+                foreach (var file in dataBase.custom)
+                {
+                    temp.Add(file);
+                }
+            }
             foreach (var file in dataBase.listFiles)
             {
                 temp.Add(file);
@@ -35,6 +40,10 @@ namespace WinBoosterNative.database.cleaner
             {
                 temp.Add(file);
             }
+            foreach (var file in dataBase.foldersIsNotLanguageByPatern)
+            {
+                temp.Add(file);
+            }
             return temp;
         }
         public static List<ICleanerWorker> GetWorker(CleanerDataBase dataBase)
@@ -42,6 +51,13 @@ namespace WinBoosterNative.database.cleaner
             List<ICleanerWorker> temp = new List<ICleanerWorker>();
             foreach (var cleaner in dataBase.cleaners)
             {
+                if (cleaner.custom != null)
+                {
+                    foreach (var file in cleaner.custom)
+                    {
+                        temp.Add(file);
+                    }
+                }
                 foreach (var file in cleaner.listFiles)
                 {
                     temp.Add(file);
@@ -67,6 +83,10 @@ namespace WinBoosterNative.database.cleaner
                     temp.Add(file);
                 }
                 foreach (var file in cleaner.filesIsNotLanguageByPatern)
+                {
+                    temp.Add(file);
+                }
+                foreach (var file in cleaner.foldersIsNotLanguageByPatern)
                 {
                     temp.Add(file);
                 }

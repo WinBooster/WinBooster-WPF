@@ -20,6 +20,7 @@ using System.Windows.Shapes;
 using WinBoosterNative.database.cleaner;
 using System.Windows.Interop;
 using WinBoosterNative.winapi;
+using WinBoosterNative.security;
 
 namespace WinBooster_WPF.Forms
 {
@@ -40,9 +41,18 @@ namespace WinBooster_WPF.Forms
 
                 if (dataBase != null)
                 {
+
+                    foreach (var script in App.auth.main.scripts.Values)
+                    {
+                        if (script != null)
+                        {
+                            script.OnCleanerInit(dataBase);
+                        }
+                    }
+
                     int index = 0;
                     foreach (var category in dataBase.cleaners)
-                    {
+                    { 
                         DataBaseGrid dataBaseGrid = new DataBaseGrid();
                         dataBaseGrid.Program = category.GetCategory();
                         dataBaseGrid.Detected = category.IsAvalible();
@@ -52,22 +62,42 @@ namespace WinBooster_WPF.Forms
                         List<ICleanerWorker> workers = category.GetWorkers();
                         foreach (var worker in workers)
                         {
-                            if (!categories.Contains(worker.GetCategory()))
-                                categories.Add(worker.GetCategory());
+
+                            string categorys = worker.GetCategory();
+                            if (!categories.Contains(categorys))
+                                categories.Add(categorys);
                         }
 
                         dataBaseGrid.Category = string.Join(", ", categories);
                         dataBaseGrid.Index = index;
                         index++;
-                        list.Add(dataBaseGrid);
-                        keyValues.Add(category.GetCategory(), dataBaseGrid);
+                        if (!keyValues.ContainsKey(category.GetCategory()))
+                        {
+                            list.Add(dataBaseGrid);
+                            keyValues.Add(category.GetCategory(), dataBaseGrid);
+                        }
                     }
                 }
             }
 
             if (File.Exists("C:\\Program Files\\WinBooster\\Settings\\Enabled.json"))
             {
-                string json = File.ReadAllText("C:\\Program Files\\WinBooster\\Settings\\Enabled.json");
+                AESCryptor cryptor = new AESCryptor();
+                cryptor.SetPassword(WinBoosterNative.data.Settings.protection_password, WinBoosterNative.data.Settings.protection_salt);
+                string json = "";
+                try { 
+                    byte[] bytes2 = File.ReadAllBytes("C:\\Program Files\\WinBooster\\Settings\\Enabled.json");
+                    byte[] decrypted = cryptor.Decrypt(bytes2);
+
+                    json = Encoding.UTF8.GetString(decrypted);
+                }
+                catch
+                {
+                    File.Delete("C:\\Program Files\\WinBooster\\Settings\\Enabled.json");
+                }
+
+
+                //string json = File.ReadAllText("C:\\Program Files\\WinBooster\\Settings\\Enabled.json");
                 CleanerEnabledSettings? dataBase = CleanerEnabledSettings.FromJson(json);
                 if (dataBase != null)
                 {
@@ -86,9 +116,13 @@ namespace WinBooster_WPF.Forms
                         if (!find)
                         {
                             enabledSettings.keyValues.Remove(enabled);
+                            byte[] bytes = Encoding.UTF8.GetBytes(enabledSettings.ToJson());
+                            byte[] encrypted = cryptor.Encrypt(bytes);
+
                             Directory.CreateDirectory("C:\\Program Files\\WinBooster\\Settings");
                             File.Create("C:\\Program Files\\WinBooster\\Settings\\Enabled.json").Close();
-                            File.WriteAllText("C:\\Program Files\\WinBooster\\Settings\\Enabled.json", enabledSettings.ToJson());
+                            //File.WriteAllText("C:\\Program Files\\WinBooster\\Settings\\Enabled.json", enabledSettings.ToJson());
+                            File.WriteAllBytes("C:\\Program Files\\WinBooster\\Settings\\Enabled.json", encrypted);
                         }
                     }
                 }
@@ -99,9 +133,17 @@ namespace WinBooster_WPF.Forms
                 {
                     enabledSettings.keyValues.Add(cleaner.Program, true);
                 }
+
+                AESCryptor cryptor = new AESCryptor();
+                cryptor.SetPassword(WinBoosterNative.data.Settings.protection_password, WinBoosterNative.data.Settings.protection_salt);
+
+                byte[] bytes = Encoding.UTF8.GetBytes(enabledSettings.ToJson());
+                byte[] encrypted = cryptor.Encrypt(bytes);
+
                 Directory.CreateDirectory("C:\\Program Files\\WinBooster\\Settings");
                 File.Create("C:\\Program Files\\WinBooster\\Settings\\Enabled.json").Close();
-                File.WriteAllText("C:\\Program Files\\WinBooster\\Settings\\Enabled.json", enabledSettings.ToJson());
+                //File.WriteAllText("C:\\Program Files\\WinBooster\\Settings\\Enabled.json", enabledSettings.ToJson());
+                File.WriteAllBytes("C:\\Program Files\\WinBooster\\Settings\\Enabled.json", encrypted);
             }
         }
         public void UpdateList2()
@@ -116,11 +158,7 @@ namespace WinBooster_WPF.Forms
         }
         public ClearListForm()
         {
-
-            UpdateList();
-
             InitializeComponent();
-            UpdateList2();
         }
         public static CleanerEnabledSettings enabledSettings = new CleanerEnabledSettings();
 
@@ -167,30 +205,40 @@ namespace WinBooster_WPF.Forms
                         enabledSettings.keyValues[Program] = value;
                     else
                         enabledSettings.keyValues.Add(Program, value);
+                    AESCryptor cryptor = new AESCryptor();
+                    cryptor.SetPassword(WinBoosterNative.data.Settings.protection_password, WinBoosterNative.data.Settings.protection_salt);
+
+                    byte[] bytes = Encoding.UTF8.GetBytes(enabledSettings.ToJson());
+                    byte[] encrypted = cryptor.Encrypt(bytes);
+
                     Directory.CreateDirectory("C:\\Program Files\\WinBooster\\Settings");
                     File.Create("C:\\Program Files\\WinBooster\\Settings\\Enabled.json").Close();
-                    File.WriteAllText("C:\\Program Files\\WinBooster\\Settings\\Enabled.json", enabledSettings.ToJson());
+                    //File.WriteAllText("C:\\Program Files\\WinBooster\\Settings\\Enabled.json", enabledSettings.ToJson());
+                    File.WriteAllBytes("C:\\Program Files\\WinBooster\\Settings\\Enabled.json", encrypted);
                 }
             }
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            this.Hide();
             e.Cancel = true;
+            this.Hide();
         }
 
         private void Window_Activated(object sender, EventArgs e)
         {
-            var mainWindowHandle = new WindowInteropHelper(this).Handle;
-            if (App.auth.settings.DisableScreenCapture == true)
-            {
-                var ok = FormProtect.SetWindowDisplayAffinity(mainWindowHandle, 1);
-            }
-            else
-            {
-                var ok = FormProtect.SetWindowDisplayAffinity(mainWindowHandle, 0);
-            }
+
+        }
+
+        public void SearchCmd(object sender, ExecutedRoutedEventArgs e)
+        {
+
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            UpdateList();
+            UpdateList2();
         }
     }
 }

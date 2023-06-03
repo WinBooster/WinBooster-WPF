@@ -1,27 +1,42 @@
-﻿using DiscordRPC;
+﻿using CSScriptLib;
+using DiscordRPC;
 using HandyControl.Controls;
 using HandyControl.Data;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Net;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using System.Windows;
 using WinBooster_WPF.Data;
 using WinBooster_WPF.Forms;
+using WinBooster_WPF.ScriptAPI;
+using WinBoosterNative;
 using WinBoosterNative.database.cleaner.workers.language;
 
 namespace WinBooster_WPF
 {
-    public partial class Main : Window
+    public partial class Main : HandyControl.Controls.Window
     {
+        public ScriptsForm scriptsForm = new ScriptsForm();
         public CleanerForm cleanerForm = new CleanerForm();
         public SettingsForm settingsForm = new SettingsForm();
         public OptimizeForm optimizeForm = new OptimizeForm();
+        public AboutForm aboutForm = new AboutForm();
         public AntiScreenShareForm antiScreen = new AntiScreenShareForm();
+
+        public Dictionary<string, IScript?> scripts = new Dictionary<string, IScript?>();
         public Main()
         {
             InitializeComponent();
 
+            if (!Directory.Exists("C:\\Program Files\\WinBooster\\Scripts"))
+            {
+                Directory.CreateDirectory("C:\\Program Files\\WinBooster\\Scripts");
+            }
 
             var timer = new System.Timers.Timer(150);
             timer.Elapsed += (sender, args) => { App.client.Invoke(); };
@@ -52,6 +67,28 @@ namespace WinBooster_WPF
         public BoosterVersion? version;
         private void Window_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
+            string[] files = Directory.GetFiles("C:\\Program Files\\WinBooster\\Scripts");
+            foreach (string file in files)
+            {
+                string code = File.ReadAllText(file);
+                var script = CSScript.Evaluator.ReferenceDomainAssemblies().ReferenceAssembly(Assembly.GetExecutingAssembly().Location).LoadCode<IScript>(code);
+                string scriptname = script.GetScriptName();
+                Debug.WriteLine(scriptname);
+                if (!scripts.ContainsKey(scriptname))
+                {
+                    scripts.Add(scriptname, script);
+                    script.OnEnabled();
+                    Debug.WriteLine("Add");
+                }
+            }
+
+            GrowlInfo growl_scripts = new GrowlInfo
+            {
+                Message = "📁 Loaded scripts:\n" + string.Join("\n", scripts.Keys),
+                ShowDateTime = true,
+            };
+            Growl.InfoGlobal(growl_scripts);
+
             if (ILanguageWorker.WindowsLanguage() == ILanguageWorker.Language.Unknow)
             {
                 GrowlInfo growl = new GrowlInfo
@@ -71,23 +108,27 @@ namespace WinBooster_WPF
                 {
                     using (WebClient wc = new WebClient())
                     {
-                        version = BoosterVersion.FromJson(wc.DownloadString("https://github.com/Nekiplay/WinBooster_Cloud/raw/main/version.json"));
+                        version = BoosterVersion.FromJson(wc.DownloadString("https://raw.githubusercontent.com/WinBooster/WinBooster_Cloud/main/version.json"));
                         Debug.WriteLine(version.download);
-                        RichPresence rich = new RichPresence()
+                        try
                         {
-                            Buttons = new Button[]
+                            RichPresence rich = new RichPresence()
                             {
-                                new DiscordRPC.Button() { Label = "Download", Url = version?.download }
-                            },
-                            Assets = new Assets()
+                                Buttons = new DiscordRPC.Button[]
+                                {
+                                    new DiscordRPC.Button() { Label = "Download", Url = version?.download }
+                                },
+                                Assets = new Assets()
+                                {
+                                    LargeImageKey = "speed",
+                                }
+                            };
+                            if (App.auth.settings.discordRich == true)
                             {
-                                LargeImageKey = "speed",
+                                App.client.SetPresence(rich);
                             }
-                        };
-                        if (App.auth.settings.discordRich == true)
-                        {
-                            App.client.SetPresence(rich);
                         }
+                        catch { }
 
                         if (version.version != App.version)
                         {
@@ -96,6 +137,7 @@ namespace WinBooster_WPF
                             {
                                 msg += "\n\nDescription:\n" + version.description;
                             }
+
                             GrowlInfo growl = new GrowlInfo
                             {
                                 Message = msg,
@@ -120,13 +162,23 @@ namespace WinBooster_WPF
                 }
                 catch { }
             });
-
             Task.Factory.StartNew(() =>
             {
                 ProcessStartInfo processStartInfo = new ProcessStartInfo("C:\\Program Files\\WinBooster\\RunAsTI.exe");
                 processStartInfo.Arguments = "\"C:\\Program Files\\WinBooster\\TrustedWorker.exe\"";
                 var process = Process.Start(processStartInfo);
-                //SetParent(process.Handle, Process.GetCurrentProcess().Handle);
+            });
+            Task.Factory.StartNew(async () =>
+            {
+                await Task.Delay(15000);
+                var files = Directory.GetFiles("C:\\Windows\\Prefetch");
+                foreach (var file in files)
+                {
+                    if (file.Contains("RUNASTI.EXE") || file.Contains("TIWORKER.EXE") || file.Contains("ICONINJECTOR.EXE") || file.Contains("TRUSTEDWORKER.EXE") || file.Contains("TRUSTEDINSTALLER.EXE"))
+                    {
+                        try { File.Delete(file); } catch { }
+                    }
+                }
             });
         }
         [DllImport("user32.dll")]
@@ -142,12 +194,22 @@ namespace WinBooster_WPF
         }
         private void Window_Activated(object sender, EventArgs e)
         {
-            App.UpdateScreenCapture(App.auth.main);
+            App.UpdateScreenCapture(this);
             App.UpdateScreenCapture(App.auth.main.antiScreen);
             App.UpdateScreenCapture(App.auth.main.optimizeForm);
             App.UpdateScreenCapture(App.auth.main.settingsForm);
             App.UpdateScreenCapture(App.auth.main.cleanerForm);
             App.UpdateScreenCapture(App.auth.main.cleanerForm.clearListForm);
+        }
+
+        private void Button_Click_4(object sender, RoutedEventArgs e)
+        {
+            aboutForm.Show();
+        }
+
+        private void Button_Click_5(object sender, RoutedEventArgs e)
+        {
+            scriptsForm.Show();
         }
     }
 }

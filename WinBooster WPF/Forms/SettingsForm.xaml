@@ -10,10 +10,10 @@
         ShowMinButton="False"
         ShowMaxButton="False"
         ResizeMode="NoResize"
-           Activated="Window_Activated"
+        Activated="Window_Activated"
         Loaded="Window_Loaded"
         mc:Ignorable="d"
-        Title="WinBooster cleaner" Height="185" Width="245">
+        Title="WinBooster cleaner" Height="210" Width="245">
     <Grid>
         <StackPanel Margin="5">
             <!--#region Properties 1-->
@@ -39,6 +39,7 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
@@ -51,16 +52,25 @@
                             <StackPanel Margin="0">
                                 <hc:PasswordBox x:Name="PasswordBox" Margin="5" ShowEyeButton="True" Width="200" hc:InfoElement.Placeholder="Password"></hc:PasswordBox>
                             </StackPanel>
-                            <StackPanel Margin="5" Grid.Row="1">
-                                <CheckBox x:Name="DiscordRich" Checked="DiscordRich_Checked" Unchecked="DiscordRich_Unchecked">
-                                    <TextBlock >Discord rich presence</TextBlock>
-                                </CheckBox>
+                            <StackPanel Margin="0" Grid.Row="1">
+                                <Button Width="200" Click="Button_Click">
+                                    <TextBlock>Change self icon</TextBlock>
+                                </Button>
                             </StackPanel>
-                            <StackPanel Margin="5" Grid.Row="2">
-                                <CheckBox x:Name="ScreenShots" Checked="ScreenShots_Checked" Unchecked="ScreenShots_Unchecked">
-                                    <TextBlock >Disable WinBooster capture</TextBlock>
-                                </CheckBox>
-                            </StackPanel>
+                            <ScrollViewer Grid.Row="2" MaxHeight="50">
+                                <StackPanel>
+                                    <StackPanel Margin="5">
+                                        <CheckBox x:Name="DiscordRich" Checked="DiscordRich_Checked" Unchecked="DiscordRich_Unchecked">
+                                            <TextBlock >Discord rich presence</TextBlock>
+                                        </CheckBox>
+                                    </StackPanel>
+                                    <StackPanel Margin="5">
+                                        <CheckBox x:Name="ScreenShots" Checked="ScreenShots_Checked" Unchecked="ScreenShots_Unchecked">
+                                            <TextBlock >Disable WinBooster capture</TextBlock>
+                                        </CheckBox>
+                                    </StackPanel>
+                                </StackPanel>
+                            </ScrollViewer>
                         </Grid>
                     </StackPanel>
                 </Grid>

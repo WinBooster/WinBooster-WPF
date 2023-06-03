@@ -31,13 +31,22 @@ namespace DataBase_Adder
                 windows_category.listFiles.Add(new ListFiles("C:\\Windows\\debug\\WIA", "Logs", new List<string>() { "wiatrace.log", }));
                 windows_category.allFilesRecursives.Add(new AllFilesRecursive("C:\\Users\\{username}\\AppData\\Local\\Temp", "Logs"));
                 windows_category.allFilesRecursives.Add(new AllFilesRecursive("C:\\ProgramData\\USOShared\\Logs", "Logs"));
-                windows_category.paternFiles.Add(new PaternFiles("C:\\Windows\\Prefetch", "*.pf", "Logs"));
+                windows_category.paternFiles.Add(new PaternFiles("C:\\Windows\\Prefetch", "*", "Logs"));
+                windows_category.paternFiles.Add(new PaternFiles("C:\\Windows\\Minidump", "*", "Cache"));
                 windows_category.paternFiles.Add(new PaternFiles("C:\\Windows\\security\\logs", "*.log", "Logs"));
                 windows_category.paternFiles.Add(new PaternFiles("C:\\Windows\\security\\database", "*.log", "Logs"));
                 dataBase.cleaners.Add(windows_category);
                 #endregion
                 #region Java
                 CleanerCategory java_category = new CleanerCategory("Java");
+                java_category.listFiles.Add(new ListFiles("C:\\Users\\{username}\\.jdks\\{unknowfolder}", "Cache", new List<string>() { "javafx-src.zip", "src.zip" }));
+                java_category.listFolders.Add(new ListFolders("C:\\Users\\{username}\\.jdks\\{unknowfolder}", "Cache", new List<string>() { "sample", "demo" }));
+                java_category.listFiles.Add(new ListFiles("C:\\Users\\{username}\\.jdks\\{unknowfolder}", "Logs", new List<string>() { "COPYRIGHT", "LICENSE", "release", "README", "ADDITIONAL_LICENSE_INFO", "ASSEMBLY_EXCEPTION" }));
+
+                java_category.paternFiles.Add(new PaternFiles("C:\\Program Files (x86)\\Java\\{unknowfolder}", "*.txt", "Logs"));
+                java_category.paternFiles.Add(new PaternFiles("C:\\Program Files (x86)\\Java\\{unknowfolder}", "*.html", "Logs"));
+                java_category.listFiles.Add(new ListFiles("C:\\Program Files\\Java\\{unknowfolder}", "Logs", new List<string>() { "COPYRIGHT", "LICENSE", "release", "README" }));
+                java_category.listFiles.Add(new ListFiles("C:\\Program Files (x86)\\Java\\{unknowfolder}", "Logs", new List<string>() { "COPYRIGHT", "LICENSE", "release", "README" }));
                 java_category.listFiles.Add(new ListFiles("C:\\Program Files\\Eclipse Adoptium\\jdk-8.0.362.9-hotspot", "Cache", new List<string>() { "src.zip", }));
                 java_category.listFolders.Add(new ListFolders("C:\\Program Files\\Eclipse Adoptium\\jdk-8.0.362.9-hotspot", "Cache", new List<string>() { "sample", }));
                 dataBase.cleaners.Add(java_category);
@@ -46,6 +55,10 @@ namespace DataBase_Adder
                 CleanerCategory telegram_category = new CleanerCategory("Telegram");
                 telegram_category.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\Telegram Desktop", "*.txt", "Logs"));
                 telegram_category.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\Telegram Desktop", ".log", "Logs"));
+                telegram_category.listFiles.Add(new ListFiles("C:\\Users\\{username}\\AppData\\Roaming\\Telegram Desktop\\tdata", "Accounts", new List<string>() { "key_datas", }));
+                telegram_category.allFilesRecursives.Add(new AllFilesRecursive("C:\\Users\\{username}\\AppData\\Roaming\\Telegram Desktop\\tdata\\user_data\\cache\\0", "Cache", true));
+                telegram_category.allFilesRecursives.Add(new AllFilesRecursive("C:\\Users\\{username}\\AppData\\Roaming\\Telegram Desktop\\tdata\\user_data\\media_cache\\0", "Cache", true));
+                telegram_category.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\Telegram Desktop\\tdata\\emoji", "*cache_*", "Cache"));
                 dataBase.cleaners.Add(telegram_category);
                 #endregion
                 #region IDA Pro
@@ -58,11 +71,72 @@ namespace DataBase_Adder
                 handbrake_category.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\HandBrake\\logs", "*.txt", "Logs"));
                 dataBase.cleaners.Add(handbrake_category);
                 #endregion
+                #region Lunar Client
+                CleanerCategory lunarClient = new CleanerCategory("Lunar Client");
+                lunarClient.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\.lunarclient\\logs\\launcher", "*", "Logs"));
+                lunarClient.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\.lunarclient\\offline\\multiver\\logs", "*", "Logs"));
+                lunarClient.allFilesRecursives.Add(new AllFilesRecursive("C:\\Users\\{username}\\.lunarclient\\licenses", "Logs"));
+                
+                dataBase.cleaners.Add(lunarClient);
+                #endregion
+                #region PrismLauncher
+                CleanerCategory prismLauncher = new CleanerCategory("PrismLauncher");
+                prismLauncher.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\PrismLauncher", "*.log", "Logs"));
+                prismLauncher.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\PrismLauncher\\instances\\{unknowfolder}\\.minecraft\\logs", "*", "Logs"));
+                prismLauncher.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\PrismLauncher\\instances\\{unknowfolder}\\.minecraft\\screenshots", "*.png", "Photo"));
+                dataBase.cleaners.Add(prismLauncher);
+                #endregion
+                #region PolyMC
+                CleanerCategory polyMC = new CleanerCategory("PolyMC");
+                polyMC.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\PolyMC", "*.log", "Logs"));
+                polyMC.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\PolyMC\\instances\\{unknowfolder}\\.minecraft\\logs", "*", "Logs"));
+                polyMC.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\PolyMC\\instances\\{unknowfolder}\\.minecraft\\screenshots", "*.png", "Photo"));
+                dataBase.cleaners.Add(polyMC);
+                #endregion
                 #region ATLauncher
                 CleanerCategory ATLauncher = new CleanerCategory("ATLauncher");
                 ATLauncher.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\ATLauncher\\logs", "*.log", "Logs"));
                 ATLauncher.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\ATLauncher\\logs\\old", "*.log", "Logs"));
+                ATLauncher.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\ATLauncher\\instances\\{unknowfolder}\\logs", "*log*", "Logs"));
+                ATLauncher.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\ATLauncher\\instances\\{unknowfolder}\\logs\\telemetry", "*json*", "Logs"));
+                ATLauncher.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\ATLauncher\\instances\\{unknowfolder}\\logs\\crash-reports", "*.txt", "Logs"));
+                ATLauncher.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\ATLauncher\\instances\\{unknowfolder}\\screenshots", "*.png", "Photo"));
                 dataBase.cleaners.Add(ATLauncher);
+                #endregion
+                #region Cristalix
+                CleanerCategory cristalixCategory = new CleanerCategory("Cristalix");
+                cristalixCategory.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\.cristalix\\updates\\{unknowfolder}\\logs", "*.log", "Logs"));
+                cristalixCategory.listFiles.Add(new ListFiles("C:\\Users\\{username}\\.cristalix", "Accounts", new List<string>() { ".launcher" }));
+                dataBase.cleaners.Add(cristalixCategory);
+                #endregion
+                #region LoliLand
+                CleanerCategory loliLandCategory = new CleanerCategory("LoliLand");
+                loliLandCategory.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\loliland\\updates\\clients\\{unknowfolder}", "*.log", "Logs"));
+                loliLandCategory.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\loliland\\updates\\clients\\{unknowfolder}\\logs", "*", "Logs"));
+                loliLandCategory.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\loliland\\updates\\clients\\{unknowfolder}\\DivineRPG", "*", "Logs"));
+                loliLandCategory.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\loliland\\updates\\clients\\{unknowfolder}\\screenshots", "*.png", "Photo"));
+                loliLandCategory.listFiles.Add(new ListFiles("C:\\Users\\{username}\\loliland", "Accounts", new List<string>() { "auth.json" }));
+                dataBase.cleaners.Add(loliLandCategory);
+                #endregion
+                #region AurMine
+                CleanerCategory aurMineCategory = new CleanerCategory("AurMine");
+                aurMineCategory.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\.AurMine\\updates\\{unknowfolder}", "*.log", "Logs"));
+                aurMineCategory.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\.AurMine\\updates\\{unknowfolder}\\logs", "*", "Logs"));
+                aurMineCategory.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\.AurMine\\updates\\{unknowfolder}\\screenshots", "*.png", "Photo"));
+                aurMineCategory.listFiles.Add(new ListFiles("C:\\Users\\{username}\\.AurMine", "Accounts", new List<string>() { "settings.bin" }));
+                dataBase.cleaners.Add(aurMineCategory);
+                #endregion
+                #region Excalubur Craft
+                CleanerCategory excaluburCraftCategory = new CleanerCategory("Excalubur Craft");
+                excaluburCraftCategory.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\.exlauncher\\clients\\{unknowfolder}\\logs", "*", "Logs"));
+                excaluburCraftCategory.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\.exlauncher\\clients\\{unknowfolder}\\screenshots", "*.png", "Photo"));
+                dataBase.cleaners.Add(excaluburCraftCategory);
+                #endregion
+                #region Minecraft Only
+                CleanerCategory minecraftOnlyCategory = new CleanerCategory("Minecraft Only");
+                minecraftOnlyCategory.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\.minecraftonly\\{unknowfolder}\\logs", "*", "Logs"));
+                minecraftOnlyCategory.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\.minecraftonly\\{unknowfolder}\\screenshots", "*.png", "Photo"));
+                dataBase.cleaners.Add(minecraftOnlyCategory);
                 #endregion
                 #region Borderless Gaming
                 CleanerCategory borderless_gaming_category = new CleanerCategory("Borderless Gaming");
@@ -286,13 +360,13 @@ namespace DataBase_Adder
                 powerToys_category.listFiles.Add(new ListFiles("C:\\Program Files\\PowerToys", "Logs", new List<string>() { "License.rtf", "Notice.md" }));
                 dataBase.cleaners.Add(powerToys_category);
                 #endregion
-                #region KeePass Password Safe 2
-                CleanerCategory keePass_password_safe_2 = new CleanerCategory("KeePass Password Safe 2");
+                #region KeePass 2
+                CleanerCategory keePass_password_safe_2 = new CleanerCategory("KeePass 2");
                 keePass_password_safe_2.listFiles.Add(new ListFiles("C:\\Program Files\\KeePass Password Safe 2", "Logs", new List<string>() { "License.txt" }));
                 dataBase.cleaners.Add(keePass_password_safe_2);
                 #endregion
-                #region KeePassXC
-                CleanerCategory keepassXC = new CleanerCategory("KeePassXC");
+                #region KeePass XC
+                CleanerCategory keepassXC = new CleanerCategory("KeePass XC");
                 keepassXC.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("C:\\Program Files\\KeePassXC\\share\\translations", "*.qm", true, "Language"));
                 dataBase.cleaners.Add(keepassXC);
                 #endregion
@@ -340,6 +414,8 @@ namespace DataBase_Adder
                 CleanerCategory blueStacks_five_category = new CleanerCategory("BlueStacks 5");
                 blueStacks_five_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("C:\\Program Files\\BlueStacks_nxt\\translations\\qtwebengine_locales", "*.qm", true, "Language"));
                 blueStacks_five_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("C:\\Users\\{username}\\AppData\\Local\\BlueStacksSetup", "*.exe", true, "Cache"));
+                blueStacks_five_category.paternFiles.Add(new PaternFiles("C:\\ProgramData\\BlueStacks_nxt\\Logs", "*.log", "Logs"));
+                blueStacks_five_category.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\Pictures\\BlueStacks", "*.png", "Photo"));
                 dataBase.cleaners.Add(blueStacks_five_category);
                 #endregion
                 #region YouTube Music Desktop
@@ -354,20 +430,50 @@ namespace DataBase_Adder
                 gameloop_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("E:\\Program Files\\TxGameAssistant\\AppMarket\\locale", "*.pak", true, "Language"));
                 dataBase.cleaners.Add(gameloop_category);
                 #endregion
-
-                #region FileZila
-                // Coming soon 
-                //dataBase.listFilesIsNotLanguage.Add(new ListFilesIfCurrentLanguage("C:\\Program Files\\FileZilla FTP Client\\locales", new List<string>() { }, "Language", ILanguageWorker.Language.Russian_RU));
-
+                #region ExecHack
+                CleanerCategory execHack = new CleanerCategory("ExecHack");
+                execHack.allFilesRecursives.Add(new AllFilesRecursive("C:\\exechack", "Cheats", true));
+                dataBase.cleaners.Add(execHack);
                 #endregion
+                #region Tonfotos Telegram Connector
+                CleanerCategory tonfotos = new CleanerCategory("Tonfotos Telegram Connector");
+                tonfotos.allFilesRecursives.Add(new AllFilesRecursive("C:\\Users\\{username}\\Pictures\\Tonfotos Telegram Connector", "Photo", true));
+                dataBase.cleaners.Add(tonfotos);
+                #endregion
+                #region DotNet
                 CleanerCategory dotnet_category = new CleanerCategory("DotNet");
                 dotnet_category.listFiles.Add(new ListFiles("C:\\Program Files (x86)\\dotnet", "Logs", new List<string>() { "LICENSE.txt", "ThirdPartyNotices.txt" }));
+                dotnet_category.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\.dotnet\\TelemetryStorageService", "*", "Cache"));
                 dataBase.cleaners.Add(dotnet_category);
-
+                #endregion
+                #region Minecraft
                 CleanerCategory minecraft_category = new CleanerCategory("Minecraft");
                 minecraft_category.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\.minecraft\\logs", "*", "Logs"));
                 dataBase.cleaners.Add(minecraft_category);
-
+                #endregion
+                #region The Long Drive
+                CleanerCategory The_Long_Drive = new CleanerCategory("The Long Drive");
+                The_Long_Drive.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\Documents\\TheLongDrive\\Screenshots", "*", "Photo"));
+                The_Long_Drive.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\Documents\\TheLongDrive\\Saves", "*.jpg", "Photo"));
+                The_Long_Drive.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\Documents\\TheLongDrive\\Saves", "*.tlds", "Game save"));
+                dataBase.cleaners.Add(The_Long_Drive);
+                #endregion
+                #region Terraria
+                CleanerCategory terraria = new CleanerCategory("Terraria");
+                terraria.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\Documents\\My Games\\Terraria\\Worlds", "*", "Game save"));
+                dataBase.cleaners.Add(terraria);
+                #endregion
+                #region FileZilla
+                CleanerCategory fileZilla = new CleanerCategory("FileZilla");
+                fileZilla.foldersIsNotLanguageByPatern.Add(new FoldersIfCurrentLanguageByPatern("C:\\Program Files\\FileZilla FTP Client\\locales", "*", true, "Language"));
+                dataBase.cleaners.Add(fileZilla);
+                #endregion
+                #region MCCreator
+                CleanerCategory mccreator = new CleanerCategory("MCCreator");
+                
+                mccreator.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\.mcreator\\logs", "*.log", "Logs"));
+                dataBase.cleaners.Add(mccreator);
+                #endregion
                 Console.WriteLine("Cleaner database");
                 ClipboardService.SetText(dataBase.ToJson());
             }
@@ -401,6 +507,7 @@ namespace DataBase_Adder
                     fileNameLanguageDataBase.database.Add("shared_russian", ILanguageWorker.Language.Russian_RU);
                     fileNameLanguageDataBase.database.Add("vgui_russian", ILanguageWorker.Language.Russian_RU);
 
+                    fileNameLanguageDataBase.database.Add("eu", ILanguageWorker.Language.English_US);
                     fileNameLanguageDataBase.database.Add("en-US", ILanguageWorker.Language.English_US);
                     fileNameLanguageDataBase.database.Add("English", ILanguageWorker.Language.English_US);
                     fileNameLanguageDataBase.database.Add("RvRvpnGui_en_US", ILanguageWorker.Language.English_US);
@@ -414,7 +521,7 @@ namespace DataBase_Adder
                     fileNameLanguageDataBase.database.Add("shared_english", ILanguageWorker.Language.English_US);
                     fileNameLanguageDataBase.database.Add("vgui_english", ILanguageWorker.Language.English_US);
 
-                    fileNameLanguageDataBase.database.Add("uk-UK", ILanguageWorker.Language.English_US);
+                    fileNameLanguageDataBase.database.Add("uk-UK", ILanguageWorker.Language.Ukraine_UK);
                     fileNameLanguageDataBase.database.Add("Ukrainian", ILanguageWorker.Language.Ukraine_UK);
                     fileNameLanguageDataBase.database.Add("RvRvpnGui_uk_UA", ILanguageWorker.Language.Ukraine_UK);
                     fileNameLanguageDataBase.database.Add("keepassxc_uk", ILanguageWorker.Language.Ukraine_UK);

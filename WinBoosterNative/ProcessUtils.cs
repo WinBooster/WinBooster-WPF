@@ -26,13 +26,11 @@ namespace WinBoosterNative
             startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
             startInfo.FileName = "cmd.exe";
             startInfo.Arguments = "/C " + command;
-            startInfo.RedirectStandardOutput = redirect;
+            //startInfo.RedirectStandardOutput = redirect;
             startInfo.UseShellExecute = false;
             startInfo.CreateNoWindow = true;
             //startInfo.StandardOutputEncoding = Encoding.UTF8;
             
-
-            Console.OutputEncoding = System.Text.Encoding.UTF8;
             return startInfo;
         }
         public List<string> StartCmd(string command)

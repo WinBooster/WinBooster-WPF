@@ -26,7 +26,10 @@ namespace WinBoosterNative.database.cleaner.workers.language
         {
             return PlaceholderDataBaseParser.Parse(mainDirectory);
         }
-
+        public List<string> GetFolders()
+        {
+            return PlaceholderDataBaseParser.ParseMultiforlder(mainDirectory);
+        }
         public bool IsAvalible()
         {
             string directoryDone = PlaceholderDataBaseParser.Parse(mainDirectory);

@@ -1,12 +1,32 @@
-﻿<Window x:Class="WinBooster_WPF.Forms.AboutForm"
+﻿<hc:Window x:Class="WinBooster_WPF.Forms.AboutForm"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WinBooster_WPF.Forms"
+        xmlns:hc="https://handyorg.github.io/handycontrol"
         mc:Ignorable="d"
-        Title="About" Height="450" Width="800">
+        Closing="Window_Closing"
+        ShowMinButton="False"
+        ShowMaxButton="False"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Title="About" Height="145" Width="255">
     <Grid>
-        
+        <GroupBox Height="89" Grid.Row="0" Width="233" Margin="0,10,0,0" Style="{StaticResource GroupBoxTab}" hc:TitleElement.TitlePlacement="Top" Header="About" VerticalAlignment="Top" HorizontalAlignment="Center">
+            <StackPanel Margin="5">
+                <TextBlock>           
+                    <Hyperlink NavigateUri="https://github.com/WinBooster" Click="Hyperlink_Click">
+                        Github
+                    </Hyperlink>
+                </TextBlock>
+
+                <TextBlock>           
+                    <Hyperlink NavigateUri="https://t.me/nekiplay" Click="Hyperlink_Click_1">
+                        Author Telegram
+                    </Hyperlink>
+                </TextBlock>
+            </StackPanel>
+        </GroupBox>
     </Grid>
-</Window>
+</hc:Window>

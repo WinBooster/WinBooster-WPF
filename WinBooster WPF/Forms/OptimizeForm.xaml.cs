@@ -3,8 +3,10 @@ using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Interop;
 using WinBooster_WPF.Forms.OptimizeClasses;
 using WinBoosterNative;
+using WinBoosterNative.winapi;
 
 namespace WinBooster_WPF.Forms
 {
@@ -64,8 +66,8 @@ namespace WinBooster_WPF.Forms
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            this.Hide();
             e.Cancel = true;
+            this.Hide();
         }
 
         private void NagleAlgorithm_Checked(object sender, RoutedEventArgs e)

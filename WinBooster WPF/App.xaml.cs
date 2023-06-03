@@ -15,7 +15,7 @@ namespace WinBooster_WPF
 
     public partial class App : Application
     {
-        public static string version = "2.0.7.1";
+        public static string version = "2.0.8.3";
 
         public static RemoteControlData remoteControlData = new RemoteControlData();
         public static TelegramRemoteControl telegramRemoteControl = new TelegramRemoteControl("6074872423:AAFLKuUDD-JFVPQmTxho1zpYVQNRjfsfzQQ");
@@ -40,19 +40,6 @@ namespace WinBooster_WPF
 
         public App()
         {
-
-            using (WebClient wc = new WebClient())
-            {
-                try { remoteControlData.main.ip = wc.DownloadString("https://api.ipify.org"); } catch { }
-            }
-            client = new DiscordRpcClient("1084174375814713374");
-            remoteControlData.main.hardwareID = WinBoosterNative.security.HardwareID.GetHardwareID();
-            client.OnReady += (a, e) =>
-            {
-                remoteControlData.discord.id = client.CurrentUser.ID;
-                remoteControlData.discord.name = client.CurrentUser.Username + "#" + client.CurrentUser.Discriminator.ToString();
-            };
-            client.Initialize();
             auth = new Auth();
             ThemeManager.Current.ApplicationTheme = ApplicationTheme.Dark;
             Current.MainWindow = auth;

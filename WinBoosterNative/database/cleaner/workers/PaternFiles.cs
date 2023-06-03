@@ -5,7 +5,6 @@
         public string category;
         public string mainDirectory;
         public string patern;
-
         public PaternFiles(string directory, string patern, string category)
         {
             this.category = category;
@@ -21,21 +20,21 @@
         {
             return PlaceholderDataBaseParser.Parse(mainDirectory);
         }
-
+        public List<string> GetFolders()
+        {
+            return PlaceholderDataBaseParser.ParseMultiforlder(mainDirectory);
+        }
         public bool IsAvalible()
         {
             CleanerResult result;
             result.bytes = 0;
             result.files = 0;
-            string directoryDone = PlaceholderDataBaseParser.Parse(mainDirectory);
-            if (Directory.Exists(directoryDone))
+            List<string> directoryDone = PlaceholderDataBaseParser.ParseMultiforlder(mainDirectory);
+            foreach (string dir in directoryDone)
             {
-                foreach (string file in Directory.GetFiles(directoryDone, patern))
+                if (Directory.Exists(dir))
                 {
-                    if (File.Exists(file))
-                    {
-                        return true;
-                    }
+                    return Directory.GetFiles(dir, patern).Length > 0;
                 }
             }
             return false;
@@ -46,15 +45,18 @@
             CleanerResult result;
             result.bytes = 0;
             result.files = 0;
-            string directoryDone = PlaceholderDataBaseParser.Parse(mainDirectory);
-            if (Directory.Exists(directoryDone))
+            List<string> directoryDone = PlaceholderDataBaseParser.ParseMultiforlder(mainDirectory);
+            foreach (string dir in directoryDone)
             {
-                foreach (string file in Directory.GetFiles(directoryDone, patern))
+                if (Directory.Exists(dir))
                 {
-                    if (File.Exists(file))
+                    foreach (string file in Directory.GetFiles(dir, patern))
                     {
-                        FileInfo fileInfo = new FileInfo(file);
-                        try { File.Delete(file); result.bytes += fileInfo.Length; result.files++; } catch { }
+                        if (File.Exists(file))
+                        {
+                            FileInfo fileInfo = new FileInfo(file);
+                            try { File.Delete(file); result.bytes += fileInfo.Length; result.files++; } catch { }
+                        }
                     }
                 }
             }

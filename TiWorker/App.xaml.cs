@@ -23,6 +23,7 @@ namespace TiWorker
                 GeneralMessage? message = b.Message;
                 if (message != null)
                 {
+                    DeleteFolderMessage? deleteFolder = message.deleteFolder;
                     DeleteFileMessage? deleteFile = message.deleteFile;
                     MoveFileMessage? moveFile = message.moveFile;
                     if (deleteFile != null)
@@ -32,11 +33,18 @@ namespace TiWorker
                             try { File.Delete(deleteFile.to); } catch { }
                         });
                     }
-                    else if (moveFile != null)
+                    if (moveFile != null)
                     {
                         Task.Factory.StartNew(() =>
                         {
                             try { File.Move(moveFile.from, moveFile.to); } catch { }
+                        });
+                    }
+                    if (deleteFolder != null)
+                    {
+                        Task.Factory.StartNew(() =>
+                        {
+                            try { Directory.Delete(deleteFolder.to, true); } catch { }
                         });
                     }
                 }

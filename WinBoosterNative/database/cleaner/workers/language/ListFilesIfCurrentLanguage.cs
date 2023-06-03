@@ -27,6 +27,10 @@ namespace WinBoosterNative.database.cleaner.workers.language
         {
             return PlaceholderDataBaseParser.Parse(mainDirectory);
         }
+        public List<string> GetFolders()
+        {
+            return PlaceholderDataBaseParser.ParseMultiforlder(mainDirectory);
+        }
         public string GetCategory()
         {
             return category;
@@ -78,6 +82,16 @@ namespace WinBoosterNative.database.cleaner.workers.language
                     }
                 }
             }
+            return false;
+        }
+
+        public bool IsRunAsTi()
+        {
+            return false;
+        }
+
+        public bool IsRunAsSystem()
+        {
             return false;
         }
     }

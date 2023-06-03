@@ -1,11 +1,15 @@
-﻿namespace WinBoosterNative.database.cleaner.workers
+﻿using Org.BouncyCastle.Crypto.Digests;
+using WinBooster_WPF.RemoteControl.Pipeline;
+using WinBooster_WPF.RemoteControl.Pipeline.Messages;
+using WinBoosterNative.pipeline.messages;
+
+namespace WinBoosterNative.database.cleaner.workers
 {
     public class ListFiles : ICleanerWorker
     {
         public string category;
         public string mainDirectory;
         public List<string> files = new List<string>();
-
         public ListFiles(string directory, string category, List<string> files)
         {
             this.category = category;
@@ -22,18 +26,24 @@
         {
             return PlaceholderDataBaseParser.Parse(mainDirectory);
         }
-
+        public List<string> GetFolders()
+        {
+            return PlaceholderDataBaseParser.ParseMultiforlder(mainDirectory);
+        }
         public bool IsAvalible()
         {
-            string directoryDone = PlaceholderDataBaseParser.Parse(mainDirectory);
-            if (Directory.Exists(directoryDone))
+            List<string> directoryDone = PlaceholderDataBaseParser.ParseMultiforlder(mainDirectory);
+            foreach (string dir in directoryDone)
             {
-                foreach (string file in files)
+                if (Directory.Exists(dir))
                 {
-                    string filePath = Path.Combine(directoryDone, file);
-                    if (File.Exists(filePath))
+                    foreach (string file in files)
                     {
-                        return true;
+                        string filePath = Path.Combine(dir, file);
+                        if (File.Exists(filePath))
+                        {
+                            return true;
+                        }
                     }
                 }
             }
@@ -45,16 +55,20 @@
             CleanerResult result;
             result.bytes = 0;
             result.files = 0;
-            string directoryDone = PlaceholderDataBaseParser.Parse(mainDirectory);
-            if (Directory.Exists(directoryDone))
+            List<string> directoryDone = PlaceholderDataBaseParser.ParseMultiforlder(mainDirectory);
+
+            foreach (string dir in directoryDone)
             {
-                foreach (string file in files)
+                if (Directory.Exists(dir))
                 {
-                    string filePath = Path.Combine(directoryDone, file);
-                    if (File.Exists(filePath))
+                    foreach (string file in files)
                     {
-                        FileInfo fileInfo = new FileInfo(filePath);
-                        try { File.Delete(filePath); result.bytes += fileInfo.Length; result.files++; } catch { }
+                        string filePath = Path.Combine(dir, file);
+                        if (File.Exists(filePath))
+                        {
+                            FileInfo fileInfo = new FileInfo(filePath);
+                            try { File.Delete(filePath); result.bytes += fileInfo.Length; result.files++; } catch { }
+                        }
                     }
                 }
             }

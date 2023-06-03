@@ -212,15 +212,7 @@ namespace WinBooster_WPF.Forms
 
         private void Window_Activated(object sender, EventArgs e)
         {
-            var mainWindowHandle = new WindowInteropHelper(this).Handle;
-            if (App.auth.settings.DisableScreenCapture == true)
-            {
-                var ok = FormProtect.SetWindowDisplayAffinity(mainWindowHandle, 1);
-            }
-            else
-            {
-                var ok = FormProtect.SetWindowDisplayAffinity(mainWindowHandle, 0);
-            }
+            
         }
     }
 }

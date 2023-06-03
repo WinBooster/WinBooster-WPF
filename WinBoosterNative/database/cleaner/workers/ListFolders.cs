@@ -5,7 +5,6 @@
         public string category;
         public string mainDirectory;
         public List<string> folders = new List<string>();
-
         public ListFolders(string directory, string category, List<string> folders)
         {
             this.category = category;
@@ -21,23 +20,30 @@
         {
             return PlaceholderDataBaseParser.Parse(mainDirectory);
         }
-
+        public List<string> GetFolders()
+        {
+            return PlaceholderDataBaseParser.ParseMultiforlder(mainDirectory);
+        }
         public CleanerResult TryDelete()
         {
             CleanerResult result;
             result.bytes = 0;
             result.files = 0;
-            string directoryDone = PlaceholderDataBaseParser.Parse(mainDirectory);
-            if (Directory.Exists(directoryDone))
+            List<string> directoryDone = PlaceholderDataBaseParser.ParseMultiforlder(mainDirectory);
+            foreach (string dir in directoryDone)
             {
-                foreach (string file in folders)
+                if (Directory.Exists(dir))
                 {
-                    string filePath = Path.Combine(directoryDone, file);
-                    if (Directory.Exists(filePath))
+                    foreach (string file in folders)
                     {
-                        DirectoryInfo dirInfo = new DirectoryInfo(filePath);
-                        long size = DirSize(dirInfo);
-                        try { Directory.Delete(filePath, true); result.bytes += size; result.files++; } catch { }
+                        string filePath = Path.Combine(dir, file);
+                        if (Directory.Exists(filePath))
+                        {
+                            DirectoryInfo dirInfo = new DirectoryInfo(filePath);
+                            long size = DirSize(dirInfo);
+                            try { Directory.Delete(filePath, true); result.bytes += size; result.files++; } catch { }
+
+                        }
                     }
                 }
             }
@@ -47,13 +53,11 @@
         public static long DirSize(DirectoryInfo d)
         {
             long size = 0;
-            // Add file sizes.
             FileInfo[] fis = d.GetFiles();
             foreach (FileInfo fi in fis)
             {
                 size += fi.Length;
             }
-            // Add subdirectory sizes.
             DirectoryInfo[] dis = d.GetDirectories();
             foreach (DirectoryInfo di in dis)
             {
@@ -64,15 +68,18 @@
 
         public bool IsAvalible()
         {
-            string directoryDone = PlaceholderDataBaseParser.Parse(mainDirectory);
-            if (Directory.Exists(directoryDone))
+            List<string> directoryDone = PlaceholderDataBaseParser.ParseMultiforlder(mainDirectory);
+            foreach (string dir in directoryDone)
             {
-                foreach (string file in folders)
+                if (Directory.Exists(dir))
                 {
-                    string filePath = Path.Combine(directoryDone, file);
-                    if (Directory.Exists(filePath))
+                    foreach (string file in folders)
                     {
-                        return true;
+                        string filePath = Path.Combine(dir, file);
+                        if (Directory.Exists(filePath))
+                        {
+                            return true;
+                        }
                     }
                 }
             }

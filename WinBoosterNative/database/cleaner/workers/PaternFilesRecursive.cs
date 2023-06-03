@@ -28,6 +28,10 @@ namespace WinBoosterNative.database.cleaner.workers
         {
             return PlaceholderDataBaseParser.Parse(mainDirectory);
         }
+        public List<string> GetFolders()
+        {
+            return PlaceholderDataBaseParser.ParseMultiforlder(mainDirectory);
+        }
         private CleanerResult TryDelete(string main = "")
         {
             CleanerResult result;
@@ -75,12 +79,9 @@ namespace WinBoosterNative.database.cleaner.workers
             string directoryDone = PlaceholderDataBaseParser.Parse(main);
             if (Directory.Exists(directoryDone))
             {
-                foreach (string file in Directory.GetFiles(directoryDone, patern))
+                if (Directory.GetFiles(directoryDone, patern).Length > 0)
                 {
-                    if (File.Exists(file))
-                    {
-                        return true;
-                    }
+                    return true;
                 }
                 foreach (string subdirectory in Directory.GetDirectories(directoryDone))
                 {

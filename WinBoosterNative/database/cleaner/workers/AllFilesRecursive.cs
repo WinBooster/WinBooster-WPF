@@ -5,7 +5,6 @@
         public string category;
         public string mainDirectory;
         public bool removeDirectory = false;
-
         public AllFilesRecursive(string directory, string category, bool removeDirectory = false)
         {
             this.category = category;
@@ -20,6 +19,11 @@
         public string GetFolder()
         {
             return PlaceholderDataBaseParser.Parse(mainDirectory);
+        }
+
+        public List<string> GetFolders()
+        {
+            return PlaceholderDataBaseParser.ParseMultiforlder(mainDirectory);
         }
 
         public bool IsAvalible()

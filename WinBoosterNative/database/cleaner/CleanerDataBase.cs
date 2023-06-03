@@ -15,6 +15,7 @@ namespace WinBoosterNative.database.cleaner
             }
         }
 
+        //[JsonIgnore]
         public List<CleanerCategory> cleaners = new List<CleanerCategory>();
 
         public List<FilesIfCurrentLanguageByPatern> filesIsNotLanguageByPatern = new List<FilesIfCurrentLanguageByPatern>();
@@ -24,7 +25,6 @@ namespace WinBoosterNative.database.cleaner
         public List<PaternFiles> paternFiles = new List<PaternFiles>();
         public List<AllFilesRecursive> allFilesRecursives = new List<AllFilesRecursive>();
         public List<PaternFilesRecursive> paternFilesRecursives = new List<PaternFilesRecursive>();
-
 
         public string ToJson()
         {

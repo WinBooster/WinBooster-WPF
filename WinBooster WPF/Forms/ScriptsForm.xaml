@@ -1,0 +1,27 @@
+﻿<hc:Window x:Class="WinBooster_WPF.Forms.ScriptsForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:hc="https://handyorg.github.io/handycontrol"
+        xmlns:local="clr-namespace:WinBooster_WPF.Forms"
+        mc:Ignorable="d"
+        Closing="Window_Closing"
+        Loaded="Window_Loaded"
+        ShowMinButton="False"
+        ShowMaxButton="False"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Title="Scripts" Height="450" Width="800">
+    <Grid>
+        <StackPanel>
+            <DataGrid MaxHeight="400" Width="Auto" Margin="15, 15, 15, 15" HorizontalAlignment="Center" VerticalAlignment="Top" x:Name="DataGrid" AutoGenerateColumns="False" HeadersVisibility="All">
+                <DataGrid.Columns>
+                    <DataGridTextColumn IsReadOnly="True" Header="Index" Binding="{Binding Path=Index}" Width="Auto" />
+                    <DataGridTextColumn IsReadOnly="True" Header="Name" Binding="{Binding Path=Name}" Width="Auto"/>
+                    <DataGridCheckBoxColumn IsReadOnly="False" Header="Enabled" Binding="{Binding Path=Enabled}" Width="Auto"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+    </Grid>
+</hc:Window>

@@ -12,10 +12,14 @@
         mc:Ignorable="d"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
-        Title="WinBooster v2" Height="198" Width="250">
+            hc:Dialog.Token="Aa"
+        Title="WinBooster v2" Height="290" Width="250">
+
     <Grid>
+        
         <ScrollViewer>
             <StackPanel>
+
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -70,8 +74,20 @@
                             </Border>
                         </DockPanel>
                     </StackPanel>
+                    <StackPanel Grid.Row="2" Grid.Column="0">
+                        <DockPanel Margin="5" HorizontalAlignment="Left" VerticalAlignment="Top" Width="72" Height="72">
+                            <Border CornerRadius="6" BorderBrush="Gray" BorderThickness="1">
+                                <Button Height="100" Width="100" Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" Click="Button_Click_4">
+                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <hc:AnimationPath PathLength="0" FillBehavior="HoldEnd" RepeatBehavior="00:00:03" Margin="0, 0, 0, 0" Duration="00:00:05"  Stroke="CornflowerBlue" StrokeThickness="0.8" Data="{DynamicResource About}" Stretch="Uniform" Fill="Transparent" Width="32" Height="32"/>
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="About"></TextBlock>
+                                    </StackPanel>
 
-                    <StackPanel Grid.Row="1" Grid.Column="2">
+                                </Button>
+                            </Border>
+                        </DockPanel>
+                    </StackPanel>
+                    <StackPanel Grid.Row="2" Grid.Column="2">
                         <DockPanel Margin="5" HorizontalAlignment="Left" VerticalAlignment="Top" Width="72" Height="72">
                             <Border CornerRadius="6" BorderBrush="Gray" BorderThickness="1">
                                 <Button Height="100" Width="100" Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" Click="Button_Click_1">
@@ -99,6 +115,7 @@
                             </Border>
                         </DockPanel>
                     </StackPanel>
+                    
                 </Grid>
             </StackPanel>
         </ScrollViewer>
