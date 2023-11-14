@@ -1,6 +1,4 @@
-﻿using WinBoosterNative.data;
-
-namespace WinBoosterNative.database.cleaner.workers
+﻿namespace WinBoosterNative.database.cleaner.workers
 {
     public class PaternFilesRecursive : ICleanerWorker
     {

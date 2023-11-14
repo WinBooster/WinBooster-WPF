@@ -1,9 +1,4 @@
-﻿using Org.BouncyCastle.Crypto.Digests;
-using WinBooster_WPF.RemoteControl.Pipeline;
-using WinBooster_WPF.RemoteControl.Pipeline.Messages;
-using WinBoosterNative.pipeline.messages;
-
-namespace WinBoosterNative.database.cleaner.workers
+﻿namespace WinBoosterNative.database.cleaner.workers
 {
     public class ListFiles : ICleanerWorker
     {

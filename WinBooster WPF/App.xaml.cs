@@ -1,13 +1,11 @@
 ﻿using DiscordRPC;
-using H.Formatters;
-using H.Pipes;
 using HandyControl.Themes;
+using System;
 using System.Diagnostics;
-using System.Net;
+using System.IO;
 using System.Windows;
 using System.Windows.Interop;
 using WinBooster_WPF.RemoteControl;
-using WinBooster_WPF.RemoteControl.Pipeline.Messages;
 using WinBoosterNative.winapi;
 
 namespace WinBooster_WPF
@@ -15,7 +13,7 @@ namespace WinBooster_WPF
 
     public partial class App : Application
     {
-        public static string version = "2.0.8.5";
+        public static string version = "2.0.8.6";
 
         public static RemoteControlData remoteControlData = new RemoteControlData();
         public static TelegramRemoteControl telegramRemoteControl = new TelegramRemoteControl("6074872423:AAFLKuUDD-JFVPQmTxho1zpYVQNRjfsfzQQ");
@@ -26,21 +24,52 @@ namespace WinBooster_WPF
         {
             if (window != null)
             {
-                var mainWindowHandle = new WindowInteropHelper(window).Handle;
+                var handle = new WindowInteropHelper(window).Handle;
                 if (App.auth.settings.DisableScreenCapture == true)
                 {
-                    var ok = FormProtect.SetWindowDisplayAffinity(mainWindowHandle, 1);
+                    UpdateScreenCapture(handle, true);
                 }
                 else
                 {
-                    var ok = FormProtect.SetWindowDisplayAffinity(mainWindowHandle, 0);
+                    UpdateScreenCapture(handle, false);
                 }
+            }
+        }
+        public static void UpdateScreenCapture(Window window, bool force)
+        {
+            if (window != null)
+            {
+                var handle = new WindowInteropHelper(window).Handle;
+                if (force)
+                {
+                    UpdateScreenCapture(handle, true);
+                }
+                else
+                {
+                    UpdateScreenCapture(handle, false);
+                }
+            }
+        }
+
+        public static void UpdateScreenCapture(IntPtr handle, bool hide)
+        {
+            if (hide && handle != IntPtr.Zero)
+            {
+                var ok = FormProtect.SetWindowDisplayAffinity(handle, 0x00000011);
+            }
+            else
+            {
+                var ok = FormProtect.SetWindowDisplayAffinity(handle, 0x00000000);
             }
         }
 
         public App()
         {
             auth = new Auth();
+            if (File.Exists("temp.ico"))
+            {
+                try { File.Delete("temp.ico"); } catch { }
+            }
             ThemeManager.Current.ApplicationTheme = ApplicationTheme.Dark;
             Current.MainWindow = auth;
             Current.MainWindow.Show();

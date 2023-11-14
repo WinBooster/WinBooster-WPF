@@ -1,25 +1,16 @@
-﻿using Newtonsoft.Json.Converters;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.DirectoryServices.ActiveDirectory;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using WinBoosterNative.database.cleaner;
-using System.Windows.Interop;
-using WinBoosterNative.winapi;
 using WinBoosterNative.security;
 
 namespace WinBooster_WPF.Forms
@@ -29,9 +20,58 @@ namespace WinBooster_WPF.Forms
     /// </summary>
     public partial class ClearListForm : HandyControl.Controls.Window
     {
-        public List<DataBaseGrid> list = new List<DataBaseGrid>();
+        public ObservableCollection<DataBaseGrid> list = new ObservableCollection<DataBaseGrid>();
         public Dictionary<string, DataBaseGrid> keyValues = new Dictionary<string, DataBaseGrid>();
         private const string databasePath = "C:\\Program Files\\WinBooster\\DataBase\\clear.json";
+
+        public struct ListSctr
+        {
+            public DataBaseGrid dataBaseGrid;
+            public string category;
+        }
+        public void CheckAfterScriptsLoad()
+        {
+            string json = File.ReadAllText(databasePath);
+            AESCryptor cryptor = new AESCryptor();
+            cryptor.SetPassword(WinBoosterNative.data.Settings.protection_password, WinBoosterNative.data.Settings.protection_salt);
+            CleanerEnabledSettings? dataBase = CleanerEnabledSettings.FromJson(json);
+            if (dataBase != null)
+            {
+                enabledSettings = dataBase;
+                bool all_enabled = true;
+                foreach (var enabled in enabledSettings.keyValues.Keys.ToArray())
+                {
+                    bool find = false;
+                    foreach (var cleaner in list)
+                    {
+                        if (cleaner.Program == enabled)
+                        {
+                            find = true;
+                            break;
+                        }
+                    }
+                    if (!enabledSettings.keyValues[enabled])
+                    {
+                        all_enabled = false;
+                    }
+                    if (!find)
+                    {
+                        enabledSettings.keyValues.Remove(enabled);
+                        byte[] bytes = Encoding.UTF8.GetBytes(enabledSettings.ToJson());
+                        byte[] encrypted = cryptor.Encrypt(bytes);
+                    
+                        Directory.CreateDirectory("C:\\Program Files\\WinBooster\\Settings");
+                        File.Create("C:\\Program Files\\WinBooster\\Settings\\Enabled.json").Close();
+                        File.WriteAllBytes("C:\\Program Files\\WinBooster\\Settings\\Enabled.json", encrypted);
+                    }
+                }
+
+                if (all_enabled)
+                {
+                    File.Delete("C:\\Program Files\\WinBooster\\Settings\\Enabled.json");
+                }
+            }
+        }
         public void UpdateList()
         {
             if (File.Exists(databasePath))
@@ -41,6 +81,7 @@ namespace WinBooster_WPF.Forms
 
                 if (dataBase != null)
                 {
+                    List<Task<ListSctr>> tasks = new List<Task<ListSctr>>();
 
                     foreach (var script in App.auth.main.scripts.Values)
                     {
@@ -52,29 +93,49 @@ namespace WinBooster_WPF.Forms
 
                     int index = 0;
                     foreach (var category in dataBase.cleaners)
-                    { 
-                        DataBaseGrid dataBaseGrid = new DataBaseGrid();
-                        dataBaseGrid.Program = category.GetCategory();
-                        dataBaseGrid.Detected = category.IsAvalible();
-
-                        List<string> categories = new List<string>();
-
-                        List<ICleanerWorker> workers = category.GetWorkers();
-                        foreach (var worker in workers)
+                    {
+                        Task<ListSctr> t = new Task<ListSctr>(() =>
                         {
+                            ListSctr sctr = new ListSctr();
+                            DataBaseGrid dataBaseGrid = new DataBaseGrid();
+                            dataBaseGrid.Program = category.GetCategory();
+                            dataBaseGrid.Detected = category.IsAvalible();
+                            sctr.dataBaseGrid = dataBaseGrid;
+                            sctr.category = category.GetCategory();
+                            List<string> categories = new List<string>();
 
-                            string categorys = worker.GetCategory();
-                            if (!categories.Contains(categorys))
-                                categories.Add(categorys);
-                        }
+                            List<ICleanerWorker> workers = category.GetWorkers();
+                            foreach (var worker in workers)
+                            {
 
-                        dataBaseGrid.Category = string.Join(", ", categories);
-                        dataBaseGrid.Index = index;
-                        index++;
-                        if (!keyValues.ContainsKey(category.GetCategory()))
+                                string categorys = worker.GetCategory();
+                                if (!categories.Contains(categorys))
+                                    categories.Add(categorys);
+                            }
+
+                            dataBaseGrid.Category = string.Join(", ", categories);
+
+                            return sctr;
+                        });
+                        tasks.Add(t);
+                        t.Start();
+                    }
+
+                    lock (list)
+                    {
+                        foreach (Task<ListSctr> task in tasks)
                         {
-                            list.Add(dataBaseGrid);
-                            keyValues.Add(category.GetCategory(), dataBaseGrid);
+                            task.Wait();
+                            ListSctr result = task.Result;
+
+                            result.dataBaseGrid.Index = index;
+
+                            if (!keyValues.ContainsKey(result.category))
+                            {
+                                list.Add(result.dataBaseGrid);
+                                keyValues.Add(result.category, result.dataBaseGrid);
+                            }
+                            index++;
                         }
                     }
                 }
@@ -96,12 +157,11 @@ namespace WinBooster_WPF.Forms
                     File.Delete("C:\\Program Files\\WinBooster\\Settings\\Enabled.json");
                 }
 
-
-                //string json = File.ReadAllText("C:\\Program Files\\WinBooster\\Settings\\Enabled.json");
                 CleanerEnabledSettings? dataBase = CleanerEnabledSettings.FromJson(json);
                 if (dataBase != null)
                 {
                     enabledSettings = dataBase;
+                    bool all_enabled = true;
                     foreach (var enabled in enabledSettings.keyValues.Keys.ToArray())
                     {
                         bool find = false;
@@ -113,17 +173,15 @@ namespace WinBooster_WPF.Forms
                                 break;
                             }
                         }
-                        if (!find)
+                        if (!enabledSettings.keyValues[enabled])
                         {
-                            enabledSettings.keyValues.Remove(enabled);
-                            byte[] bytes = Encoding.UTF8.GetBytes(enabledSettings.ToJson());
-                            byte[] encrypted = cryptor.Encrypt(bytes);
-
-                            Directory.CreateDirectory("C:\\Program Files\\WinBooster\\Settings");
-                            File.Create("C:\\Program Files\\WinBooster\\Settings\\Enabled.json").Close();
-                            //File.WriteAllText("C:\\Program Files\\WinBooster\\Settings\\Enabled.json", enabledSettings.ToJson());
-                            File.WriteAllBytes("C:\\Program Files\\WinBooster\\Settings\\Enabled.json", encrypted);
+                            all_enabled = false;
                         }
+                    }
+
+                    if (all_enabled)
+                    {
+                        File.Delete("C:\\Program Files\\WinBooster\\Settings\\Enabled.json");
                     }
                 }
             }
@@ -142,19 +200,32 @@ namespace WinBooster_WPF.Forms
 
                 Directory.CreateDirectory("C:\\Program Files\\WinBooster\\Settings");
                 File.Create("C:\\Program Files\\WinBooster\\Settings\\Enabled.json").Close();
-                //File.WriteAllText("C:\\Program Files\\WinBooster\\Settings\\Enabled.json", enabledSettings.ToJson());
                 File.WriteAllBytes("C:\\Program Files\\WinBooster\\Settings\\Enabled.json", encrypted);
             }
         }
         public void UpdateList2()
         {
-            DataGrid.ItemsSource = list;
-            double wi = 0;
-            foreach (var colum in DataGrid.Columns)
+            Dispatcher.Invoke(() =>
             {
-                wi += colum.Width.Value;
-            }
-            this.Width = wi;
+                lock (list)
+                {
+                    DataGrid.Items.Clear();
+                    DataGrid.ItemsSource = null;
+                    //foreach (var item in list)
+                    //{
+                    //    DataGrid.Items.Add(item);
+                    //}
+                    DataGrid.ItemsSource = list;
+                    //DataGrid.ItemsSource = list;
+                    //DataGrid.Items.Refresh();
+                    double wi = 0;
+                    foreach (var colum in DataGrid.Columns)
+                    {
+                        wi += colum.Width.Value;
+                    }
+                    this.Width = wi;
+                }
+            });
         }
         public ClearListForm()
         {
@@ -205,6 +276,7 @@ namespace WinBooster_WPF.Forms
                         enabledSettings.keyValues[Program] = value;
                     else
                         enabledSettings.keyValues.Add(Program, value);
+
                     AESCryptor cryptor = new AESCryptor();
                     cryptor.SetPassword(WinBoosterNative.data.Settings.protection_password, WinBoosterNative.data.Settings.protection_salt);
 
@@ -213,7 +285,6 @@ namespace WinBooster_WPF.Forms
 
                     Directory.CreateDirectory("C:\\Program Files\\WinBooster\\Settings");
                     File.Create("C:\\Program Files\\WinBooster\\Settings\\Enabled.json").Close();
-                    //File.WriteAllText("C:\\Program Files\\WinBooster\\Settings\\Enabled.json", enabledSettings.ToJson());
                     File.WriteAllBytes("C:\\Program Files\\WinBooster\\Settings\\Enabled.json", encrypted);
                 }
             }
@@ -223,11 +294,12 @@ namespace WinBooster_WPF.Forms
         {
             e.Cancel = true;
             this.Hide();
+            SettingsForm.UpdateCapture();
         }
 
         private void Window_Activated(object sender, EventArgs e)
         {
-
+            SettingsForm.UpdateCapture();
         }
 
         public void SearchCmd(object sender, ExecutedRoutedEventArgs e)
@@ -237,8 +309,16 @@ namespace WinBooster_WPF.Forms
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            UpdateList();
-            UpdateList2();
+            Task.Factory.StartNew(() =>
+            {
+                //Dispatcher.Invoke(() =>
+                //{
+                //    keyValues.Clear();
+                //    list.Clear();
+                //});
+                UpdateList();
+                UpdateList2();
+            });
         }
     }
 }

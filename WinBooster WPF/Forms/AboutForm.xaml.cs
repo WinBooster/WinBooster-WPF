@@ -36,5 +36,19 @@ namespace WinBooster_WPF.Forms
                 UseShellExecute = true
             });
         }
+
+        private void version_label_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(new ProcessStartInfo
+            {
+                FileName = "https://raw.githubusercontent.com/WinBooster/WinBooster_Cloud/main/version.json",
+                UseShellExecute = true
+            });
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            version_label.Text = "Version: " + App.version;
+        }
     }
 }

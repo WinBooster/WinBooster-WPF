@@ -1,4 +1,6 @@
-﻿namespace WinBoosterNative.database.cleaner
+﻿using System.Runtime.Serialization;
+
+namespace WinBoosterNative.database.cleaner
 {
     public class CleanerDatabaseUtil
     {

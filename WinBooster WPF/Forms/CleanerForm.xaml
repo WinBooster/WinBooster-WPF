@@ -9,8 +9,8 @@
         Closing="Window_Closing"
         ShowMinButton="False"
         ShowMaxButton="False"
-        Loaded="Window_Loaded"
         ResizeMode="NoResize"
+        Loaded="Window_Loaded"
         Activated="Window_Activated"
         mc:Ignorable="d"
         Title="WinBooster cleaner" Height="235" Width="545">

@@ -25,6 +25,9 @@
                     <DataGridCheckBoxColumn IsReadOnly="False" Header="Enabled" Binding="{Binding Path=Enabled}" Width="Auto" />
                 </DataGrid.Columns>
             </DataGrid>
+            <DataGridRow x:Name="DataGridRows">
+                
+            </DataGridRow>
         </StackPanel>
     </Grid>
 </hc:Window>

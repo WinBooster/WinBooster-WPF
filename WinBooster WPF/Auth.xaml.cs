@@ -113,24 +113,27 @@ namespace WinBooster_WPF
 
             if (!System.IO.File.Exists("C:\\Program Files\\WinBooster\\RunAsTI.exe"))
             {
-                try 
+                if (settings.first_run == true)
                 {
-                    var bytes = wc.DownloadData("https://github.com/WinBooster/WinBooster_Cloud/raw/main/files/RunAsTI.exe");
-                    if (!System.IO.File.Exists("C:\\Program Files\\WinBooster\\RunAsTI.exe"))
-                        System.IO.File.Create("C:\\Program Files\\WinBooster\\RunAsTI.exe").Close();
-                    System.IO.File.WriteAllBytes("C:\\Program Files\\WinBooster\\RunAsTI.exe", bytes);
-                }
-                catch
-                {
-                    GrowlInfo growl = new GrowlInfo
+                    try
                     {
-                        Message = "Error downloading: RunAsTI",
-                        ShowDateTime = true,
-                        IconKey = "ErrorGeometry",
-                        IconBrushKey = "DangerBrush",
-                        IsCustom = true
-                    };
-                    Growl.InfoGlobal(growl);
+                        var bytes = wc.DownloadData("https://github.com/WinBooster/WinBooster_Cloud/raw/main/files/RunAsTI.exe");
+                        if (!System.IO.File.Exists("C:\\Program Files\\WinBooster\\RunAsTI.exe"))
+                            System.IO.File.Create("C:\\Program Files\\WinBooster\\RunAsTI.exe").Close();
+                        System.IO.File.WriteAllBytes("C:\\Program Files\\WinBooster\\RunAsTI.exe", bytes);
+                    }
+                    catch
+                    {
+                        GrowlInfo growl = new GrowlInfo
+                        {
+                            Message = "Error downloading: RunAsTI",
+                            ShowDateTime = true,
+                            IconKey = "ErrorGeometry",
+                            IconBrushKey = "DangerBrush",
+                            IsCustom = true
+                        };
+                        Growl.InfoGlobal(growl);
+                    }
                 }
                 StepBar.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
                 {
@@ -138,20 +141,46 @@ namespace WinBooster_WPF
                 }));
             }
 
-            if (!System.IO.File.Exists("C:\\Program Files\\WinBooster\\IconInjector.exe"))
+            if (settings.first_run == true)
+            {
+                if (!System.IO.File.Exists("C:\\Program Files\\WinBooster\\IconInjector.exe"))
+                {
+                    try
+                    {
+                        var bytes = wc.DownloadData("https://github.com/WinBooster/WinBooster_Cloud/raw/main/files/IconInjector.exe");
+                        if (!System.IO.File.Exists("C:\\Program Files\\WinBooster\\IconInjector.exe"))
+                            System.IO.File.Create("C:\\Program Files\\WinBooster\\IconInjector.exe").Close();
+                        System.IO.File.WriteAllBytes("C:\\Program Files\\WinBooster\\IconInjector.exe", bytes);
+                    }
+                    catch
+                    {
+                        GrowlInfo growl = new GrowlInfo
+                        {
+                            Message = "Error downloading: IconInjector",
+                            ShowDateTime = true,
+                            IconKey = "ErrorGeometry",
+                            IconBrushKey = "DangerBrush",
+                            IsCustom = true
+                        };
+                        Growl.InfoGlobal(growl);
+                    }
+                }
+            }
+
+            if (settings.first_run == true)
             {
                 try
                 {
-                    var bytes = wc.DownloadData("https://github.com/WinBooster/WinBooster_Cloud/raw/main/files/IconInjector.exe");
-                    if (!System.IO.File.Exists("C:\\Program Files\\WinBooster\\IconInjector.exe"))
-                        System.IO.File.Create("C:\\Program Files\\WinBooster\\IconInjector.exe").Close();
-                    System.IO.File.WriteAllBytes("C:\\Program Files\\WinBooster\\IconInjector.exe", bytes);
+                    var bytes = wc.DownloadData("https://github.com/WinBooster/WinBooster_Cloud/raw/main/files/TrustedWorker.exe");
+                    if (!System.IO.File.Exists("C:\\Program Files\\WinBooster\\TrustedWorker.exe"))
+                        System.IO.File.Create("C:\\Program Files\\WinBooster\\TrustedWorker.exe").Close();
+                    System.IO.File.WriteAllBytes("C:\\Program Files\\WinBooster\\TrustedWorker.exe", bytes);
                 }
                 catch
                 {
                     GrowlInfo growl = new GrowlInfo
                     {
-                        Message = "Error downloading: IconInjector",
+                        Message = "Error downloading: TrustedWorker",
                         ShowDateTime = true,
                         IconKey = "ErrorGeometry",
                         IconBrushKey = "DangerBrush",
@@ -160,27 +189,11 @@ namespace WinBooster_WPF
                     Growl.InfoGlobal(growl);
                 }
             }
-
-            try 
-            { 
-                var bytes = wc.DownloadData("https://github.com/WinBooster/WinBooster_Cloud/raw/main/files/TrustedWorker.exe");
-                if (!System.IO.File.Exists("C:\\Program Files\\WinBooster\\TrustedWorker.exe"))
-                    System.IO.File.Create("C:\\Program Files\\WinBooster\\TrustedWorker.exe").Close();
-                System.IO.File.WriteAllBytes("C:\\Program Files\\WinBooster\\TrustedWorker.exe", bytes);
-            }
-            catch
+            if (settings.first_run == true)
             {
-                GrowlInfo growl = new GrowlInfo
-                {
-                    Message = "Error downloading: TrustedWorker",
-                    ShowDateTime = true,
-                    IconKey = "ErrorGeometry",
-                    IconBrushKey = "DangerBrush",
-                    IsCustom = true
-                };
-                Growl.InfoGlobal(growl);
+                settings.first_run = false;
+                settings.SaveFile(settings.GetPath(), Settings.protection_password, Settings.protection_salt);
             }
-
             try 
             {
                 string bdPath = "C:\\Program Files\\WinBooster\\DataBase\\clear.json";
@@ -398,12 +411,22 @@ namespace WinBooster_WPF
                         using (WebClient wc = new WebClient())
                         {
                             DownloadFiles(wc);
-
-                            StepBar.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
+                            Debug.WriteLine(settings.first_run);
+                            if (settings.first_run == true)
                             {
-                                StepBar.Next();
-                            }));
-                            await Task.Delay(250);
+                                StepBar.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
+                                {
+                                    StepBar.Next();
+                                }));
+                                await Task.Delay(250);
+                            }
+                            else
+                            {
+                                StepBar.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
+                                {
+                                    StepBar.Items.Remove(0);
+                                }));
+                            }
                             StepBar.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
                             {
                                 StepBar.Next();

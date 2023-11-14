@@ -1,20 +1,16 @@
-﻿using DiscordRPC;
-using HandyControl.Controls;
+﻿using HandyControl.Controls;
 using HandyControl.Data;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Interop;
 using System.Windows.Threading;
 using WinBooster_WPF.Forms;
 using WinBoosterNative;
 using WinBoosterNative.database.cleaner;
 using WinBoosterNative.database.cleaner.workers.custom;
-using WinBoosterNative.winapi;
 
 namespace WinBooster_WPF
 {
@@ -25,6 +21,7 @@ namespace WinBooster_WPF
         {
             InitializeComponent();
             clearListForm = new ClearListForm();
+            App.UpdateScreenCapture(this);
         }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -252,15 +249,7 @@ namespace WinBooster_WPF
         private bool first = true;
         private void Window_Activated(object sender, EventArgs e)
         {
-            var mainWindowHandle = new WindowInteropHelper(this).Handle;
-            if (App.auth.settings.DisableScreenCapture == true)
-            {
-                var ok = FormProtect.SetWindowDisplayAffinity(mainWindowHandle, 1);
-            }
-            else
-            {
-                var ok = FormProtect.SetWindowDisplayAffinity(mainWindowHandle, 0);
-            }
+            App.UpdateScreenCapture(this);
             if (File.Exists(databasePath))
             {
                 if (first)
@@ -282,20 +271,18 @@ namespace WinBooster_WPF
         {
             foreach (CheckBox ch in checkBoxes.Values)
             {
-                this.Dispatcher.Invoke(() => ch.IsChecked = true);
+                this.Dispatcher.Invoke(() => ch.IsChecked = !ch.IsChecked);
             }
         }
-        public ClearListForm clearListForm;
+        public ClearListForm clearListForm = null;
         private void Button_Click_1(object sender, System.Windows.RoutedEventArgs e)
         {
             clearListForm.Show();
         }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        public void UpdateCheckboxes()
         {
             if (File.Exists(databasePath))
             {
-                Categories.Children.Clear();
                 string json = File.ReadAllText(databasePath);
                 CleanerDataBase? dataBase = CleanerDataBase.FromJson(json);
                 if (dataBase != null)
@@ -308,6 +295,11 @@ namespace WinBooster_WPF
                         }
                     }
 
+                    checkBoxes.Clear();
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        Categories.Children.Clear();
+                    });
 
                     List<string> categories = new List<string>();
                     foreach (var category in dataBase.cleaners)
@@ -324,36 +316,44 @@ namespace WinBooster_WPF
                     int col = 0;
                     foreach (var category in categories)
                     {
-
-                        StackPanel stack = new StackPanel();
-                        stack.Margin = new System.Windows.Thickness(5);
-                        stack.SetValue(Grid.RowProperty, row);
-                        stack.SetValue(Grid.ColumnProperty, col);
-
-                        CheckBox check = new CheckBox();
-
-                        TextBlock text = new TextBlock();
-                        text.Text = category;
-                        check.Content = text;
-                        stack.Children.Add(check);
-                        col++;
-                        if (col == 3)
+                        this.Dispatcher.Invoke(() =>
                         {
-                            col = 0;
-                            var rowDefinition = new RowDefinition();
-                            rowDefinition.Height = GridLength.Auto;
-                            Categories.RowDefinitions.Add(rowDefinition);
-                            row++;
-                        }
-                        if (!checkBoxes.ContainsKey(category))
-                        {
-                            checkBoxes.Add(category, check);
-                            Categories.Children.Add(stack);
-                        }
+                            StackPanel stack = new StackPanel();
+                            stack.Margin = new System.Windows.Thickness(5);
+                            stack.SetValue(Grid.RowProperty, row);
+                            stack.SetValue(Grid.ColumnProperty, col);
+
+                            CheckBox check = new CheckBox();
+
+                            TextBlock text = new TextBlock();
+                            text.Text = category;
+                            check.Content = text;
+                            stack.Children.Add(check);
+                            col++;
+                            if (col == 3)
+                            {
+                                col = 0;
+                                var rowDefinition = new RowDefinition();
+                                rowDefinition.Height = GridLength.Auto;
+                                Categories.RowDefinitions.Add(rowDefinition);
+                                row++;
+                            }
+                            if (!checkBoxes.ContainsKey(category))
+                            {
+                                checkBoxes.Add(category, check);
+                                Categories.Children.Add(stack);
+                            }
+                        });
+                      
                     }
 
                 }
             }
+        }
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            App.UpdateScreenCapture(this);
+            UpdateCheckboxes();
         }
     }
 }

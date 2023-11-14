@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -16,7 +17,6 @@ using System.Windows;
 using WinBooster_WPF.Data;
 using WinBooster_WPF.Forms;
 using WinBooster_WPF.ScriptAPI;
-using WinBoosterNative;
 using WinBoosterNative.database.cleaner.workers.language;
 
 namespace WinBooster_WPF
@@ -29,6 +29,7 @@ namespace WinBooster_WPF
         public OptimizeForm optimizeForm = new OptimizeForm();
         public AboutForm aboutForm = new AboutForm();
         public AntiScreenShareForm antiScreen = new AntiScreenShareForm();
+        public MarketForm market = new MarketForm();
 
         public Dictionary<string, IScript?> scripts = new Dictionary<string, IScript?>();
         public Main()
@@ -54,6 +55,7 @@ namespace WinBooster_WPF
 
         private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
         {
+            cleanerForm.UpdateCheckboxes();
             cleanerForm.Show();
         }
 
@@ -69,58 +71,108 @@ namespace WinBooster_WPF
         public BoosterVersion? version;
         private void Window_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            List<string> errored_sripts = new List<string>();
-            List<Task> script_tasks = new List<Task>();
-            string[] files = Directory.GetFiles("C:\\Program Files\\WinBooster\\Scripts");
-            foreach (string file in files)
+            Task.Factory.StartNew(async () =>
             {
-                FileInfo info = new FileInfo(file);
-                Task t = Task.Factory.StartNew(() =>
+                List<string> errored_sripts = new List<string>();
+                string[] files = Directory.GetFiles("C:\\Program Files\\WinBooster\\Scripts");
+
+                var script_tasks = new Task<bool>[files.Length];
+
+                var loader = CSScript.Evaluator.ReferenceDomainAssemblies().ReferenceAssembly(Assembly.GetExecutingAssembly().Location);
+                int index = 0;
+                foreach (string file in files)
                 {
-                    try
+                    FileInfo info = new FileInfo(file);
+                    script_tasks[index] = Task<bool>.Run(() =>
                     {
-                        string code = File.ReadAllText(file);
-                        var script = CSScript.Evaluator.ReferenceDomainAssemblies().ReferenceAssembly(Assembly.GetExecutingAssembly().Location).LoadCode<IScript>(code);
-                        string scriptname = script.GetScriptName();
-                        if (String.IsNullOrEmpty(scriptname))
+                        try
                         {
-                            scriptname = info.Name;
+                            Debug.WriteLine("Loading script: " + info.Name);
+                            string code;
+                            using (StreamReader streamReader = new StreamReader(file, Encoding.UTF8))
+                            {
+                                code = streamReader.ReadToEnd();
+                            }
+
+                            var script = loader.LoadCode<IScript>(code);
+                            if (script != null)
+                            {
+                                string scriptname = script.GetScriptName();
+                                if (String.IsNullOrEmpty(scriptname))
+                                {
+                                    scriptname = info.Name;
+                                }
+                                bool added = false;
+                                lock (scripts)
+                                {
+                                    if (!scripts.ContainsKey(scriptname))
+                                    {
+                                        scripts.Add(scriptname, script);
+                                        added = true;
+                                    }
+                                }
+                                if (added)
+                                {
+                                    script.OnEnabled();
+                                    Debug.WriteLine("Loaded script: " + scriptname);
+                                    return true;
+                                }
+                            }
+                            else
+                            {
+                                Debug.WriteLine("Null script: " + info.Name);
+                            }
+                            return false;
                         }
-                        if (!scripts.ContainsKey(scriptname))
+                        catch
                         {
-                            scripts.Add(scriptname, script);
-                            script.OnEnabled();
+                            errored_sripts.Add(info.Name);
+                            Debug.WriteLine("Errored script: " + info.Name);
+                            return false;
                         }
+                    });
+                    index++;
+                }
+
+                await Task.WhenAll(script_tasks);
+
+                if (!errored_sripts.IsEmpty())
+                {
+                    string print = string.Join("\n", errored_sripts);
+                    GrowlInfo growl_scripts = new GrowlInfo
+                    {
+                        Message = "📁 Error scripts:\n" + print,
+                        ShowDateTime = true,
+                    };
+
+                    Growl.ErrorGlobal(growl_scripts);
+                }
+
+
+                await Task.Delay(5);
+                var orderedInput = scripts.OrderBy(key => key.Key);
+                var newDict = new Dictionary<string, IScript?>(orderedInput);
+                scripts = newDict;
+                cleanerForm.UpdateCheckboxes();
+                cleanerForm.clearListForm.UpdateList();
+                cleanerForm.clearListForm.UpdateList2();
+                cleanerForm.clearListForm.CheckAfterScriptsLoad();
+                lock (scripts)
+                {
+                    if (!scripts.IsEmpty())
+                    {
+                        Debug.WriteLine("Displaying a message about loaded scripts");
+                        string print = string.Join("\n", scripts.Keys);
+                        GrowlInfo growl_scripts = new GrowlInfo
+                        {
+                            Message = "📁 Loaded scripts:\n" + print,
+                            ShowDateTime = true,
+                        };
+                        Growl.InfoGlobal(growl_scripts);
                     }
-                    catch { errored_sripts.Add(info.Name); }
-                });
-                script_tasks.Add(t);
-            }
+                }
+            });
 
-            foreach (Task t in script_tasks)
-            {
-                t.Wait();
-            }
-
-            if (!errored_sripts.IsEmpty())
-            {
-                GrowlInfo growl_scripts = new GrowlInfo
-                {
-                    Message = "📁 Error scripts:\n" + string.Join("\n", errored_sripts),
-                    ShowDateTime = true,
-                };
-                Growl.ErrorGlobal(growl_scripts);
-            }
-
-            if (!scripts.IsEmpty())
-            {
-                GrowlInfo growl_scripts = new GrowlInfo
-                {
-                    Message = "📁 Loaded scripts:\n" + string.Join("\n", scripts.Keys),
-                    ShowDateTime = true,
-                };
-                Growl.InfoGlobal(growl_scripts);
-            }
 
             if (ILanguageWorker.WindowsLanguage() == ILanguageWorker.Language.Unknow)
             {
@@ -216,6 +268,14 @@ namespace WinBooster_WPF
         }
         [DllImport("user32.dll")]
         static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
+
+        private void Window_Activated(object sender, EventArgs e)
+        {
+            SettingsForm.UpdateCapture();
+        }
+
+        #region Buttons
+
         private void Button_Click_2(object sender, System.Windows.RoutedEventArgs e)
         {
             optimizeForm.Show();
@@ -225,24 +285,21 @@ namespace WinBooster_WPF
         {
             antiScreen.Show();
         }
-        private void Window_Activated(object sender, EventArgs e)
-        {
-            App.UpdateScreenCapture(this);
-            App.UpdateScreenCapture(App.auth.main.antiScreen);
-            App.UpdateScreenCapture(App.auth.main.optimizeForm);
-            App.UpdateScreenCapture(App.auth.main.settingsForm);
-            App.UpdateScreenCapture(App.auth.main.cleanerForm);
-            App.UpdateScreenCapture(App.auth.main.cleanerForm.clearListForm);
-        }
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
             aboutForm.Show();
         }
 
-        private void Button_Click_5(object sender, RoutedEventArgs e)
+        private void MarketButton_Click(object sender, RoutedEventArgs e)
         {
-            scriptsForm.Show();
+            market.Show();
+        }
+        #endregion
+
+        private void Button_Click_6(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 }

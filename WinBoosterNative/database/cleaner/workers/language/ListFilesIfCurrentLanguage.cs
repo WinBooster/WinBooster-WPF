@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WinBoosterNative.database.cleaner.workers.language
+﻿namespace WinBoosterNative.database.cleaner.workers.language
 {
     public class ListFilesIfCurrentLanguage : ILanguageWorker, ICleanerWorker
     {

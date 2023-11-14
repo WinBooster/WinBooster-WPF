@@ -9,5 +9,6 @@
         public string password = string.Empty;
         public bool? discordRich = false;
         public bool? DisableScreenCapture = true;
+        public bool? first_run = true;
     }
 }
