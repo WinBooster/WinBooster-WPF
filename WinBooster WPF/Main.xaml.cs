@@ -1,4 +1,5 @@
-﻿using CSScriptLib;
+﻿using CSScripting;
+using CSScriptLib;
 using DiscordRPC;
 using HandyControl.Controls;
 using HandyControl.Data;
@@ -9,6 +10,7 @@ using System.IO;
 using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using WinBooster_WPF.Data;
@@ -67,27 +69,58 @@ namespace WinBooster_WPF
         public BoosterVersion? version;
         private void Window_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
+            List<string> errored_sripts = new List<string>();
+            List<Task> script_tasks = new List<Task>();
             string[] files = Directory.GetFiles("C:\\Program Files\\WinBooster\\Scripts");
             foreach (string file in files)
             {
-                string code = File.ReadAllText(file);
-                var script = CSScript.Evaluator.ReferenceDomainAssemblies().ReferenceAssembly(Assembly.GetExecutingAssembly().Location).LoadCode<IScript>(code);
-                string scriptname = script.GetScriptName();
-                Debug.WriteLine(scriptname);
-                if (!scripts.ContainsKey(scriptname))
+                FileInfo info = new FileInfo(file);
+                Task t = Task.Factory.StartNew(() =>
                 {
-                    scripts.Add(scriptname, script);
-                    script.OnEnabled();
-                    Debug.WriteLine("Add");
-                }
+                    try
+                    {
+                        string code = File.ReadAllText(file);
+                        var script = CSScript.Evaluator.ReferenceDomainAssemblies().ReferenceAssembly(Assembly.GetExecutingAssembly().Location).LoadCode<IScript>(code);
+                        string scriptname = script.GetScriptName();
+                        if (String.IsNullOrEmpty(scriptname))
+                        {
+                            scriptname = info.Name;
+                        }
+                        if (!scripts.ContainsKey(scriptname))
+                        {
+                            scripts.Add(scriptname, script);
+                            script.OnEnabled();
+                        }
+                    }
+                    catch { errored_sripts.Add(info.Name); }
+                });
+                script_tasks.Add(t);
             }
 
-            GrowlInfo growl_scripts = new GrowlInfo
+            foreach (Task t in script_tasks)
             {
-                Message = "📁 Loaded scripts:\n" + string.Join("\n", scripts.Keys),
-                ShowDateTime = true,
-            };
-            Growl.InfoGlobal(growl_scripts);
+                t.Wait();
+            }
+
+            if (!errored_sripts.IsEmpty())
+            {
+                GrowlInfo growl_scripts = new GrowlInfo
+                {
+                    Message = "📁 Error scripts:\n" + string.Join("\n", errored_sripts),
+                    ShowDateTime = true,
+                };
+                Growl.ErrorGlobal(growl_scripts);
+            }
+
+            if (!scripts.IsEmpty())
+            {
+                GrowlInfo growl_scripts = new GrowlInfo
+                {
+                    Message = "📁 Loaded scripts:\n" + string.Join("\n", scripts.Keys),
+                    ShowDateTime = true,
+                };
+                Growl.InfoGlobal(growl_scripts);
+            }
 
             if (ILanguageWorker.WindowsLanguage() == ILanguageWorker.Language.Unknow)
             {

@@ -61,6 +61,12 @@ namespace DataBase_Adder
                 telegram_category.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\Telegram Desktop\\tdata\\emoji", "*cache_*", "Cache"));
                 dataBase.cleaners.Add(telegram_category);
                 #endregion
+                #region Signal
+                CleanerCategory signal = new CleanerCategory("Signal");
+                signal.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\Signal\\logs", "*", "Logs"));
+                signal.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\Signal\\update-cache", "*", "Cache"));
+                dataBase.cleaners.Add(signal);
+                #endregion
                 #region IDA Pro
                 CleanerCategory ida_pro_category = new CleanerCategory("IDA Pro");
                 ida_pro_category.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\Hex-Rays\\IDA Pro", "*.lst", "Cache"));
@@ -159,6 +165,11 @@ namespace DataBase_Adder
                 exodus_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("C:\\Users\\{username}\\AppData\\Local\\exodus\\app-23.3.13\\locales", "*.pak", true, "Language"));
                 dataBase.cleaners.Add(exodus_category);
                 #endregion
+                #region Wasabi Wallet
+                CleanerCategory wasabi_wallet = new CleanerCategory("Wasabi Wallet");
+                wasabi_wallet.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\WalletWasabi\\Client", "*.txt", "Logs"));
+                dataBase.cleaners.Add(wasabi_wallet);
+                #endregion
                 #region Discord
                 CleanerCategory discord_category = new CleanerCategory("Discord");
                 discord_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("C:\\Users\\{username}\\AppData\\Local\\Discord\\app-1.0.9013\\locales", "*.pak", true, "Language"));
@@ -167,6 +178,7 @@ namespace DataBase_Adder
                 #endregion
                 #region GitHub Desktop
                 CleanerCategory github_desktop_category = new CleanerCategory("GitHub Desktop");
+                github_desktop_category.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\GitHub Desktop", "*.log", "Logs"));
                 github_desktop_category.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\GitHub Desktop\\logs", "*.log", "Logs"));
                 github_desktop_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("C:\\Users\\{username}\\AppData\\Local\\GitHubDesktop\\app-3.2.0\\locales", "*.pak", true, "Language"));
                 github_desktop_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("C:\\Users\\{username}\\AppData\\Local\\GitHubDesktop\\app-3.2.1\\locales", "*.pak", true, "Language"));
@@ -222,17 +234,75 @@ namespace DataBase_Adder
 
                 brave_browser_category.allFilesRecursives.Add(new AllFilesRecursive("C:\\Users\\{username}\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\Default\\Code Cache\\js", "Cache", false));
                 brave_browser_category.allFilesRecursives.Add(new AllFilesRecursive("C:\\Users\\{username}\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\Default\\Cache\\Cache_Data", "Cache", false));
-                brave_browser_category.listFiles.Add(new ListFiles("C:\\Users\\{username}\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\Default\\DawnCache", "Cache", new List<string>() { "data_0", "data_1", "data_2", "data_3", "index" }));
-                brave_browser_category.listFiles.Add(new ListFiles("C:\\Users\\{username}\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\Default\\GPUCache", "Cache", new List<string>() { "data_0", "data_1", "data_2", "data_3", "index" }));
-                brave_browser_category.listFiles.Add(new ListFiles("C:\\Users\\{username}\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\Default\\BudgetDatabase", "Logs", new List<string>() { "LOCK", "LOG", "LOG.old" }));
-                brave_browser_category.listFiles.Add(new ListFiles("C:\\Users\\{username}\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\Default\\commerce_subscription_db", "Logs", new List<string>() { "LOCK", "LOG", "LOG.old" }));
-                brave_browser_category.listFiles.Add(new ListFiles("C:\\Users\\{username}\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\Default\\coupon_db", "Logs", new List<string>() { "LOCK", "LOG", "LOG.old" }));
-                brave_browser_category.listFiles.Add(new ListFiles("C:\\Users\\{username}\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\Default\\Download Service\\EntryDB", "Logs", new List<string>() { "LOCK", "LOG", "LOG.old" }));
-                brave_browser_category.listFiles.Add(new ListFiles("C:\\Users\\{username}\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\Default\\Extension Rules", "Logs", new List<string>() { "000003.log" }));
-                brave_browser_category.listFiles.Add(new ListFiles("C:\\Users\\{username}\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\Default\\Extension Scripts", "Logs", new List<string>() { "000003.log" }));
-                brave_browser_category.listFiles.Add(new ListFiles("C:\\Users\\{username}\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\Default\\Extension State", "Logs", new List<string>() { "000003.log" }));
-                brave_browser_category.listFiles.Add(new ListFiles("C:\\Users\\{username}\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\Default\\Feature Engagement Tracker\\AvailabilityDB", "Logs", new List<string>() { "LOCK", "LOG", "LOG.old" }));
-                brave_browser_category.listFiles.Add(new ListFiles("C:\\Users\\{username}\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\Default\\Feature Engagement Tracker\\EventDB", "Logs", new List<string>() { "LOCK", "LOG", "LOG.old" }));
+                brave_browser_category.listFiles.Add(new ListFiles("C:\\Users\\{username}\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\Default", "Cache", new List<string>() {
+                    "Favicons",
+                    "Favicons-journal",
+                    "History",
+                    "History-journal",
+                    "Visited Links"
+                }));
+                brave_browser_category.listFiles.Add(new ListFiles("C:\\Users\\{username}\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\Default\\DawnCache", "Cache", new List<string>() { 
+                    "data_0", 
+                    "data_1", 
+                    "data_2", 
+                    "data_3", 
+                    "index" 
+                }));
+                brave_browser_category.listFiles.Add(new ListFiles("C:\\Users\\{username}\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\Default\\GPUCache", "Cache", new List<string>() { 
+                    "data_0", 
+                    "data_1", 
+                    "data_2", 
+                    "data_3", 
+                    "index" 
+                }));
+                brave_browser_category.listFiles.Add(new ListFiles("C:\\Users\\{username}\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\Default\\BudgetDatabase", "Logs", new List<string>() { 
+                    "LOCK", 
+                    "LOG", 
+                    "LOG.old" 
+                }));
+                brave_browser_category.listFiles.Add(new ListFiles("C:\\Users\\{username}\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\Default\\commerce_subscription_db", "Logs", new List<string>() { 
+                    "LOCK", 
+                    "LOG", 
+                    "LOG.old" 
+                }));
+                brave_browser_category.listFiles.Add(new ListFiles("C:\\Users\\{username}\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\Default\\coupon_db", "Logs", new List<string>() { 
+                    "LOCK", 
+                    "LOG", 
+                    "LOG.old" 
+                }));
+                brave_browser_category.listFiles.Add(new ListFiles("C:\\Users\\{username}\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\Default\\Download Service\\EntryDB", "Logs", new List<string>() { 
+                    "LOCK", 
+                    "LOG", 
+                    "LOG.old" 
+                }));
+                brave_browser_category.listFiles.Add(new ListFiles("C:\\Users\\{username}\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\Default\\Extension Rules", "Logs", new List<string>() { 
+                    "000003.log" 
+                }));
+                brave_browser_category.listFiles.Add(new ListFiles("C:\\Users\\{username}\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\Default\\Extension Scripts", "Logs", new List<string>() { 
+                    "000003.log",
+                    "LOCK",
+                    "LOG",
+                    "LOG.old",
+                }));
+                brave_browser_category.listFiles.Add(new ListFiles("C:\\Users\\{username}\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\Default\\Extension State", "Logs", new List<string>() { 
+                    "000003.log" 
+                }));
+                brave_browser_category.listFiles.Add(new ListFiles("C:\\Users\\{username}\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\Default\\Feature Engagement Tracker\\AvailabilityDB", "Logs", new List<string>() { 
+                    "LOCK", 
+                    "LOG", 
+                    "LOG.old" 
+                }));
+                brave_browser_category.listFiles.Add(new ListFiles("C:\\Users\\{username}\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\Default\\Feature Engagement Tracker\\EventDB", "Logs", new List<string>() { 
+                    "LOCK", 
+                    "LOG", 
+                    "LOG.old" 
+                }));
+                brave_browser_category.listFiles.Add(new ListFiles("C:\\Users\\{username}\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\Default\\BraveWallet\\Brave Wallet Storage", "Logs", new List<string>() {
+                    "LOCK",
+                    "LOG",
+                    "LOG.old",
+                    "000003.log"
+                }));
                 dataBase.cleaners.Add(brave_browser_category);
                 #endregion
                 #region Mem Reduct
@@ -473,6 +543,57 @@ namespace DataBase_Adder
                 
                 mccreator.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\.mcreator\\logs", "*.log", "Logs"));
                 dataBase.cleaners.Add(mccreator);
+                #endregion
+                #region Magpie
+                CleanerCategory magpie = new CleanerCategory("Magpie");
+
+                magpie.paternFiles.Add(new PaternFiles("C:\\Program Files\\Magpie\\logs", "*.log", "Logs"));
+                magpie.paternFiles.Add(new PaternFiles("C:\\Program Files\\Magpie\\cache", "*", "Cache"));
+                dataBase.cleaners.Add(magpie);
+                #endregion
+                #region 7-Zip
+                CleanerCategory sevenZip = new CleanerCategory("7-Zip");
+
+                sevenZip.paternFiles.Add(new PaternFiles("C:\\Program Files\\7-Zip", "*.txt", "Logs"));
+                sevenZip.foldersIsNotLanguageByPatern.Add(new FoldersIfCurrentLanguageByPatern("C:\\Program Files\\7-Zip\\Lang", "*.txt", false, "Language"));
+                dataBase.cleaners.Add(sevenZip);
+                #endregion
+                #region Amnezia VPN
+                CleanerCategory amneziaVPN = new CleanerCategory("Amnezia VPN");
+                amneziaVPN.listFiles.Add(new ListFiles("C:\\Program Files\\AmneziaVPN", "Logs", new List<string>
+                {
+                    "InstallationLog.txt"
+                }));
+                amneziaVPN.listFiles.Add(new ListFiles("C:\\Program Files\\AmneziaVPN\\tap", "Logs", new List<string>
+                {
+                    "license.txt"
+                }));
+                dataBase.cleaners.Add(amneziaVPN);
+                #endregion
+                #region Tribler
+                CleanerCategory tribler = new CleanerCategory("Tribler");
+                tribler.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\.Tribler", "*.log", "Logs"));
+                dataBase.cleaners.Add(tribler);
+                #endregion
+                #region Notepad++
+                CleanerCategory notepad_plus_plus = new CleanerCategory("Notepad++");
+                notepad_plus_plus.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\Notepad++", "*.log", "Logs"));
+                dataBase.cleaners.Add(notepad_plus_plus);
+                #endregion
+                #region Element (Matrix)
+                CleanerCategory element = new CleanerCategory("Element");
+                element.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Local\\element-desktop", "*.log", "Logs"));
+                dataBase.cleaners.Add(element);
+                #endregion
+                #region I2P
+                CleanerCategory i2p = new CleanerCategory("I2P");
+                i2p.listFiles.Add(new ListFiles("C:\\Users\\{username}\\AppData\\Local\\i2peasy\\addressbook", "Logs", new List<string>()
+                {
+                    "log.txt"
+                }));
+                i2p.paternFiles.Add(new PaternFiles("C:\\Users\\username\\AppData\\Local\\i2peasy\\logs", "*.log*", "Logs"));
+                i2p.paternFiles.Add(new PaternFiles("C:\\Users\\username\\AppData\\Local\\i2peasy\\logs", "*.txt*", "Logs"));
+                dataBase.cleaners.Add(i2p);
                 #endregion
                 Console.WriteLine("Cleaner database");
                 ClipboardService.SetText(dataBase.ToJson());

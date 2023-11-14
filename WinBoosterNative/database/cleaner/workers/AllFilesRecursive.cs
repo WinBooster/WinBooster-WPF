@@ -8,7 +8,7 @@
         public AllFilesRecursive(string directory, string category, bool removeDirectory = false)
         {
             this.category = category;
-            mainDirectory = directory;
+            this.mainDirectory = directory;
             this.removeDirectory = removeDirectory;
         }
         public string GetCategory()
@@ -71,7 +71,7 @@
                 }
                 if (removeDirectory)
                 {
-                    Directory.Delete(directoryDone);
+                    try { Directory.Delete(directoryDone); } catch { }
                 }
             }
             return result;
