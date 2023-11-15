@@ -18,6 +18,7 @@ using WinBooster_WPF.Data;
 using WinBooster_WPF.Forms;
 using WinBooster_WPF.ScriptAPI;
 using WinBoosterNative.database.cleaner.workers.language;
+using WinBoosterNative.database.sha3;
 
 namespace WinBooster_WPF
 {
@@ -32,6 +33,7 @@ namespace WinBooster_WPF
         public MarketForm market = new MarketForm();
 
         public Dictionary<string, IScript?> scripts = new Dictionary<string, IScript?>();
+        public Dictionary<string, string> scripts_sha3 = new Dictionary<string, string>();
         public Main()
         {
             InitializeComponent();
@@ -69,10 +71,19 @@ namespace WinBooster_WPF
             App.SuperExit();
         }
         public BoosterVersion? version;
-        private void Window_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        public void LoadScripts()
         {
             Task.Factory.StartNew(async () =>
             {
+                GrowlInfo growl_loading = new GrowlInfo
+                {
+                    Message = "⏱ Loading scripts...",
+                    ShowDateTime = true,
+                    WaitTime = 1
+                };
+                Growl.InfoGlobal(growl_loading);
+               
+
                 List<string> errored_sripts = new List<string>();
                 string[] files = Directory.GetFiles("C:\\Program Files\\WinBooster\\Scripts");
 
@@ -88,12 +99,13 @@ namespace WinBooster_WPF
                         try
                         {
                             Debug.WriteLine("Loading script: " + info.Name);
+                            string hash = SHA3DataBase.GetHashString(SHA3DataBase.GetHash(File.ReadAllBytes(info.FullName)));
+                            scripts_sha3.Add(hash, info.FullName);
                             string code;
                             using (StreamReader streamReader = new StreamReader(file, Encoding.UTF8))
                             {
                                 code = streamReader.ReadToEnd();
                             }
-
                             var script = loader.LoadCode<IScript>(code);
                             if (script != null)
                             {
@@ -136,6 +148,20 @@ namespace WinBooster_WPF
 
                 await Task.WhenAll(script_tasks);
 
+
+                await Task.Delay(5);
+                var orderedInput = scripts.OrderBy(key => key.Key);
+                var newDict = new Dictionary<string, IScript?>(orderedInput);
+                scripts = newDict;
+                cleanerForm.UpdateCheckboxes();
+                cleanerForm.clearListForm.Dispatcher.BeginInvoke(() =>
+                {
+                    cleanerForm.clearListForm.UpdateList();
+                    cleanerForm.clearListForm.UpdateList2();
+                    cleanerForm.clearListForm.CheckAfterScriptsLoad();
+                });
+               
+
                 if (!errored_sripts.IsEmpty())
                 {
                     string print = string.Join("\n", errored_sripts);
@@ -148,20 +174,11 @@ namespace WinBooster_WPF
                     Growl.ErrorGlobal(growl_scripts);
                 }
 
-
-                await Task.Delay(5);
-                var orderedInput = scripts.OrderBy(key => key.Key);
-                var newDict = new Dictionary<string, IScript?>(orderedInput);
-                scripts = newDict;
-                cleanerForm.UpdateCheckboxes();
-                cleanerForm.clearListForm.UpdateList();
-                cleanerForm.clearListForm.UpdateList2();
-                cleanerForm.clearListForm.CheckAfterScriptsLoad();
                 lock (scripts)
                 {
                     if (!scripts.IsEmpty())
                     {
-                        Debug.WriteLine("Displaying a message about loaded scripts");
+                        
                         string print = string.Join("\n", scripts.Keys);
                         GrowlInfo growl_scripts = new GrowlInfo
                         {
@@ -172,6 +189,13 @@ namespace WinBooster_WPF
                     }
                 }
             });
+        }
+        private void Window_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (App.auth.settings.AutoLoadScripts == true)
+            {
+                LoadScripts();
+            }
 
 
             if (ILanguageWorker.WindowsLanguage() == ILanguageWorker.Language.Unknow)
@@ -293,7 +317,7 @@ namespace WinBooster_WPF
 
         private void MarketButton_Click(object sender, RoutedEventArgs e)
         {
-            market.Show();
+            scriptsForm.Show();
         }
         #endregion
 

@@ -141,46 +141,20 @@ namespace WinBooster_WPF
                 }));
             }
 
-            if (settings.first_run == true)
-            {
-                if (!System.IO.File.Exists("C:\\Program Files\\WinBooster\\IconInjector.exe"))
-                {
-                    try
-                    {
-                        var bytes = wc.DownloadData("https://github.com/WinBooster/WinBooster_Cloud/raw/main/files/IconInjector.exe");
-                        if (!System.IO.File.Exists("C:\\Program Files\\WinBooster\\IconInjector.exe"))
-                            System.IO.File.Create("C:\\Program Files\\WinBooster\\IconInjector.exe").Close();
-                        System.IO.File.WriteAllBytes("C:\\Program Files\\WinBooster\\IconInjector.exe", bytes);
-                    }
-                    catch
-                    {
-                        GrowlInfo growl = new GrowlInfo
-                        {
-                            Message = "Error downloading: IconInjector",
-                            ShowDateTime = true,
-                            IconKey = "ErrorGeometry",
-                            IconBrushKey = "DangerBrush",
-                            IsCustom = true
-                        };
-                        Growl.InfoGlobal(growl);
-                    }
-                }
-            }
-
-            if (settings.first_run == true)
+            if (!System.IO.File.Exists("C:\\Program Files\\WinBooster\\IconInjector.exe"))
             {
                 try
                 {
-                    var bytes = wc.DownloadData("https://github.com/WinBooster/WinBooster_Cloud/raw/main/files/TrustedWorker.exe");
-                    if (!System.IO.File.Exists("C:\\Program Files\\WinBooster\\TrustedWorker.exe"))
-                        System.IO.File.Create("C:\\Program Files\\WinBooster\\TrustedWorker.exe").Close();
-                    System.IO.File.WriteAllBytes("C:\\Program Files\\WinBooster\\TrustedWorker.exe", bytes);
+                    var bytes = wc.DownloadData("https://github.com/WinBooster/WinBooster_Cloud/raw/main/files/IconInjector.exe");
+                    if (!System.IO.File.Exists("C:\\Program Files\\WinBooster\\IconInjector.exe"))
+                        System.IO.File.Create("C:\\Program Files\\WinBooster\\IconInjector.exe").Close();
+                    System.IO.File.WriteAllBytes("C:\\Program Files\\WinBooster\\IconInjector.exe", bytes);
                 }
                 catch
                 {
                     GrowlInfo growl = new GrowlInfo
                     {
-                        Message = "Error downloading: TrustedWorker",
+                        Message = "Error downloading: IconInjector",
                         ShowDateTime = true,
                         IconKey = "ErrorGeometry",
                         IconBrushKey = "DangerBrush",
@@ -189,12 +163,31 @@ namespace WinBooster_WPF
                     Growl.InfoGlobal(growl);
                 }
             }
-            if (settings.first_run == true)
+
+
+
+            try
             {
-                settings.first_run = false;
-                settings.SaveFile(settings.GetPath(), Settings.protection_password, Settings.protection_salt);
+                var bytes = wc.DownloadData("https://github.com/WinBooster/WinBooster_Cloud/raw/main/files/TrustedWorker.exe");
+                if (!System.IO.File.Exists("C:\\Program Files\\WinBooster\\TrustedWorker.exe"))
+                    System.IO.File.Create("C:\\Program Files\\WinBooster\\TrustedWorker.exe").Close();
+                System.IO.File.WriteAllBytes("C:\\Program Files\\WinBooster\\TrustedWorker.exe", bytes);
             }
-            try 
+            catch
+            {
+                GrowlInfo growl = new GrowlInfo
+                {
+                    Message = "Error downloading: TrustedWorker",
+                    ShowDateTime = true,
+                    IconKey = "ErrorGeometry",
+                    IconBrushKey = "DangerBrush",
+                    IsCustom = true
+                };
+                Growl.InfoGlobal(growl);
+            }
+
+            #region Cleaner DataBase
+            try
             {
                 string bdPath = "C:\\Program Files\\WinBooster\\DataBase\\clear.json";
                 string bd = wc.DownloadString("https://raw.githubusercontent.com/WinBooster/WinBooster_Cloud/main/database/clear.json");
@@ -237,8 +230,56 @@ namespace WinBooster_WPF
                 };
                 Growl.InfoGlobal(growl);
             }
+            #endregion
 
-            try 
+            #region Scripts DataBase
+            try
+            {
+                string bdPath = "C:\\Program Files\\WinBooster\\DataBase\\scripts.json";
+                string bd = wc.DownloadString("https://raw.githubusercontent.com/WinBooster/WinBooster_Scripts/main/list.json");
+                if (!System.IO.File.Exists(bdPath))
+                {
+                    System.IO.File.Create(bdPath).Close();
+                }
+
+                string current = System.IO.File.ReadAllText(bdPath);
+                if (current != bd)
+                {
+                    GrowlInfo growl = new GrowlInfo
+                    {
+                        Message = "Successfully updated: scripts database",
+                        ShowDateTime = true,
+                        IconKey = "SuccessGeometry",
+                        IconBrushKey = "SuccessBrush",
+                        IsCustom = true
+                    };
+                    Growl.InfoGlobal(growl);
+                }
+
+                System.IO.File.WriteAllText(bdPath, bd);
+            }
+            catch (Exception e)
+            {
+                string bdPath = "C:\\Program Files\\WinBooster\\DataBase\\scripts.json";
+                string message = "Error updating: scripts database";
+                if (!System.IO.File.Exists(bdPath))
+                {
+                    message = "Error downloading: scripts database";
+                }
+                GrowlInfo growl = new GrowlInfo
+                {
+                    Message = message,
+                    ShowDateTime = true,
+                    IconKey = "ErrorGeometry",
+                    IconBrushKey = "DangerBrush",
+                    IsCustom = true
+                };
+                Growl.InfoGlobal(growl);
+            }
+            #endregion
+
+            #region SHA3 DataBase
+            try
             {
                 string bdPath = "C:\\Program Files\\WinBooster\\DataBase\\sha3.json";
                 string bd = wc.DownloadString("https://github.com/WinBooster/WinBooster_Cloud/raw/main/database/sha3/list.json");
@@ -280,8 +321,10 @@ namespace WinBooster_WPF
                 };
                 Growl.InfoGlobal(growl);
             }
-            // "C:\\Program Files\\WinBooster\\DataBase\\fileNameLanguages.json"
-            try 
+            #endregion
+
+            #region File Name Languages DataBase
+            try
             {
                 string bdPath = "C:\\Program Files\\WinBooster\\DataBase\\fileNameLanguages.json";
                 string bd = wc.DownloadString("https://raw.githubusercontent.com/WinBooster/WinBooster_Cloud/main/database/fileNameToLanguage.json");
@@ -324,6 +367,7 @@ namespace WinBooster_WPF
                 };
                 Growl.InfoGlobal(growl);
             }
+            #endregion
         }
         public Statistic statistic = new Statistic();
         public Settings settings = new Settings();
@@ -412,27 +456,17 @@ namespace WinBooster_WPF
                         {
                             DownloadFiles(wc);
                             Debug.WriteLine(settings.first_run);
-                            if (settings.first_run == true)
+                            StepBar.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
                             {
-                                StepBar.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
-                                {
-                                    StepBar.Next();
-                                }));
-                                await Task.Delay(250);
-                            }
-                            else
-                            {
-                                StepBar.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
-                                {
-                                    StepBar.Items.Remove(0);
-                                }));
-                            }
+                                StepBar.Next();
+                            }));
+                            await Task.Delay(150);
                             StepBar.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
                             {
                                 StepBar.Next();
                             }));
 
-                            await Task.Delay(250);
+                            await Task.Delay(150);
                             this.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
                             {
                                 OpenForm();

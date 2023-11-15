@@ -4,6 +4,7 @@ using TextCopy;
 using WinBoosterNative.database.cleaner;
 using WinBoosterNative.database.cleaner.workers;
 using WinBoosterNative.database.cleaner.workers.language;
+using WinBoosterNative.database.scripts;
 using WinBoosterNative.database.sha3;
 
 namespace DataBase_Adder
@@ -16,6 +17,7 @@ namespace DataBase_Adder
             Console.WriteLine("1. Cleaner");
             Console.WriteLine("2. SHA3");
             Console.WriteLine("3. Language");
+            Console.WriteLine("4. Scripts");
             Console.Write("Select database: ");
             string selected = Console.ReadLine();
             if (selected == "1")
@@ -595,6 +597,70 @@ namespace DataBase_Adder
                 i2p.paternFiles.Add(new PaternFiles("C:\\Users\\username\\AppData\\Local\\i2peasy\\logs", "*.txt*", "Logs"));
                 dataBase.cleaners.Add(i2p);
                 #endregion
+                #region BoxedAppPacker
+                CleanerCategory boxedAppPacker = new CleanerCategory("BoxedAppPacker");
+                boxedAppPacker.listFiles.Add(new ListFiles("C:\\Program Files (x86)\\BoxedAppPacker", "Logs", new List<string>()
+                {
+                    "changelog.txt",
+                    "HomePage.url",
+                    "purchase.url"
+                }));
+                dataBase.cleaners.Add(boxedAppPacker);
+                #endregion 
+                #region Enigma Virtual Box
+                CleanerCategory enigmaVirtualBox = new CleanerCategory("Enigma Virtual Box");
+                enigmaVirtualBox.listFiles.Add(new ListFiles("C:\\Program Files (x86)\\Enigma Virtual Box", "Logs", new List<string>()
+                {
+                    "History.txt",
+                    "License.txt",
+                    "site.url",
+                    "forum.url",
+                    "support.url"
+                }));
+                dataBase.cleaners.Add(enigmaVirtualBox);
+                #endregion
+                #region GnuPG
+                CleanerCategory GnuPG = new CleanerCategory("GnuPG");
+                GnuPG.listFiles.Add(new ListFiles("C:\\Program Files (x86)\\GnuPG", "Logs", new List<string>()
+                {
+                    "README.txt",
+                    "VERSION"
+                }));
+                dataBase.cleaners.Add(GnuPG);
+                #endregion
+                #region Gpg4win
+                CleanerCategory Gpg4win = new CleanerCategory("Gpg4win");
+                Gpg4win.listFiles.Add(new ListFiles("C:\\Program Files (x86)\\Gpg4win", "Logs", new List<string>()
+                {
+                    "VERSION"
+                }));
+                Gpg4win.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("C:\\Program Files (x86)\\Gpg4win\\bin\\translations", "*.qm", true, "Language"));
+                dataBase.cleaners.Add(Gpg4win);
+                #endregion
+                #region Inno Setup 6
+                CleanerCategory innoSetup6 = new CleanerCategory("Inno Setup 6");
+                innoSetup6.listFiles.Add(new ListFiles("C:\\Program Files (x86)\\Inno Setup 6", "Logs", new List<string>()
+                {
+                    "whatsnew.htm",
+                    "isfaq.url",
+                    "license.txt"
+                }));
+                innoSetup6.listFiles.Add(new ListFiles("C:\\Program Files (x86)\\Inno Setup 6\\Examples", "Logs", new List<string>()
+                {
+                    "Readme.txt",
+                    "Readme-Dutch.txt",
+                    "Readme-German.txt",
+                    "License.txt",
+                    "ISPPExample1License.txt",
+                }));
+                innoSetup6.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("C:\\Program Files (x86)\\Inno Setup 6\\Languages", "*.isl", true, "Language"));
+                dataBase.cleaners.Add(innoSetup6);
+                #endregion
+                #region VirtualBox
+                CleanerCategory virtualBox = new CleanerCategory("VirtualBox");
+                virtualBox.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\VirtualBox VMs\\{unknowfolder}\\Logs", "*log*", "Logs"));
+                dataBase.cleaners.Add(virtualBox);
+                #endregion
                 Console.WriteLine("Cleaner database");
                 ClipboardService.SetText(dataBase.ToJson());
             }
@@ -671,6 +737,25 @@ namespace DataBase_Adder
                     fileNameLanguageDataBase.database.Add("vgui_french", ILanguageWorker.Language.French_FR);
 
                     ClipboardService.SetText(fileNameLanguageDataBase.ToJson());
+                }
+            }
+            if (selected == "4")
+            {
+                Console.WriteLine("Scripts database");
+                {
+                    ScriptsDataBase scriptsDataBase = new ScriptsDataBase();
+
+                    scriptsDataBase.scripts.Add(new ScriptInfo
+                    {
+                        name = "LastActivity Cleaner",
+                        icon = "M9.99754 2.70682C10.0398 3.11887 9.73995 3.48714 9.32789 3.52936C6.05111 3.8651 3.49438 6.63471 3.49438 10.0005C3.49438 13.5933 6.40694 16.5059 9.99977 16.5059C13.3652 16.5059 16.1346 13.9498 16.4708 10.6735C16.5131 10.2615 16.8814 9.96171 17.2935 10.004C17.7055 10.0463 18.0053 10.4146 17.963 10.8267C17.549 14.8601 14.1422 18.0059 9.99977 18.0059C5.57852 18.0059 1.99438 14.4218 1.99438 10.0005C1.99438 5.85759 5.14088 2.45051 9.175 2.03717C9.58706 1.99495 9.95532 2.29476 9.99754 2.70682Z M11.0178 2.6409C11.1143 2.23806 11.519 1.98966 11.9218 2.08608C12.3006 2.17674 12.6691 2.29397 13.0251 2.43568C13.41 2.58885 13.5978 3.025 13.4446 3.40986C13.2915 3.79471 12.8553 3.98253 12.4705 3.82936C12.1807 3.71404 11.8809 3.61865 11.5727 3.54488C11.1698 3.44846 10.9214 3.04374 11.0178 2.6409Z M17.5639 6.97359C17.4107 6.58876 16.9745 6.40103 16.5897 6.55427C16.2049 6.70751 16.0171 7.14369 16.1704 7.52852C16.2858 7.81839 16.3813 8.11835 16.4551 8.42673C16.5516 8.82956 16.9563 9.07792 17.3591 8.98146C17.762 8.885 18.0103 8.48025 17.9139 8.07742C17.8231 7.69845 17.7058 7.3298 17.5639 6.97359Z M14.2902 3.92629C14.562 3.6138 15.0358 3.58089 15.3483 3.85278C15.6554 4.12001 15.9422 4.41 16.2061 4.72013C16.4745 5.0356 16.4364 5.50894 16.1209 5.77736C15.8054 6.04578 15.3321 6.00764 15.0637 5.69217C14.8484 5.43911 14.6143 5.20247 14.3637 4.9844C14.0512 4.71251 14.0183 4.23878 14.2902 3.92629Z M10 5.75024C10 5.33603 9.66421 5.00024 9.25 5.00024C8.83579 5.00024 8.5 5.33603 8.5 5.75024V10.7502C8.5 11.1645 8.83579 11.5002 9.25 11.5002H12.25C12.6642 11.5002 13 11.1645 13 10.7502C13 10.336 12.6642 10.0002 12.25 10.0002H10V5.75024Z",
+                        version = "1.2.0",
+                        description = "Cleans traces of user activity",
+                        sha3 = "2dcd57246d8dab06e7885e9e35d71cfdd873952fc85751e2b688f013645c699c",
+                        url = "https://github.com/WinBooster/WinBooster_Scripts/raw/main/scripts/LastActivity.cs",
+                    });
+
+                    ClipboardService.SetText(scriptsDataBase.ToJson());
                 }
             }
         }

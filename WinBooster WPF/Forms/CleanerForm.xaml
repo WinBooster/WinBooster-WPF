@@ -53,7 +53,7 @@
                         <!--#endregion-->
                         <!--#region Row 0-->
                         <StackPanel Grid.Row="0">
-                            <ScrollViewer Width="280" Height="75" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible">
+                            <ScrollViewer Width="270" Height="75" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible">
                                 <Grid x:Name="Categories">
 
                                     <Grid.RowDefinitions>

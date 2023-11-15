@@ -31,11 +31,17 @@ namespace WinBooster_WPF
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = true;
-            App.auth.settings.password = PasswordBox.Password;  
+            SaveSettings();
+            this.Hide();
+        }
+
+        private void SaveSettings()
+        {
+            App.auth.settings.password = PasswordBox.Password;
             App.auth.settings.discordRich = DiscordRich.IsChecked;
             App.auth.settings.DisableScreenCapture = ScreenShots.IsChecked;
+            App.auth.settings.AutoLoadScripts = AutoLoadScripts.IsChecked;
             App.auth.settings.SaveFile(App.auth.settings.GetPath(), Settings.protection_password, Settings.protection_salt);
-            this.Hide();
         }
 
         private void Window_Loaded(object sender, System.Windows.RoutedEventArgs e)
@@ -56,6 +62,15 @@ namespace WinBooster_WPF
             else
             {
                 ScreenShots.IsChecked = false;
+            }
+
+            if (App.auth.settings.AutoLoadScripts == true)
+            {
+                AutoLoadScripts.IsChecked = true;
+            }
+            else
+            {
+                AutoLoadScripts.IsChecked = false;
             }
         }
 
@@ -111,6 +126,9 @@ namespace WinBooster_WPF
             App.UpdateScreenCapture(App.auth.main.settingsForm, false);
             App.UpdateScreenCapture(App.auth.main.settingsForm);
             await Task.Delay(15);
+            App.UpdateScreenCapture(App.auth.main.scriptsForm, false);
+            App.UpdateScreenCapture(App.auth.main.scriptsForm);
+            await Task.Delay(15);
 
             return true;
         }
@@ -119,12 +137,14 @@ namespace WinBooster_WPF
         {
             App.auth.settings.DisableScreenCapture = true;
             await UpdateCapture();
+            SaveSettings();
         }
 
         private async void ScreenShots_Unchecked(object sender, System.Windows.RoutedEventArgs e)
         {
             App.auth.settings.DisableScreenCapture = false;
             await UpdateCapture();
+            SaveSettings();
         }
 
         private async void Window_Activated(object sender, System.EventArgs e)
@@ -302,6 +322,18 @@ namespace WinBooster_WPF
                     }
                 }
             }
+        }
+
+        private void AutoLoadScripts_Checked(object sender, System.Windows.RoutedEventArgs e)
+        {
+            App.auth.settings.AutoLoadScripts = true;
+            SaveSettings();
+        }
+
+        private void AutoLoadScripts_Unchecked(object sender, System.Windows.RoutedEventArgs e)
+        {
+            App.auth.settings.AutoLoadScripts = false;
+            SaveSettings();
         }
     }
 }

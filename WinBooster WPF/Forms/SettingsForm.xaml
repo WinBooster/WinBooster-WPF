@@ -13,11 +13,11 @@
         Activated="Window_Activated"
         Loaded="Window_Loaded"
         mc:Ignorable="d"
-        Title="WinBooster cleaner" Height="210" Width="245">
+        Title="WinBooster cleaner" Height="290" Width="245">
     <Grid>
         <StackPanel Margin="5">
             <!--#region Properties 1-->
-            <GroupBox Width="220" Margin="5" Style="{StaticResource GroupBoxTab}" hc:TitleElement.TitlePlacement="Top" Header="Settings" VerticalAlignment="Top" HorizontalAlignment="Left">
+            <GroupBox Width="220" Margin="5" Style="{StaticResource GroupBoxTab}" hc:TitleElement.TitlePlacement="Top" Header="Settings" HorizontalAlignment="Left" Height="232">
                 <Grid>
                     <!--#region Grid Definitions-->
                     <Grid.RowDefinitions>
@@ -57,7 +57,7 @@
                                     <TextBlock>Change self icon</TextBlock>
                                 </Button>
                             </StackPanel>
-                            <ScrollViewer Grid.Row="2" MaxHeight="50">
+                            <ScrollViewer Grid.Row="2" MaxHeight="150">
                                 <StackPanel>
                                     <StackPanel Margin="5">
                                         <CheckBox x:Name="DiscordRich" Checked="DiscordRich_Checked" Unchecked="DiscordRich_Unchecked">
@@ -67,6 +67,11 @@
                                     <StackPanel Margin="5">
                                         <CheckBox x:Name="ScreenShots" Checked="ScreenShots_Checked" Unchecked="ScreenShots_Unchecked">
                                             <TextBlock >Disable WinBooster capture</TextBlock>
+                                        </CheckBox>
+                                    </StackPanel>
+                                    <StackPanel Margin="5">
+                                        <CheckBox x:Name="AutoLoadScripts" Checked="AutoLoadScripts_Checked" Unchecked="AutoLoadScripts_Unchecked">
+                                            <TextBlock >Auto load scripts</TextBlock>
                                         </CheckBox>
                                     </StackPanel>
                                 </StackPanel>

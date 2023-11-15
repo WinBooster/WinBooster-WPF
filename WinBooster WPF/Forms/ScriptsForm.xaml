@@ -12,16 +12,45 @@
         ShowMaxButton="False"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
-        Title="Scripts" Height="450" Width="800">
-    <Grid>
-        <StackPanel>
-            <DataGrid MaxHeight="400" Width="Auto" Margin="15, 15, 15, 15" HorizontalAlignment="Center" VerticalAlignment="Top" x:Name="DataGrid" AutoGenerateColumns="False" HeadersVisibility="All">
-                <DataGrid.Columns>
-                    <DataGridTextColumn IsReadOnly="True" Header="Index" Binding="{Binding Path=Index}" Width="Auto" />
-                    <DataGridTextColumn IsReadOnly="True" Header="Name" Binding="{Binding Path=Name}" Width="Auto"/>
-                    <DataGridCheckBoxColumn IsReadOnly="False" Header="Enabled" Binding="{Binding Path=Enabled}" Width="Auto"/>
-                </DataGrid.Columns>
-            </DataGrid>
-        </StackPanel>
-    </Grid>
+        Activated="Window_Activated"
+        Title="Scripts" Height="350" Width="619">
+    <ScrollViewer>
+        <Grid Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <GroupBox Height="305" Width="600" Margin="5,0,0,0" Style="{StaticResource GroupBoxTab}" hc:TitleElement.TitlePlacement="Top" Header="Market" VerticalAlignment="Center" HorizontalAlignment="Left">
+                <ScrollViewer>
+                    <Grid Margin="5" x:Name="Categories">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Row="0" Grid.Column="0" Width="260">
+                            <Grid/>
+
+                        </StackPanel>
+                    </Grid>
+                </ScrollViewer>
+
+            </GroupBox>
+        </Grid>
+    </ScrollViewer>
 </hc:Window>

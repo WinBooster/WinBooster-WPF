@@ -3,6 +3,7 @@ using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -28,6 +29,8 @@ namespace WinBooster_WPF.Forms
         {
             public DataBaseGrid dataBaseGrid;
             public string category;
+            public List<string> categories;
+            public List<bool> avalible_workers;
         }
         public void CheckAfterScriptsLoad()
         {
@@ -97,23 +100,35 @@ namespace WinBooster_WPF.Forms
                         Task<ListSctr> t = new Task<ListSctr>(() =>
                         {
                             ListSctr sctr = new ListSctr();
+                            sctr.categories = new List<string>();
+                            sctr.avalible_workers = new List<bool>();
                             DataBaseGrid dataBaseGrid = new DataBaseGrid();
                             dataBaseGrid.Program = category.GetCategory();
                             dataBaseGrid.Detected = category.IsAvalible();
-                            sctr.dataBaseGrid = dataBaseGrid;
                             sctr.category = category.GetCategory();
                             List<string> categories = new List<string>();
 
                             List<ICleanerWorker> workers = category.GetWorkers();
                             foreach (var worker in workers)
                             {
-
-                                string categorys = worker.GetCategory();
-                                if (!categories.Contains(categorys))
-                                    categories.Add(categorys);
+                                string category = worker.GetCategory();
+                                if (!categories.Contains(category))
+                                {
+                                    sctr.categories.Add(category);
+                                    categories.Add(category);
+                                }
+                                if (category == "I2P")
+                                {
+                                    Debug.WriteLine(worker.IsAvalible());
+                                }
+                                bool avb = worker.IsAvalible();
+                                if (avb == true)
+                                {
+                                    sctr.avalible_workers.Add(avb);
+                                }
                             }
-
                             dataBaseGrid.Category = string.Join(", ", categories);
+                            sctr.dataBaseGrid = dataBaseGrid;
 
                             return sctr;
                         });
@@ -123,19 +138,35 @@ namespace WinBooster_WPF.Forms
 
                     lock (list)
                     {
+                        list.Clear();
+                        keyValues.Clear();
+                        list = new ObservableCollection<DataBaseGrid>();
                         foreach (Task<ListSctr> task in tasks)
                         {
                             task.Wait();
                             ListSctr result = task.Result;
-
                             result.dataBaseGrid.Index = index;
-
                             if (!keyValues.ContainsKey(result.category))
                             {
                                 list.Add(result.dataBaseGrid);
                                 keyValues.Add(result.category, result.dataBaseGrid);
+                                index++;
                             }
-                            index++;
+                            else
+                            {
+                                foreach (string category in result.categories)
+                                {
+                                    if (result.avalible_workers.Count > 0)
+                                    {
+                                        keyValues[result.category].Detected = true;
+                                    }
+                                    if (!keyValues[result.category].Category.Contains(category))
+                                    {
+                                        keyValues[result.category].Category += ", " + category;
+                                        break;
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -205,31 +236,27 @@ namespace WinBooster_WPF.Forms
         }
         public void UpdateList2()
         {
-            Dispatcher.Invoke(() =>
+            Dispatcher.BeginInvoke(() =>
             {
-                lock (list)
+                DataGrid.ItemsSource = list;
+                double wi = 0;
+                foreach (var colum in DataGrid.Columns)
                 {
-                    DataGrid.Items.Clear();
-                    DataGrid.ItemsSource = null;
-                    //foreach (var item in list)
-                    //{
-                    //    DataGrid.Items.Add(item);
-                    //}
-                    DataGrid.ItemsSource = list;
-                    //DataGrid.ItemsSource = list;
-                    //DataGrid.Items.Refresh();
-                    double wi = 0;
-                    foreach (var colum in DataGrid.Columns)
-                    {
-                        wi += colum.Width.Value;
-                    }
-                    this.Width = wi;
+                    wi += colum.Width.Value;
                 }
+                this.Width = wi;
+
             });
         }
         public ClearListForm()
         {
             InitializeComponent();
+
+            Task.Factory.StartNew(() =>
+            {
+                UpdateList();
+                UpdateList2();
+            });
         }
         public static CleanerEnabledSettings enabledSettings = new CleanerEnabledSettings();
 
@@ -309,16 +336,7 @@ namespace WinBooster_WPF.Forms
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Task.Factory.StartNew(() =>
-            {
-                //Dispatcher.Invoke(() =>
-                //{
-                //    keyValues.Clear();
-                //    list.Clear();
-                //});
-                UpdateList();
-                UpdateList2();
-            });
+            
         }
     }
 }
