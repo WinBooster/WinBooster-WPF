@@ -195,8 +195,15 @@ namespace WinBooster_WPF
                         Growl.InfoGlobal(growl);
                         App.auth.SaveStatistic();
 
-                        clearListForm.UpdateList();
-                        clearListForm.UpdateList2();
+
+                        await clearListForm.Dispatcher.BeginInvoke(() =>
+                        {
+                            clearListForm.UpdateList();
+                            clearListForm.UpdateList2();
+                            clearListForm.CheckAfterScriptsLoad();
+                        });
+                        //clearListForm.UpdateList();
+                        //clearListForm.UpdateList2();
                     });
                 }
                 else

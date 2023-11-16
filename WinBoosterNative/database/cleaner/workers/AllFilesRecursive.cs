@@ -28,9 +28,35 @@
 
         public bool IsAvalible()
         {
-            return true;
+            return GetTheNumberOfAvailableFiles("") > 0;
         }
+        private int GetTheNumberOfAvailableFiles(string main = "")
+        {
+            int i = 0;
+            if (string.IsNullOrEmpty(main))
+            {
+                main = mainDirectory;
+            }
+            string directoryDone = PlaceholderDataBaseParser.Parse(main);
+            if (Directory.Exists(directoryDone))
+            {
+                foreach (string file in Directory.GetFiles(directoryDone))
+                {
+                    string filePath = Path.Combine(directoryDone, file);
+                    if (File.Exists(filePath))
+                    {
+                        i++;
+                    }
+                }
 
+                foreach (string subdirectory in Directory.GetDirectories(directoryDone))
+                {
+                    int result2 = GetTheNumberOfAvailableFiles(subdirectory);
+                    i += result2;
+                }
+            }
+            return i;
+        }
         public CleanerResult TryDelete()
         {
             return TryDelete("");

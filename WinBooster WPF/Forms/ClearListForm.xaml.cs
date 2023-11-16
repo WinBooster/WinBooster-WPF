@@ -117,10 +117,6 @@ namespace WinBooster_WPF.Forms
                                     sctr.categories.Add(category);
                                     categories.Add(category);
                                 }
-                                if (category == "I2P")
-                                {
-                                    Debug.WriteLine(worker.IsAvalible());
-                                }
                                 bool avb = worker.IsAvalible();
                                 if (avb == true)
                                 {

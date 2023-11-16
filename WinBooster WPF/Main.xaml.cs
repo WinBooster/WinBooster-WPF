@@ -75,17 +75,21 @@ namespace WinBooster_WPF
         {
             Task.Factory.StartNew(async () =>
             {
-                GrowlInfo growl_loading = new GrowlInfo
+                string[] files = Directory.GetFiles("C:\\Program Files\\WinBooster\\Scripts");
+
+                if (files.Count() > 0)
                 {
-                    Message = "⏱ Loading scripts...",
-                    ShowDateTime = true,
-                    WaitTime = 1
-                };
-                Growl.InfoGlobal(growl_loading);
+                    GrowlInfo growl_loading = new GrowlInfo
+                    {
+                        Message = "⏱ Loading scripts...",
+                        ShowDateTime = true,
+                        WaitTime = 1
+                    };
+                    Growl.InfoGlobal(growl_loading);
+                }
                
 
                 List<string> errored_sripts = new List<string>();
-                string[] files = Directory.GetFiles("C:\\Program Files\\WinBooster\\Scripts");
 
                 var script_tasks = new Task<bool>[files.Length];
 
@@ -98,7 +102,6 @@ namespace WinBooster_WPF
                     {
                         try
                         {
-                            Debug.WriteLine("Loading script: " + info.Name);
                             string hash = SHA3DataBase.GetHashString(SHA3DataBase.GetHash(File.ReadAllBytes(info.FullName)));
                             scripts_sha3.Add(hash, info.FullName);
                             string code;
@@ -126,13 +129,12 @@ namespace WinBooster_WPF
                                 if (added)
                                 {
                                     script.OnEnabled();
-                                    Debug.WriteLine("Loaded script: " + scriptname);
                                     return true;
                                 }
                             }
                             else
                             {
-                                Debug.WriteLine("Null script: " + info.Name);
+                                errored_sripts.Add(info.Name);
                             }
                             return false;
                         }
@@ -154,7 +156,7 @@ namespace WinBooster_WPF
                 var newDict = new Dictionary<string, IScript?>(orderedInput);
                 scripts = newDict;
                 cleanerForm.UpdateCheckboxes();
-                cleanerForm.clearListForm.Dispatcher.BeginInvoke(() =>
+                await cleanerForm.clearListForm.Dispatcher.BeginInvoke(() =>
                 {
                     cleanerForm.clearListForm.UpdateList();
                     cleanerForm.clearListForm.UpdateList2();

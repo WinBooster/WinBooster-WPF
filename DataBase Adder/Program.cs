@@ -39,6 +39,18 @@ namespace DataBase_Adder
                 windows_category.paternFiles.Add(new PaternFiles("C:\\Windows\\security\\database", "*.log", "Logs"));
                 dataBase.cleaners.Add(windows_category);
                 #endregion
+                #region NVIDIA Corporation
+                CleanerCategory NVIDIA_Corporation = new CleanerCategory("NVIDIA Corporation");
+                NVIDIA_Corporation.listFiles.Add(new ListFiles("C:\\Program Files\\NVIDIA Corporation", "Logs", new List<string>()
+                {
+                    "license.txt",
+                }));
+                NVIDIA_Corporation.listFiles.Add(new ListFiles("C:\\Program Files\\NVIDIA Corporation\\NVSMI", "Logs", new List<string>()
+                {
+                    "nvidia-smi.1.pdf",
+                }));
+                dataBase.cleaners.Add(NVIDIA_Corporation);
+                #endregion
                 #region Java
                 CleanerCategory java_category = new CleanerCategory("Java");
                 java_category.listFiles.Add(new ListFiles("C:\\Users\\{username}\\.jdks\\{unknowfolder}", "Cache", new List<string>() { "javafx-src.zip", "src.zip" }));
@@ -77,6 +89,7 @@ namespace DataBase_Adder
                 #region HandBrake
                 CleanerCategory handbrake_category = new CleanerCategory("HandBrake");
                 handbrake_category.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\HandBrake\\logs", "*.txt", "Logs"));
+                handbrake_category.allFilesRecursives.Add(new AllFilesRecursive("C:\\Program Files\\HandBrake\\doc", "Logs", true));
                 dataBase.cleaners.Add(handbrake_category);
                 #endregion
                 #region Lunar Client
@@ -593,8 +606,13 @@ namespace DataBase_Adder
                 {
                     "log.txt"
                 }));
-                i2p.paternFiles.Add(new PaternFiles("C:\\Users\\username\\AppData\\Local\\i2peasy\\logs", "*.log*", "Logs"));
-                i2p.paternFiles.Add(new PaternFiles("C:\\Users\\username\\AppData\\Local\\i2peasy\\logs", "*.txt*", "Logs"));
+                i2p.listFiles.Add(new ListFiles("C:\\Users\\{username}\\AppData\\Local\\i2peasy", "Logs", new List<string>()
+                {
+                    "eventlog.txt",
+                    "wrapper.log"
+                }));
+                i2p.allFilesRecursives.Add(new AllFilesRecursive("C:\\Users\\{username}\\AppData\\Local\\i2peasy\\logs", "Logs"));
+                i2p.allFilesRecursives.Add(new AllFilesRecursive("C:\\Users\\{username}\\AppData\\Local\\i2peasy\\licenses", "Logs"));
                 dataBase.cleaners.Add(i2p);
                 #endregion
                 #region BoxedAppPacker
@@ -659,7 +677,71 @@ namespace DataBase_Adder
                 #region VirtualBox
                 CleanerCategory virtualBox = new CleanerCategory("VirtualBox");
                 virtualBox.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\VirtualBox VMs\\{unknowfolder}\\Logs", "*log*", "Logs"));
+                virtualBox.paternFiles.Add(new PaternFiles("C:\\Program Files\\Oracle\\VirtualBox", "*.rtf", "Logs"));
+                virtualBox.allFilesRecursives.Add(new AllFilesRecursive("C:\\Program Files\\Oracle\\VirtualBox\\doc", "Logs", true));
                 dataBase.cleaners.Add(virtualBox);
+                #endregion
+                #region LibreOffice
+                CleanerCategory libreOffice = new CleanerCategory("LibreOffice");
+                libreOffice.listFiles.Add(new ListFiles("C:\\Program Files\\LibreOffice", "Logs", new List<string>()
+                {
+                    "CREDITS.fodt",
+                    "LICENSE.html",
+                    "license.txt",
+                    "NOTICE",
+                }));
+                libreOffice.allFilesRecursives.Add(new AllFilesRecursive("C:\\Program Files\\LibreOffice\\readmes", "Logs", true));
+                dataBase.cleaners.Add(libreOffice);
+                #endregion
+                #region Process Hacker 2
+                CleanerCategory Process_Hacker_2 = new CleanerCategory("Process Hacker 2");
+                Process_Hacker_2.listFiles.Add(new ListFiles("C:\\Program Files\\Process Hacker 2", "Logs", new List<string>()
+                {
+                    "CHANGELOG.txt",
+                    "COPYRIGHT.txt",
+                    "LICENSE.txt",
+                    "README.txt",
+                    "ProcessHacker.sig",
+                }));
+                dataBase.cleaners.Add(Process_Hacker_2);
+                #endregion
+                #region AAF Optimus DCH Audio
+                CleanerCategory AAF = new CleanerCategory("AAF Optimus DCH Audio");
+                AAF.listFiles.Add(new ListFiles("C:\\Program Files\\AAFTweak", "Logs", new List<string>()
+                {
+                    "RT.pdb"
+                }));
+                dataBase.cleaners.Add(AAF);
+                #endregion
+                #region ImageGlass
+                CleanerCategory image_glass = new CleanerCategory("ImageGlass");
+                image_glass.listFiles.Add(new ListFiles("C:\\Program Files\\ImageGlass", "Logs", new List<string>()
+                {
+                    "ReadMe.rtf",
+                    "CliWrap.xml",
+                    "DotNetZip.pdb",
+                    "DotNetZip.xml",
+                    "ImageGlass.ImageBox.xml",
+                    "ImageGlass.ImageListView.xml",
+                    "LICENSE",
+                    "Magick.NET.Core.xml",
+                    "Magick.NET.SystemDrawing.xml",
+                    "Magick.NET-Q16-HDRI-OpenMP-x64.xml",
+                    "Microsoft.Bcl.AsyncInterfaces.xml",
+                    "System.Buffers.xml",
+                    "System.Memory.xml",
+                    "System.Numerics.Vectors.xml",
+                    "System.Runtime.CompilerServices.Unsafe.xml",
+                    "System.Text.Encodings.Web.xml",
+                    "System.Text.Json.xml",
+                    "System.Threading.Tasks.Extensions.xml",
+                    "System.ValueTuple.xml",
+                    "ImageGlass.WebP.pdb",
+                    "Visit ImageGlass website.url",
+                    "default.jpg"
+                }));
+                image_glass.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("C:\\Program Files\\ImageGlass\\Languages", "*.iglang", true, "Language"));
+                dataBase.cleaners.Add(image_glass);
                 #endregion
                 Console.WriteLine("Cleaner database");
                 ClipboardService.SetText(dataBase.ToJson());
