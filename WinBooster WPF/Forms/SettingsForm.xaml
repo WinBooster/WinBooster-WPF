@@ -69,11 +69,7 @@
                                             <TextBlock >Disable WinBooster capture</TextBlock>
                                         </CheckBox>
                                     </StackPanel>
-                                    <StackPanel Margin="5">
-                                        <CheckBox x:Name="AutoLoadScripts" Checked="AutoLoadScripts_Checked" Unchecked="AutoLoadScripts_Unchecked">
-                                            <TextBlock >Auto load scripts</TextBlock>
-                                        </CheckBox>
-                                    </StackPanel>
+                                    <StackPanel Margin="5"/>
                                 </StackPanel>
                             </ScrollViewer>
                         </Grid>

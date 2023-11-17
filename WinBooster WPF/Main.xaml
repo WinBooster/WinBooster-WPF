@@ -51,7 +51,7 @@
                                 <Button Height="100" Width="100" Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" Click="Button_Click_2">
                                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                                         <hc:AnimationPath PathLength="0" FillBehavior="HoldEnd" RepeatBehavior="00:00:03" Margin="0, 0, 0, 0" Duration="00:00:05"  Stroke="CornflowerBlue" StrokeThickness="0.8" Data="{DynamicResource OptimizeGeometry}" Stretch="Uniform" Fill="Transparent" Width="32" Height="32"/>
-                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="Optimize"></TextBlock>
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="Tweaks"></TextBlock>
                                     </StackPanel>
 
                                 </Button>
@@ -103,8 +103,8 @@
                             <Border CornerRadius="6" BorderBrush="Gray" BorderThickness="1">
                                 <Button Height="100" Width="100" Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" Click="MarketButton_Click">
                                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                        <hc:AnimationPath PathLength="0" FillBehavior="HoldEnd" RepeatBehavior="00:00:03" Margin="0, 0, 0, 0" Duration="00:00:05"  Stroke="CornflowerBlue" StrokeThickness="0.8" Data="{DynamicResource Scripts}" Stretch="Uniform" Fill="Transparent" Width="32" Height="32"/>
-                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="Scripts"></TextBlock>
+                                        <hc:AnimationPath PathLength="0" FillBehavior="HoldEnd" RepeatBehavior="00:00:03" Margin="0, 0, 0, 0" Duration="00:00:05"  Stroke="CornflowerBlue" StrokeThickness="0.8" Data="{DynamicResource Market}" Stretch="Uniform" Fill="Transparent" Width="32" Height="32"/>
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="Market"></TextBlock>
                                     </StackPanel>
                                 </Button>
                             </Border>

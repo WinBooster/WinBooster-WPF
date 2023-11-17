@@ -3,34 +3,41 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:hc="https://handyorg.github.io/handycontrol"
         xmlns:local="clr-namespace:WinBooster_WPF.Forms"
         mc:Ignorable="d"
-        xmlns:hc="https://handyorg.github.io/handycontrol"
-        Activated="Window_Activated"
+        WindowStartupLocation="CenterScreen"
         Loaded="Window_Loaded"
         Closing="Window_Closing"
         ShowMinButton="False"
         ShowMaxButton="False"
         ResizeMode="NoResize"
-        WindowStartupLocation="CenterScreen"
-        Title="Anti ScreenShare" Height="195" Width="215">
+        Title="Anti ScreenShare" Height="195" Width="315">
     <Grid>
         <StackPanel>
-            <GroupBox Margin="10" Style="{StaticResource GroupBoxTab}" hc:TitleElement.TitlePlacement="Top" Header="Standard protections" VerticalAlignment="Top" HorizontalAlignment="Left">
-                <ScrollViewer Height="110">
-                    <StackPanel>
-                        <CheckBox Margin="5" Checked="ScrenKeyboard_Checked" Unchecked="ScrenKeyboard_Unchecked" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="ScrenKeyboard">
-                            <TextBlock>Disable on-screen keyboard</TextBlock>
-                        </CheckBox>
-                        <CheckBox Margin="5"  Checked="ResourceMonitor_Checked" Unchecked="ResourceMonitor_Unchecked" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="ResourceMonitor">
-                            <TextBlock>Disable resource monitor</TextBlock>
-                        </CheckBox>
-                        <CheckBox Margin="5" Checked="CMD_Checked" Unchecked="CMD_Unchecked" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="CMD">
-                            <TextBlock>Disable cmd</TextBlock>
-                        </CheckBox>
-                        <CheckBox Margin="5" Checked="PowerShell_Checked" Unchecked="PowerShell_Unchecked" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="PowerShell">
-                            <TextBlock>Disable PowerShell</TextBlock>
-                        </CheckBox>
+            <GroupBox Width="290" Height="140" Margin="10" Style="{StaticResource GroupBoxTab}" hc:TitleElement.TitlePlacement="Top" Header="Standard protections" VerticalAlignment="Top" HorizontalAlignment="Left">
+                <ScrollViewer>
+                    <StackPanel x:Name="antiScreenShareSettings">
+                        <StackPanel>
+                            <CheckBox Margin="5" Checked="ScrenKeyboard_Checked" Unchecked="ScrenKeyboard_Unchecked" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="ScrenKeyboard">
+                                <TextBlock>Disable on-screen keyboard</TextBlock>
+                            </CheckBox>
+                        </StackPanel>
+                        <StackPanel>
+                            <CheckBox Margin="5"  Checked="ResourceMonitor_Checked" Unchecked="ResourceMonitor_Unchecked" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="ResourceMonitor">
+                                <TextBlock>Disable resource monitor</TextBlock>
+                            </CheckBox>
+                        </StackPanel>
+                        <StackPanel>
+                            <CheckBox Margin="5" Checked="CMD_Checked" Unchecked="CMD_Unchecked" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="CMD">
+                                <TextBlock>Disable cmd</TextBlock>
+                            </CheckBox>
+                        </StackPanel>
+                        <StackPanel>
+                            <CheckBox Margin="5" Checked="PowerShell_Checked" Unchecked="PowerShell_Unchecked" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="PowerShell">
+                                <TextBlock>Disable PowerShell</TextBlock>
+                            </CheckBox>
+                        </StackPanel>
                     </StackPanel>
                 </ScrollViewer>
             </GroupBox>

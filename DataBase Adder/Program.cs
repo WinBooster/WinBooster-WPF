@@ -835,6 +835,7 @@ namespace DataBase_Adder
                         description = "Cleans traces of user activity",
                         sha3 = "2dcd57246d8dab06e7885e9e35d71cfdd873952fc85751e2b688f013645c699c",
                         url = "https://github.com/WinBooster/WinBooster_Scripts/raw/main/scripts/LastActivity.cs",
+                        winbooster_version = "2.0.8.9"
                     });
 
                     ClipboardService.SetText(scriptsDataBase.ToJson());

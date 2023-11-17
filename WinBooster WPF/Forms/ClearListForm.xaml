@@ -16,7 +16,7 @@
         Title="Cleaner database list" Height="450" Width="125" SizeToContent="Width">
     <Grid>
         <StackPanel>
-            <DataGrid MaxHeight="400" Width="Auto" Margin="15, 15, 15, 15" HorizontalAlignment="Center" VerticalAlignment="Top" x:Name="DataGrid" AutoGenerateColumns="False" HeadersVisibility="All">
+            <DataGrid SelectionMode="Single" MaxHeight="400" Width="Auto" Margin="15, 15, 15, 15" HorizontalAlignment="Center" VerticalAlignment="Top" x:Name="DataGrid" AutoGenerateColumns="False" HeadersVisibility="All">
                 <DataGrid.Columns>
                     <DataGridTextColumn IsReadOnly="True" Header="Index" Binding="{Binding Path=Index}" Width="Auto" />
                     <DataGridCheckBoxColumn IsReadOnly="True" Header="Avalible" Binding="{Binding Path=Detected}" Width="Auto"></DataGridCheckBoxColumn>

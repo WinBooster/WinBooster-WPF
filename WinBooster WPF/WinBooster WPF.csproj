@@ -51,6 +51,7 @@
     <PackageReference Include="HandyControls.Lang.ru" Version="3.4.4" />
     <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Process.NET" Version="1.0.8" />
     <PackageReference Include="QRCoder" Version="1.4.3" />
     <PackageReference Include="ShowMeTheXAML.MSBuild" Version="2.0.0" />
     <PackageReference Include="Spire.Barcode" Version="7.2.0" />

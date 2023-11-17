@@ -29,8 +29,8 @@ namespace WinBooster_WPF
         public SettingsForm settingsForm = new SettingsForm();
         public OptimizeForm optimizeForm = new OptimizeForm();
         public AboutForm aboutForm = new AboutForm();
-        public AntiScreenShareForm antiScreen = new AntiScreenShareForm();
-        public MarketForm market = new MarketForm();
+        public AntiScreenShareForm antiScreenForm = new AntiScreenShareForm();
+        public MarketForm marketForm = new MarketForm();
 
         public Dictionary<string, IScript?> scripts = new Dictionary<string, IScript?>();
         public Dictionary<string, string> scripts_sha3 = new Dictionary<string, string>();
@@ -89,7 +89,7 @@ namespace WinBooster_WPF
                 }
                
 
-                List<string> errored_sripts = new List<string>();
+                Dictionary<string, string> errored_sripts = new Dictionary<string, string>();
 
                 var script_tasks = new Task<bool>[files.Length];
 
@@ -134,13 +134,13 @@ namespace WinBooster_WPF
                             }
                             else
                             {
-                                errored_sripts.Add(info.Name);
+                                errored_sripts.Add(info.Name, "");
                             }
                             return false;
                         }
-                        catch
+                        catch (Exception e)
                         {
-                            errored_sripts.Add(info.Name);
+                            errored_sripts.Add(info.Name, e.Message);
                             Debug.WriteLine("Errored script: " + info.Name);
                             return false;
                         }
@@ -163,14 +163,16 @@ namespace WinBooster_WPF
                     cleanerForm.clearListForm.CheckAfterScriptsLoad();
                 });
                
-
-                if (!errored_sripts.IsEmpty())
+                foreach (var error_script in errored_sripts)
                 {
-                    string print = string.Join("\n", errored_sripts);
                     GrowlInfo growl_scripts = new GrowlInfo
                     {
-                        Message = "📁 Error scripts:\n" + print,
+                        Message = "📁 Error script:\n" + error_script.Key + "\n" + error_script.Value,
                         ShowDateTime = true,
+                        StaysOpen = true,
+                        IconKey = "ErrorGeometry",
+                        IconBrushKey = "DangerBrush",
+                        IsCustom = true,
                     };
 
                     Growl.ErrorGlobal(growl_scripts);
@@ -194,33 +196,28 @@ namespace WinBooster_WPF
         }
         private void Window_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            if (App.auth.settings.AutoLoadScripts == true)
-            {
-                LoadScripts();
-            }
-
-
-            if (ILanguageWorker.WindowsLanguage() == ILanguageWorker.Language.Unknow)
-            {
-                GrowlInfo growl = new GrowlInfo
-                {
-                    Message = "You'r windows language not support\nfor clearing \"Language\"",
-                    ShowDateTime = true,
-                    IconKey = "WarningGeometry",
-                    IconBrushKey = "WarningBrush",
-                    IsCustom = true
-                };
-                Growl.InfoGlobal(growl);
-            }
+            LoadScripts();
 
             Task.Factory.StartNew(() =>
             {
+                if (ILanguageWorker.WindowsLanguage() == ILanguageWorker.Language.Unknow)
+                {
+                    GrowlInfo growl = new GrowlInfo
+                    {
+                        Message = "You'r windows language not support\nfor clearing \"Language\"",
+                        ShowDateTime = true,
+                        IconKey = "WarningGeometry",
+                        IconBrushKey = "WarningBrush",
+                        IsCustom = true
+                    };
+                    Growl.InfoGlobal(growl);
+                }
+
                 try
                 {
                     using (WebClient wc = new WebClient())
                     {
                         version = BoosterVersion.FromJson(wc.DownloadString("https://raw.githubusercontent.com/WinBooster/WinBooster_Cloud/main/version.json"));
-                        Debug.WriteLine(version.download);
                         try
                         {
                             RichPresence rich = new RichPresence()
@@ -241,7 +238,7 @@ namespace WinBooster_WPF
                         }
                         catch { }
 
-                        if (version.version != App.version)
+                        if (version != null && version.version != App.version)
                         {
                             string msg = "New update found\nNew version: " + version.version + "\nYou version: " + App.version;
                             if (!string.IsNullOrEmpty(version.description))
@@ -262,7 +259,7 @@ namespace WinBooster_WPF
                                 {
                                     if (isConfirmed)
                                     {
-                                        Process.Start(new ProcessStartInfo(version.download) { UseShellExecute = true });
+                                        System.Diagnostics.Process.Start(new ProcessStartInfo(version.download) { UseShellExecute = true });
                                     }
                                     return true;
                                 }
@@ -277,7 +274,7 @@ namespace WinBooster_WPF
             {
                 ProcessStartInfo processStartInfo = new ProcessStartInfo("C:\\Program Files\\WinBooster\\RunAsTI.exe");
                 processStartInfo.Arguments = "\"C:\\Program Files\\WinBooster\\TrustedWorker.exe\"";
-                var process = Process.Start(processStartInfo);
+                var process = System.Diagnostics.Process.Start(processStartInfo);
             });
             Task.Factory.StartNew(async () =>
             {
@@ -309,7 +306,7 @@ namespace WinBooster_WPF
 
         private void Button_Click_3(object sender, System.Windows.RoutedEventArgs e)
         {
-            antiScreen.Show();
+            antiScreenForm.Show();
         }
 
         private void Button_Click_4(object sender, RoutedEventArgs e)

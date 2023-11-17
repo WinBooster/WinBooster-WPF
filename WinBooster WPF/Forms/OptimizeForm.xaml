@@ -13,11 +13,10 @@
         ShowMaxButton="False"
         Loaded="Window_Loaded"
         mc:Ignorable="d"
-        Title="WinBooster optimization" Height="125" Width="210">
+        Title="WinBooster optimization" Height="195" Width="315">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="20*"/>
-            <ColumnDefinition Width="21*"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <StackPanel Margin="5,5,5,5" Grid.ColumnSpan="2">
             <Grid>
@@ -33,32 +32,17 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <GroupBox Grid.Row="0" Height="69" Width="190" Margin="5" Style="{StaticResource GroupBoxTab}" hc:TitleElement.TitlePlacement="Top" Header="Internet optimization" VerticalAlignment="Top" HorizontalAlignment="Center">
+                <GroupBox Grid.Row="0" Height="140" Width="290" Margin="5" Style="{StaticResource GroupBoxTab}" hc:TitleElement.TitlePlacement="Top" Header="Tweaks" VerticalAlignment="Top" HorizontalAlignment="Center">
                     <Grid>
                         <ScrollViewer>
                             <StackPanel>
                                 <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="*"/>
-                                        <RowDefinition Height="Auto"/>
-
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <StackPanel Margin="5" Grid.Row="0"  Grid.Column="0">
-                                        <CheckBox x:Name="NagleAlgorithm" Checked="NagleAlgorithm_Checked" Unchecked="NagleAlgorithm_Unchecked">
-                                            <TextBlock Text="Disable Nagle algorithm" ToolTip="Reduces delay between packet sending in games"></TextBlock>
-                                        </CheckBox>
+                                    <StackPanel x:Name="optimizationSettings">
+                                        <StackPanel Margin="5">
+                                            <CheckBox x:Name="NagleAlgorithm" Checked="NagleAlgorithm_Checked" Unchecked="NagleAlgorithm_Unchecked">
+                                                <TextBlock Text="Disable Nagle algorithm" ToolTip="Reduces delay between packet sending in games"></TextBlock>
+                                            </CheckBox>
+                                        </StackPanel>
                                     </StackPanel>
                                 </Grid>
                             </StackPanel>

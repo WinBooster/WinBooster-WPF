@@ -40,7 +40,6 @@ namespace WinBooster_WPF
             App.auth.settings.password = PasswordBox.Password;
             App.auth.settings.discordRich = DiscordRich.IsChecked;
             App.auth.settings.DisableScreenCapture = ScreenShots.IsChecked;
-            App.auth.settings.AutoLoadScripts = AutoLoadScripts.IsChecked;
             App.auth.settings.SaveFile(App.auth.settings.GetPath(), Settings.protection_password, Settings.protection_salt);
         }
 
@@ -62,15 +61,6 @@ namespace WinBooster_WPF
             else
             {
                 ScreenShots.IsChecked = false;
-            }
-
-            if (App.auth.settings.AutoLoadScripts == true)
-            {
-                AutoLoadScripts.IsChecked = true;
-            }
-            else
-            {
-                AutoLoadScripts.IsChecked = false;
             }
         }
 
@@ -111,8 +101,8 @@ namespace WinBooster_WPF
             App.UpdateScreenCapture(App.auth.main.settingsForm, false);
             App.UpdateScreenCapture(App.auth.main.settingsForm);
             await Task.Delay(15);
-            App.UpdateScreenCapture(App.auth.main.antiScreen, false);
-            App.UpdateScreenCapture(App.auth.main.antiScreen);
+            App.UpdateScreenCapture(App.auth.main.antiScreenForm, false);
+            App.UpdateScreenCapture(App.auth.main.antiScreenForm);
             await Task.Delay(15);
             App.UpdateScreenCapture(App.auth.main.cleanerForm, false);
             App.UpdateScreenCapture(App.auth.main.cleanerForm);
@@ -322,18 +312,6 @@ namespace WinBooster_WPF
                     }
                 }
             }
-        }
-
-        private void AutoLoadScripts_Checked(object sender, System.Windows.RoutedEventArgs e)
-        {
-            App.auth.settings.AutoLoadScripts = true;
-            SaveSettings();
-        }
-
-        private void AutoLoadScripts_Unchecked(object sender, System.Windows.RoutedEventArgs e)
-        {
-            App.auth.settings.AutoLoadScripts = false;
-            SaveSettings();
         }
     }
 }

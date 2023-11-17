@@ -3,7 +3,6 @@ using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -216,7 +215,10 @@ namespace WinBooster_WPF.Forms
             {
                 foreach (var cleaner in list)
                 {
-                    enabledSettings.keyValues.Add(cleaner.Program, true);
+                    if (!enabledSettings.keyValues.ContainsKey(cleaner.Program))
+                    {
+                        enabledSettings.keyValues.Add(cleaner.Program, true);
+                    }
                 }
 
                 AESCryptor cryptor = new AESCryptor();
@@ -250,8 +252,11 @@ namespace WinBooster_WPF.Forms
 
             Task.Factory.StartNew(() =>
             {
-                UpdateList();
-                UpdateList2();
+                Dispatcher.BeginInvoke(() =>
+                {
+                    UpdateList();
+                    UpdateList2();
+                });
             });
         }
         public static CleanerEnabledSettings enabledSettings = new CleanerEnabledSettings();

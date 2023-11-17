@@ -1,8 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
-using WinBooster_WPF.RemoteControl.Pipeline;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 using WinBooster_WPF.RemoteControl.Pipeline.Messages;
+using WinBooster_WPF.RemoteControl.Pipeline;
 using WinBoosterNative.pipeline.messages;
 
 namespace WinBooster_WPF.Forms
@@ -23,6 +34,27 @@ namespace WinBooster_WPF.Forms
             this.Hide();
         }
 
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (File.Exists(@"C:\Program Files\WinBooster\SystemFiles\5.exe"))
+            {
+                PowerShell.IsChecked = true;
+            }
+            if (File.Exists(@"C:\Program Files\WinBooster\SystemFiles\4.exe"))
+            {
+                ScrenKeyboard.IsChecked = true;
+            }
+            if (File.Exists(@"C:\Program Files\WinBooster\SystemFiles\2.exe"))
+            {
+                ResourceMonitor.IsChecked = true;
+            }
+            if (File.Exists(@"C:\Program Files\WinBooster\SystemFiles\1.exe"))
+            {
+                CMD.IsChecked = true;
+            }
+        }
+
+        #region Actions
         private void ScrenKeyboard_Checked(object sender, RoutedEventArgs e)
         {
             string crypted2 = "4.exe";
@@ -56,27 +88,6 @@ namespace WinBooster_WPF.Forms
                 }
             }
         }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (File.Exists(@"C:\Program Files\WinBooster\SystemFiles\5.exe"))
-            {
-                PowerShell.IsChecked = true;
-            }
-            if (File.Exists(@"C:\Program Files\WinBooster\SystemFiles\4.exe"))
-            {
-                ScrenKeyboard.IsChecked = true;
-            }
-            if (File.Exists(@"C:\Program Files\WinBooster\SystemFiles\2.exe"))
-            {
-                ResourceMonitor.IsChecked = true;
-            }
-            if (File.Exists(@"C:\Program Files\WinBooster\SystemFiles\1.exe"))
-            {
-                CMD.IsChecked = true;
-            }
-        }
-
         private void ResourceMonitor_Checked(object sender, RoutedEventArgs e)
         {
             string crypted = "2.exe";
@@ -194,10 +205,6 @@ namespace WinBooster_WPF.Forms
                 }
             }
         }
-
-        private void Window_Activated(object sender, EventArgs e)
-        {
-            
-        }
+        #endregion
     }
 }

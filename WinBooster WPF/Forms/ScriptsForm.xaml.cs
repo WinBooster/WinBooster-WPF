@@ -1,7 +1,6 @@
 ﻿using CSScriptLib;
 using HandyControl.Controls;
 using HandyControl.Data;
-using Org.BouncyCastle.Crypto;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -9,19 +8,11 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using System.Security.Cryptography.Xml;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using WinBooster_WPF.ScriptAPI;
-using WinBoosterNative.database.cleaner;
 using WinBoosterNative.database.scripts;
 using WinBoosterNative.database.sha3;
 
@@ -68,9 +59,11 @@ namespace WinBooster_WPF.Forms
                     {
                         Categories.Children.Clear();
                     });
+                    int booster_version = int.Parse(App.version.Replace(".", ""));
                     foreach (var script in dataBase.scripts.ToArray())
                     {
-                        if (!App.auth.main.scripts_sha3.ContainsKey(script.sha3))
+                        int script_booster_version = int.Parse(script.version.Replace(".", ""));
+                        if (!App.auth.main.scripts_sha3.ContainsKey(script.sha3) && booster_version >= script_booster_version)
                         {
                             Dispatcher.Invoke(() =>
                             {

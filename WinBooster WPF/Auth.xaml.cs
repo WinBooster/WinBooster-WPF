@@ -12,6 +12,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Telegram.Bot;
@@ -65,13 +66,13 @@ namespace WinBooster_WPF
                         {
                             StepBar.Next();
                         }));
-                        await Task.Delay(500);
+                        await Task.Delay(150);
                         StepBar.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
                         {
                             StepBar.Next();
                         }));
 
-                        await Task.Delay(500);
+                        await Task.Delay(150);
                         this.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
                         {
                             OpenForm();
@@ -113,32 +114,25 @@ namespace WinBooster_WPF
 
             if (!System.IO.File.Exists("C:\\Program Files\\WinBooster\\RunAsTI.exe"))
             {
-                if (settings.first_run == true)
+                try
                 {
-                    try
-                    {
-                        var bytes = wc.DownloadData("https://github.com/WinBooster/WinBooster_Cloud/raw/main/files/RunAsTI.exe");
-                        if (!System.IO.File.Exists("C:\\Program Files\\WinBooster\\RunAsTI.exe"))
-                            System.IO.File.Create("C:\\Program Files\\WinBooster\\RunAsTI.exe").Close();
-                        System.IO.File.WriteAllBytes("C:\\Program Files\\WinBooster\\RunAsTI.exe", bytes);
-                    }
-                    catch
-                    {
-                        GrowlInfo growl = new GrowlInfo
-                        {
-                            Message = "Error downloading: RunAsTI",
-                            ShowDateTime = true,
-                            IconKey = "ErrorGeometry",
-                            IconBrushKey = "DangerBrush",
-                            IsCustom = true
-                        };
-                        Growl.InfoGlobal(growl);
-                    }
+                    var bytes = wc.DownloadData("https://github.com/WinBooster/WinBooster_Cloud/raw/main/files/RunAsTI.exe");
+                    if (!System.IO.File.Exists("C:\\Program Files\\WinBooster\\RunAsTI.exe"))
+                        System.IO.File.Create("C:\\Program Files\\WinBooster\\RunAsTI.exe").Close();
+                    System.IO.File.WriteAllBytes("C:\\Program Files\\WinBooster\\RunAsTI.exe", bytes);
                 }
-                StepBar.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
+                catch
                 {
-                    StepBar.Next();
-                }));
+                    GrowlInfo growl = new GrowlInfo
+                    {
+                        Message = "Error downloading: RunAsTI",
+                        ShowDateTime = true,
+                        IconKey = "ErrorGeometry",
+                        IconBrushKey = "DangerBrush",
+                        IsCustom = true
+                    };
+                    Growl.InfoGlobal(growl);
+                }
             }
 
             if (!System.IO.File.Exists("C:\\Program Files\\WinBooster\\IconInjector.exe"))
@@ -164,28 +158,62 @@ namespace WinBooster_WPF
                 }
             }
 
-
-
-            try
+            if (!System.IO.File.Exists("C:\\Program Files\\WinBooster\\TrustedWorker.exe"))
             {
-                var bytes = wc.DownloadData("https://github.com/WinBooster/WinBooster_Cloud/raw/main/files/TrustedWorker.exe");
-                if (!System.IO.File.Exists("C:\\Program Files\\WinBooster\\TrustedWorker.exe"))
-                    System.IO.File.Create("C:\\Program Files\\WinBooster\\TrustedWorker.exe").Close();
-                System.IO.File.WriteAllBytes("C:\\Program Files\\WinBooster\\TrustedWorker.exe", bytes);
-            }
-            catch
-            {
-                GrowlInfo growl = new GrowlInfo
+                try
                 {
-                    Message = "Error downloading: TrustedWorker",
-                    ShowDateTime = true,
-                    IconKey = "ErrorGeometry",
-                    IconBrushKey = "DangerBrush",
-                    IsCustom = true
-                };
-                Growl.InfoGlobal(growl);
+                    var bytes = wc.DownloadData("https://github.com/WinBooster/WinBooster_Cloud/raw/main/files/TrustedWorker.exe");
+                    if (!System.IO.File.Exists("C:\\Program Files\\WinBooster\\TrustedWorker.exe"))
+                        System.IO.File.Create("C:\\Program Files\\WinBooster\\TrustedWorker.exe").Close();
+                    System.IO.File.WriteAllBytes("C:\\Program Files\\WinBooster\\TrustedWorker.exe", bytes);
+                }
+                catch
+                {
+                    GrowlInfo growl = new GrowlInfo
+                    {
+                        Message = "Error downloading: TrustedWorker",
+                        ShowDateTime = true,
+                        IconKey = "ErrorGeometry",
+                        IconBrushKey = "DangerBrush",
+                        IsCustom = true
+                    };
+                    Growl.InfoGlobal(growl);
+                }
             }
+            StepBar.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
+            {
+                StepBar.Next();
+                StepBar2.Visibility = System.Windows.Visibility.Visible;
+            }));
+            StepBar2.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
+            {
+                StackPanel cleaner_stack = new StackPanel();
+                TextBlock cleaner_text = new TextBlock();
+                cleaner_text.Text = "Cleaner";
+                cleaner_stack.Children.Add(cleaner_text);
+                StepBar2.Items.Add(cleaner_stack);
 
+                StackPanel scripts_stack = new StackPanel();
+                TextBlock scripts_text = new TextBlock();
+                scripts_text.Text = "Scripts";
+                scripts_stack.Children.Add(scripts_text);
+                StepBar2.Items.Add(scripts_stack);
+
+                StackPanel sha3_stack = new StackPanel();
+                TextBlock sha3_text = new TextBlock();
+                sha3_text.Text = "Hash";
+                sha3_stack.Children.Add(sha3_text);
+                StepBar2.Items.Add(sha3_stack);
+
+                StackPanel names_stack = new StackPanel();
+                TextBlock names_text = new TextBlock();
+                names_text.Text = "Names";
+                names_stack.Children.Add(names_text);
+                StepBar2.Items.Add(names_stack);
+                StepBar2.Visibility = System.Windows.Visibility.Visible;
+                StepBar2.Width = 230;
+                this.Height = 180;
+            }));
             #region Cleaner DataBase
             try
             {
@@ -231,7 +259,10 @@ namespace WinBooster_WPF
                 Growl.InfoGlobal(growl);
             }
             #endregion
-
+            StepBar2.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
+            {
+                StepBar2.Next();
+            }));
             #region Scripts DataBase
             try
             {
@@ -277,12 +308,15 @@ namespace WinBooster_WPF
                 Growl.InfoGlobal(growl);
             }
             #endregion
-
+            StepBar2.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
+            {
+                StepBar2.Next();
+            }));
             #region SHA3 DataBase
             try
             {
                 string bdPath = "C:\\Program Files\\WinBooster\\DataBase\\sha3.json";
-                string bd = wc.DownloadString("https://github.com/WinBooster/WinBooster_Cloud/raw/main/database/sha3/list.json");
+                string bd = wc.DownloadString("https://raw.githubusercontent.com/WinBooster/WinBooster_Cloud/main/database/sha3/list.json");
                 if (!System.IO.File.Exists(bdPath))
                 {
                     System.IO.File.Create(bdPath).Close();
@@ -322,7 +356,10 @@ namespace WinBooster_WPF
                 Growl.InfoGlobal(growl);
             }
             #endregion
-
+            StepBar2.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
+            {
+                StepBar2.Next();
+            }));
             #region File Name Languages DataBase
             try
             {
@@ -367,6 +404,10 @@ namespace WinBooster_WPF
                 };
                 Growl.InfoGlobal(growl);
             }
+            StepBar.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
+            {
+                StepBar.Next();
+            }));
             #endregion
         }
         public Statistic statistic = new Statistic();
@@ -393,6 +434,8 @@ namespace WinBooster_WPF
         public static PipeServer<string> tiWorkerServer;
         private async void Window_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
+            this.Width = 240;
+
             string password = string.Empty;
             Settings? temp = Settings.FromFile(settings.GetPath(), Settings.protection_password, Settings.protection_salt);
             if (temp != null)
@@ -448,6 +491,7 @@ namespace WinBooster_WPF
                     {
                         AuthPanel.Hide();
                         DownloadPanel.Visibility = System.Windows.Visibility.Visible;
+                        //StepBar.Width = 480;
                         Title = "Loading";
                     }));
                     await Task.Factory.StartNew(async () =>
@@ -455,7 +499,6 @@ namespace WinBooster_WPF
                         using (WebClient wc = new WebClient())
                         {
                             DownloadFiles(wc);
-                            Debug.WriteLine(settings.first_run);
                             StepBar.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
                             {
                                 StepBar.Next();

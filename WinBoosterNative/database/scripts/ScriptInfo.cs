@@ -12,6 +12,7 @@ namespace WinBoosterNative.database.scripts
         public string icon;
         public string version;
         public string description;
+        public string winbooster_version;
 
         public string sha3;
         public string url;

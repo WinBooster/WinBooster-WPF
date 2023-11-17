@@ -33,9 +33,9 @@
             </Button>
         </StackPanel>
 
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="DownloadPanel" Visibility="Hidden">
-            <TextBlock HorizontalAlignment="Center" >Downloading</TextBlock>
-            <hc:StepBar HorizontalAlignment="Center"  Margin="5" x:Name="StepBar" Width="210">
+        <StackPanel Margin="0, 5, 0, 0" HorizontalAlignment="Center" VerticalAlignment="Top" x:Name="DownloadPanel" Visibility="Hidden">
+            <TextBlock VerticalAlignment="Top" HorizontalAlignment="Center" >Downloading</TextBlock>
+            <hc:StepBar VerticalAlignment="Top" HorizontalAlignment="Center"  Margin="5" x:Name="StepBar" Width="210">
                 <hc:StepBarItem>
                     <StackPanel>
                         <TextBlock>RunAsTI</TextBlock>
@@ -47,12 +47,18 @@
                         <TextBlock>DataBase</TextBlock>
                     </StackPanel>
                 </hc:StepBarItem>
+
                 <hc:StepBarItem>
                     <StackPanel>
                         <TextBlock>Loading</TextBlock>
                     </StackPanel>
                 </hc:StepBarItem>
                 
+            </hc:StepBar>
+
+            <hc:StepBar VerticalAlignment="Top" HorizontalAlignment="Center"  Margin="5" x:Name="StepBar2" Width="210" Visibility="Hidden">
+               
+
             </hc:StepBar>
         </StackPanel>
     </Grid>

@@ -184,6 +184,13 @@ namespace WinBooster_WPF
                         ESPdxTask.Start();
                         await ESPdxTask;
                         CleanerResult workerResult = await worker;
+                        foreach (var script in App.auth.main.scripts.Values)
+                        {
+                            if (script != null)
+                            {
+                                script.OnCleanerDone(workerResult);
+                            }
+                        }
                         UpdatePanels(true);
                         long size = workerResult.bytes;
                         long files = workerResult.files;
@@ -200,7 +207,6 @@ namespace WinBooster_WPF
                         {
                             clearListForm.UpdateList();
                             clearListForm.UpdateList2();
-                            clearListForm.CheckAfterScriptsLoad();
                         });
                         //clearListForm.UpdateList();
                         //clearListForm.UpdateList2();
@@ -294,64 +300,68 @@ namespace WinBooster_WPF
                 CleanerDataBase? dataBase = CleanerDataBase.FromJson(json);
                 if (dataBase != null)
                 {
-                    foreach (var script in App.auth.main.scripts.Values)
+                    lock (checkBoxes)
                     {
-                        if (script != null)
+                        checkBoxes.Clear();
+                        foreach (var script in App.auth.main.scripts.Values)
                         {
-                            script.OnCleanerInit(dataBase);
+                            if (script != null)
+                            {
+                                script.OnCleanerInit(dataBase);
+                            }
                         }
-                    }
 
-                    checkBoxes.Clear();
-                    this.Dispatcher.Invoke(() =>
-                    {
-                        Categories.Children.Clear();
-                    });
-
-                    List<string> categories = new List<string>();
-                    foreach (var category in dataBase.cleaners)
-                    {
-
-                        List<ICleanerWorker> workers = category.GetWorkers();
-                        foreach (var worker in workers)
-                        {
-                            if (!categories.Contains(worker.GetCategory()))
-                                categories.Add(worker.GetCategory());
-                        }
-                    }
-                    int row = 0;
-                    int col = 0;
-                    foreach (var category in categories)
-                    {
                         this.Dispatcher.Invoke(() =>
                         {
-                            StackPanel stack = new StackPanel();
-                            stack.Margin = new System.Windows.Thickness(5);
-                            stack.SetValue(Grid.RowProperty, row);
-                            stack.SetValue(Grid.ColumnProperty, col);
-
-                            CheckBox check = new CheckBox();
-
-                            TextBlock text = new TextBlock();
-                            text.Text = category;
-                            check.Content = text;
-                            stack.Children.Add(check);
-                            col++;
-                            if (col == 3)
-                            {
-                                col = 0;
-                                var rowDefinition = new RowDefinition();
-                                rowDefinition.Height = GridLength.Auto;
-                                Categories.RowDefinitions.Add(rowDefinition);
-                                row++;
-                            }
-                            if (!checkBoxes.ContainsKey(category))
-                            {
-                                checkBoxes.Add(category, check);
-                                Categories.Children.Add(stack);
-                            }
+                            Categories.Children.Clear();
                         });
-                      
+
+                        List<string> categories = new List<string>();
+                        foreach (var category in dataBase.cleaners)
+                        {
+
+                            List<ICleanerWorker> workers = category.GetWorkers();
+                            foreach (var worker in workers)
+                            {
+                                string category_text = worker.GetCategory();
+                                if (!categories.Contains(category_text))
+                                    categories.Add(category_text);
+                            }
+                        }
+                        int row = 0;
+                        int col = 0;
+                        foreach (var category in categories)
+                        {
+                            this.Dispatcher.Invoke(() =>
+                            {
+                                StackPanel stack = new StackPanel();
+                                stack.Margin = new System.Windows.Thickness(5);
+                                stack.SetValue(Grid.RowProperty, row);
+                                stack.SetValue(Grid.ColumnProperty, col);
+
+                                CheckBox check = new CheckBox();
+
+                                TextBlock text = new TextBlock();
+                                text.Text = category;
+                                check.Content = text;
+                                stack.Children.Add(check);
+                                col++;
+                                if (col == 3)
+                                {
+                                    col = 0;
+                                    var rowDefinition = new RowDefinition();
+                                    rowDefinition.Height = GridLength.Auto;
+                                    Categories.RowDefinitions.Add(rowDefinition);
+                                    row++;
+                                }
+                                if (!checkBoxes.ContainsKey(category))
+                                {
+                                    checkBoxes.Add(category, check);
+                                    Categories.Children.Add(stack);
+                                }
+                            });
+
+                        }
                     }
 
                 }
