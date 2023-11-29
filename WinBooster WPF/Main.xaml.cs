@@ -3,6 +3,7 @@ using CSScriptLib;
 using DiscordRPC;
 using HandyControl.Controls;
 using HandyControl.Data;
+using HandyControl.Tools.Extension;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -73,7 +74,7 @@ namespace WinBooster_WPF
         public BoosterVersion? version;
         public void LoadScripts()
         {
-            Task.Factory.StartNew(async () =>
+            Task t = new Task(async () =>
             {
                 string[] files = Directory.GetFiles("C:\\Program Files\\WinBooster\\Scripts");
 
@@ -89,14 +90,17 @@ namespace WinBooster_WPF
                 }
                
 
-                Dictionary<string, string> errored_sripts = new Dictionary<string, string>();
+                Dictionary<string, Exception> errored_sripts = new Dictionary<string, Exception>();
 
                 var script_tasks = new Task<bool>[files.Length];
 
-                var loader = CSScript.Evaluator.ReferenceDomainAssemblies().ReferenceAssembly(Assembly.GetExecutingAssembly().Location);
+
+                //var loader = CSScript.Evaluator.ReferenceDomainAssemblies().ReferenceAssembly(Assembly.GetExecutingAssembly().Location);
                 int index = 0;
                 foreach (string file in files)
                 {
+                    var loader = CSScript.Evaluator.ReferenceDomainAssemblies().ReferenceAssembly(Assembly.GetExecutingAssembly().Location);
+
                     FileInfo info = new FileInfo(file);
                     script_tasks[index] = Task<bool>.Run(() =>
                     {
@@ -104,11 +108,30 @@ namespace WinBooster_WPF
                         {
                             string hash = SHA3DataBase.GetHashString(SHA3DataBase.GetHash(File.ReadAllBytes(info.FullName)));
                             scripts_sha3.Add(hash, info.FullName);
-                            string code;
+                            List<string> dlls = new List<string>();
+                            List<string> lines = new List<string>();
                             using (StreamReader streamReader = new StreamReader(file, Encoding.UTF8))
                             {
-                                code = streamReader.ReadToEnd();
+                                string line = null;
+                                while ((line = streamReader.ReadLine()) != null)
+                                {
+                                    if (line.StartsWith("//dll ") && !line.IsNullOrEmpty())
+                                    {
+                                        dlls.Add(line.Replace("//dll ", "").Trim());
+                                    }
+                                    else
+                                    {
+                                        lines.Add(line);
+                                    }
+                                }
                             }
+
+                            foreach (string dll in dlls)
+                            {
+                                loader = loader.ReferenceAssembly(dll);
+                            }
+
+                            string code = string.Join("\n", lines);
                             var script = loader.LoadCode<IScript>(code);
                             if (script != null)
                             {
@@ -125,6 +148,11 @@ namespace WinBooster_WPF
                                         scripts.Add(scriptname, script);
                                         added = true;
                                     }
+                                    if (!scripts.ContainsKey(scriptname))
+                                    {
+                                        scripts.Add(scriptname, script);
+                                        added = true;
+                                    }
                                 }
                                 if (added)
                                 {
@@ -134,13 +162,13 @@ namespace WinBooster_WPF
                             }
                             else
                             {
-                                errored_sripts.Add(info.Name, "");
+                                errored_sripts.Add(info.Name, null);
                             }
                             return false;
                         }
                         catch (Exception e)
                         {
-                            errored_sripts.Add(info.Name, e.Message);
+                            errored_sripts.Add(info.Name, e);
                             Debug.WriteLine("Errored script: " + info.Name);
                             return false;
                         }
@@ -152,22 +180,35 @@ namespace WinBooster_WPF
 
 
                 await Task.Delay(5);
-                var orderedInput = scripts.OrderBy(key => key.Key);
-                var newDict = new Dictionary<string, IScript?>(orderedInput);
-                scripts = newDict;
+                lock (scripts)
+                {
+                    var orderedInput = scripts.OrderBy(key => key.Key);
+                    var newDict = new Dictionary<string, IScript?>(orderedInput);
+                    scripts = newDict;
+                }
+                await Task.Delay(5);
                 cleanerForm.UpdateCheckboxes();
+                await Task.Delay(5);
                 await cleanerForm.clearListForm.Dispatcher.BeginInvoke(() =>
                 {
                     cleanerForm.clearListForm.UpdateList();
+                });
+                await Task.Delay(5);
+                await cleanerForm.clearListForm.Dispatcher.BeginInvoke(() =>
+                {
                     cleanerForm.clearListForm.UpdateList2();
+                });
+                await Task.Delay(5);
+                await cleanerForm.clearListForm.Dispatcher.BeginInvoke(() =>
+                {
                     cleanerForm.clearListForm.CheckAfterScriptsLoad();
                 });
-               
-                foreach (var error_script in errored_sripts)
+
+                foreach (var error_script in errored_sripts.ToArray())
                 {
                     GrowlInfo growl_scripts = new GrowlInfo
                     {
-                        Message = "📁 Error script:\n" + error_script.Key + "\n" + error_script.Value,
+                        Message = "📁 Error script:\n" + error_script.Key + "\n" + error_script.Value.ToString(),
                         ShowDateTime = true,
                         StaysOpen = true,
                         IconKey = "ErrorGeometry",
@@ -193,12 +234,13 @@ namespace WinBooster_WPF
                     }
                 }
             });
+            t.Start();
         }
         private void Window_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
             LoadScripts();
 
-            Task.Factory.StartNew(() =>
+            Task language_and_version_checker = new Task(() =>
             {
                 if (ILanguageWorker.WindowsLanguage() == ILanguageWorker.Language.Unknow)
                 {
@@ -270,6 +312,7 @@ namespace WinBooster_WPF
                 }
                 catch { }
             });
+            language_and_version_checker.Start();
             Task.Factory.StartNew(() =>
             {
                 ProcessStartInfo processStartInfo = new ProcessStartInfo("C:\\Program Files\\WinBooster\\RunAsTI.exe");

@@ -85,7 +85,7 @@ namespace WinBooster_WPF.Forms
                 {
                     List<Task<ListSctr>> tasks = new List<Task<ListSctr>>();
 
-                    foreach (var script in App.auth.main.scripts.Values)
+                    foreach (var script in App.auth.main.scripts.Values.ToArray())
                     {
                         if (script != null)
                         {
@@ -108,7 +108,7 @@ namespace WinBooster_WPF.Forms
                             List<string> categories = new List<string>();
 
                             List<ICleanerWorker> workers = category.GetWorkers();
-                            foreach (var worker in workers)
+                            foreach (var worker in workers.ToArray())
                             {
                                 string category = worker.GetCategory();
                                 if (!categories.Contains(category))
@@ -136,7 +136,7 @@ namespace WinBooster_WPF.Forms
                         list.Clear();
                         keyValues.Clear();
                         list = new ObservableCollection<DataBaseGrid>();
-                        foreach (Task<ListSctr> task in tasks)
+                        foreach (Task<ListSctr> task in tasks.ToArray())
                         {
                             task.Wait();
                             ListSctr result = task.Result;
@@ -149,7 +149,7 @@ namespace WinBooster_WPF.Forms
                             }
                             else
                             {
-                                foreach (string category in result.categories)
+                                foreach (string category in result.categories.ToArray())
                                 {
                                     if (result.avalible_workers.Count > 0)
                                     {
@@ -213,11 +213,14 @@ namespace WinBooster_WPF.Forms
             }
             else
             {
-                foreach (var cleaner in list)
+                lock (list)
                 {
-                    if (!enabledSettings.keyValues.ContainsKey(cleaner.Program))
+                    foreach (var cleaner in list)
                     {
-                        enabledSettings.keyValues.Add(cleaner.Program, true);
+                        if (!enabledSettings.keyValues.ContainsKey(cleaner.Program))
+                        {
+                            enabledSettings.keyValues.Add(cleaner.Program, true);
+                        }
                     }
                 }
 

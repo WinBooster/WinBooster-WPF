@@ -22,11 +22,11 @@ namespace WinBoosterNative
         }
         private ProcessStartInfo info(string command, bool redirect)
         {
+           
             System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
             startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
             startInfo.FileName = "cmd.exe";
             startInfo.Arguments = "/C " + command;
-            //startInfo.RedirectStandardOutput = redirect;
             startInfo.UseShellExecute = false;
             startInfo.CreateNoWindow = true;
             //startInfo.StandardOutputEncoding = Encoding.UTF8;

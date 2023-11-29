@@ -13,7 +13,7 @@
         ShowMaxButton="False"
         Loaded="Window_Loaded"
         mc:Ignorable="d"
-        Title="WinBooster optimization" Height="195" Width="315">
+        Title="WinBooster tweaks" Height="195" Width="315">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>

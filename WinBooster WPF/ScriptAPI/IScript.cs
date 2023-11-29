@@ -9,9 +9,4 @@ namespace WinBooster_WPF.ScriptAPI
         public virtual void OnCleanerInit(CleanerDataBase dataBase) { }
         public virtual void OnCleanerDone(CleanerResult result) { }
     }
-
-    //public class ScriptNative
-    //{
-
-    //}
 }

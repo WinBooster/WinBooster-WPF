@@ -59,6 +59,7 @@ namespace DataBase_Adder
 
                 java_category.paternFiles.Add(new PaternFiles("C:\\Program Files (x86)\\Java\\{unknowfolder}", "*.txt", "Logs"));
                 java_category.paternFiles.Add(new PaternFiles("C:\\Program Files (x86)\\Java\\{unknowfolder}", "*.html", "Logs"));
+                java_category.paternFiles.Add(new PaternFiles("C:\\ProgramData\\Oracle\\Java\\.oracle_jre_usage", "*.timestamp", "Logs"));
                 java_category.listFiles.Add(new ListFiles("C:\\Program Files\\Java\\{unknowfolder}", "Logs", new List<string>() { "COPYRIGHT", "LICENSE", "release", "README" }));
                 java_category.listFiles.Add(new ListFiles("C:\\Program Files (x86)\\Java\\{unknowfolder}", "Logs", new List<string>() { "COPYRIGHT", "LICENSE", "release", "README" }));
                 java_category.listFiles.Add(new ListFiles("C:\\Program Files\\Eclipse Adoptium\\jdk-8.0.362.9-hotspot", "Cache", new List<string>() { "src.zip", }));
@@ -86,79 +87,6 @@ namespace DataBase_Adder
                 ida_pro_category.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\Hex-Rays\\IDA Pro", "*.lst", "Cache"));
                 dataBase.cleaners.Add(ida_pro_category);
                 #endregion
-                #region HandBrake
-                CleanerCategory handbrake_category = new CleanerCategory("HandBrake");
-                handbrake_category.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\HandBrake\\logs", "*.txt", "Logs"));
-                handbrake_category.allFilesRecursives.Add(new AllFilesRecursive("C:\\Program Files\\HandBrake\\doc", "Logs", true));
-                dataBase.cleaners.Add(handbrake_category);
-                #endregion
-                #region Lunar Client
-                CleanerCategory lunarClient = new CleanerCategory("Lunar Client");
-                lunarClient.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\.lunarclient\\logs\\launcher", "*", "Logs"));
-                lunarClient.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\.lunarclient\\offline\\multiver\\logs", "*", "Logs"));
-                lunarClient.allFilesRecursives.Add(new AllFilesRecursive("C:\\Users\\{username}\\.lunarclient\\licenses", "Logs"));
-                
-                dataBase.cleaners.Add(lunarClient);
-                #endregion
-                #region PrismLauncher
-                CleanerCategory prismLauncher = new CleanerCategory("PrismLauncher");
-                prismLauncher.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\PrismLauncher", "*.log", "Logs"));
-                prismLauncher.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\PrismLauncher\\instances\\{unknowfolder}\\.minecraft\\logs", "*", "Logs"));
-                prismLauncher.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\PrismLauncher\\instances\\{unknowfolder}\\.minecraft\\screenshots", "*.png", "Photo"));
-                dataBase.cleaners.Add(prismLauncher);
-                #endregion
-                #region PolyMC
-                CleanerCategory polyMC = new CleanerCategory("PolyMC");
-                polyMC.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\PolyMC", "*.log", "Logs"));
-                polyMC.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\PolyMC\\instances\\{unknowfolder}\\.minecraft\\logs", "*", "Logs"));
-                polyMC.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\PolyMC\\instances\\{unknowfolder}\\.minecraft\\screenshots", "*.png", "Photo"));
-                dataBase.cleaners.Add(polyMC);
-                #endregion
-                #region ATLauncher
-                CleanerCategory ATLauncher = new CleanerCategory("ATLauncher");
-                ATLauncher.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\ATLauncher\\logs", "*.log", "Logs"));
-                ATLauncher.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\ATLauncher\\logs\\old", "*.log", "Logs"));
-                ATLauncher.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\ATLauncher\\instances\\{unknowfolder}\\logs", "*log*", "Logs"));
-                ATLauncher.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\ATLauncher\\instances\\{unknowfolder}\\logs\\telemetry", "*json*", "Logs"));
-                ATLauncher.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\ATLauncher\\instances\\{unknowfolder}\\logs\\crash-reports", "*.txt", "Logs"));
-                ATLauncher.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\ATLauncher\\instances\\{unknowfolder}\\screenshots", "*.png", "Photo"));
-                dataBase.cleaners.Add(ATLauncher);
-                #endregion
-                #region Cristalix
-                CleanerCategory cristalixCategory = new CleanerCategory("Cristalix");
-                cristalixCategory.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\.cristalix\\updates\\{unknowfolder}\\logs", "*.log", "Logs"));
-                cristalixCategory.listFiles.Add(new ListFiles("C:\\Users\\{username}\\.cristalix", "Accounts", new List<string>() { ".launcher" }));
-                dataBase.cleaners.Add(cristalixCategory);
-                #endregion
-                #region LoliLand
-                CleanerCategory loliLandCategory = new CleanerCategory("LoliLand");
-                loliLandCategory.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\loliland\\updates\\clients\\{unknowfolder}", "*.log", "Logs"));
-                loliLandCategory.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\loliland\\updates\\clients\\{unknowfolder}\\logs", "*", "Logs"));
-                loliLandCategory.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\loliland\\updates\\clients\\{unknowfolder}\\DivineRPG", "*", "Logs"));
-                loliLandCategory.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\loliland\\updates\\clients\\{unknowfolder}\\screenshots", "*.png", "Photo"));
-                loliLandCategory.listFiles.Add(new ListFiles("C:\\Users\\{username}\\loliland", "Accounts", new List<string>() { "auth.json" }));
-                dataBase.cleaners.Add(loliLandCategory);
-                #endregion
-                #region AurMine
-                CleanerCategory aurMineCategory = new CleanerCategory("AurMine");
-                aurMineCategory.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\.AurMine\\updates\\{unknowfolder}", "*.log", "Logs"));
-                aurMineCategory.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\.AurMine\\updates\\{unknowfolder}\\logs", "*", "Logs"));
-                aurMineCategory.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\.AurMine\\updates\\{unknowfolder}\\screenshots", "*.png", "Photo"));
-                aurMineCategory.listFiles.Add(new ListFiles("C:\\Users\\{username}\\.AurMine", "Accounts", new List<string>() { "settings.bin" }));
-                dataBase.cleaners.Add(aurMineCategory);
-                #endregion
-                #region Excalubur Craft
-                CleanerCategory excaluburCraftCategory = new CleanerCategory("Excalubur Craft");
-                excaluburCraftCategory.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\.exlauncher\\clients\\{unknowfolder}\\logs", "*", "Logs"));
-                excaluburCraftCategory.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\.exlauncher\\clients\\{unknowfolder}\\screenshots", "*.png", "Photo"));
-                dataBase.cleaners.Add(excaluburCraftCategory);
-                #endregion
-                #region Minecraft Only
-                CleanerCategory minecraftOnlyCategory = new CleanerCategory("Minecraft Only");
-                minecraftOnlyCategory.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\.minecraftonly\\{unknowfolder}\\logs", "*", "Logs"));
-                minecraftOnlyCategory.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\.minecraftonly\\{unknowfolder}\\screenshots", "*.png", "Photo"));
-                dataBase.cleaners.Add(minecraftOnlyCategory);
-                #endregion
                 #region Borderless Gaming
                 CleanerCategory borderless_gaming_category = new CleanerCategory("Borderless Gaming");
                 borderless_gaming_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("C:\\Users\\{username}\\AppData\\Roaming\\Andrew Sampson\\Borderless Gaming\\Languages", "*.pak", true, "Language"));
@@ -173,17 +101,6 @@ namespace DataBase_Adder
                 CleanerCategory windscire_category = new CleanerCategory("Windscribe");
                 windscire_category.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Local\\Windscribe\\Windscribe2", "*.txt", "Logs"));
                 dataBase.cleaners.Add(windscire_category);
-                #endregion
-                #region Exodus
-                CleanerCategory exodus_category = new CleanerCategory("Exodus Crypto Wallet");
-                exodus_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("C:\\Users\\{username}\\AppData\\Local\\exodus\\app-23.2.27\\locales", "*.pak", true, "Language"));
-                exodus_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("C:\\Users\\{username}\\AppData\\Local\\exodus\\app-23.3.13\\locales", "*.pak", true, "Language"));
-                dataBase.cleaners.Add(exodus_category);
-                #endregion
-                #region Wasabi Wallet
-                CleanerCategory wasabi_wallet = new CleanerCategory("Wasabi Wallet");
-                wasabi_wallet.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\WalletWasabi\\Client", "*.txt", "Logs"));
-                dataBase.cleaners.Add(wasabi_wallet);
                 #endregion
                 #region Discord
                 CleanerCategory discord_category = new CleanerCategory("Discord");
@@ -217,25 +134,6 @@ namespace DataBase_Adder
                 radmin_vpn_caregory.paternFiles.Add(new PaternFiles("C:\\Program Files (x86)\\Radmin VPN", "*.lng_rad", "Cache"));
                 radmin_vpn_caregory.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("C:\\Program Files (x86)\\Radmin VPN", "*.qm", true, "Language"));
                 dataBase.cleaners.Add(radmin_vpn_caregory);
-                #endregion
-                #region GameGuard
-                CleanerCategory gameGuard_category = new CleanerCategory("GameGuard");
-                gameGuard_category.paternFiles.Add(new PaternFiles("C:\\Program Files (x86)\\GameGuard\\cache", "*.cache", "Cache"));
-                dataBase.cleaners.Add(gameGuard_category);
-                #endregion
-                #region Topaz Video AI
-                CleanerCategory Topaz_Video_AI = new CleanerCategory("Topaz Video AI");
-                Topaz_Video_AI.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("C:\\Program Files\\Topaz Labs LLC\\Topaz Video AI\\translations", "*.qm", true, "Language"));
-                Topaz_Video_AI.listFiles.Add(new ListFiles("C:\\ProgramData\\Topaz Labs LLC\\Topaz Video AI", "Language", new List<string> { "oss-licenses.txt" }));
-                dataBase.cleaners.Add(Topaz_Video_AI);
-                #endregion
-                #region AVCLabs Video Enhancer AI
-                CleanerCategory AVCLabs_Video_Enhancer_AI = new CleanerCategory("AVCLabs Video Enhancer AI");
-                AVCLabs_Video_Enhancer_AI.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("C:\\Program Files (x86)\\AVCLabs\\AVCLabs Video Enhancer AI\\locales", "*.pak", true, "Language"));
-                AVCLabs_Video_Enhancer_AI.paternFiles.Add(new PaternFiles("C:\\Program Files (x86)\\AVCLabs\\AVCLabs Video Enhancer AI", "*.txt", "Logs"));
-                AVCLabs_Video_Enhancer_AI.paternFiles.Add(new PaternFiles("C:\\Program Files (x86)\\AVCLabs\\AVCLabs Video Enhancer AI", "*.html", "Logs"));
-                AVCLabs_Video_Enhancer_AI.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\AVCLabs Video Enhancer AI\\logs", "*.log", "Logs"));
-                dataBase.cleaners.Add(AVCLabs_Video_Enhancer_AI);
                 #endregion
                 #region MiniBin
                 CleanerCategory miniBin_category = new CleanerCategory("MiniBin");
@@ -332,22 +230,10 @@ namespace DataBase_Adder
                 qBittorrent_category.listFiles.Add(new ListFiles("C:\\Users\\{username}\\AppData\\Local\\qBittorrent\\logs", "Logs", new List<string>() { "qbittorrent.log" }));
                 dataBase.cleaners.Add(qBittorrent_category);
                 #endregion
-                #region Feather Launcher
-                CleanerCategory feather_lanuncher_category = new CleanerCategory("Feather Launcher");
-                feather_lanuncher_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("C:\\Program Files\\Feather Launcher\\locales", "*.pak", true, "Language"));
-                feather_lanuncher_category.listFiles.Add(new ListFiles("C:\\Program Files\\Feather Launcher", "Logs", new List<string>() { "LICENSE.electron.txt", "LICENSES.chromium.html" }));
-                dataBase.cleaners.Add(feather_lanuncher_category);
-                #endregion
                 #region CCleaner
                 CleanerCategory ccLeaner_category = new CleanerCategory("CCleaner");
                 ccLeaner_category.paternFiles.Add(new PaternFiles("C:\\Program Files\\CCleaner\\LOG", "*", "Logs"));
                 dataBase.cleaners.Add(ccLeaner_category);
-                #endregion
-                #region FACEIT AC
-                CleanerCategory faceit_ac_category = new CleanerCategory("FACEIT AC");
-                faceit_ac_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("C:\\Users\\{username}\\AppData\\Local\\FACEIT\\app-1.31.12\\locales", "*.pak", true, "Language"));
-                faceit_ac_category.paternFiles.Add(new PaternFiles("C:\\Program Files\\FACEIT AC\\logs", "*.log", "Logs"));
-                dataBase.cleaners.Add(faceit_ac_category);
                 #endregion
                 #region IObit
                 #region IObit Malware Fighter
@@ -373,61 +259,6 @@ namespace DataBase_Adder
                 CleanerCategory process_lasso_category = new CleanerCategory("Process Lasso");
                 process_lasso_category.paternFiles.Add(new PaternFiles("C:\\ProgramData\\ProcessLasso\\logs", "*", "Logs"));
                 dataBase.cleaners.Add(process_lasso_category);
-                #endregion
-                #region ShareX
-                CleanerCategory shareX_category = new CleanerCategory("ShareX");
-                shareX_category.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\Documents\\ShareX\\Logs", "*.log", "Logs"));
-                shareX_category.paternFilesRecursives.Add(new PaternFilesRecursive("C:\\Users\\{username}\\Documents\\ShareX\\Screenshots", "*.png", "Photo", true));
-                dataBase.cleaners.Add(shareX_category);
-                #endregion
-                #region EasyAntiCheat
-                CleanerCategory easyAnticheat_category = new CleanerCategory("EasyAntiCheat");
-                easyAnticheat_category.paternFilesRecursives.Add(new PaternFilesRecursive("C:\\Users\\{username}\\AppData\\Roaming\\EasyAntiCheat", "*.log", "Logs", false));
-                dataBase.cleaners.Add(easyAnticheat_category);
-                #endregion
-                #region Roblox
-                CleanerCategory roblox_category = new CleanerCategory("Roblox");
-                roblox_category.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\Pictures\\Roblox", "*.png", "Photo"));
-                roblox_category.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\LocalLow", "*.rbx", "Logs"));
-                roblox_category.paternFilesRecursives.Add(new PaternFilesRecursive("C:\\Program Files (x86)\\Roblox\\Versions", "*.txt", "Logs", false));
-                dataBase.cleaners.Add(roblox_category);
-                #endregion
-                #region Krnl (Roblox) (Cheat)
-                CleanerCategory krnl_roblox_cheat_category = new CleanerCategory("Krnl");
-                krnl_roblox_cheat_category.allFilesRecursives.Add(new AllFilesRecursive("C:\\Users\\{username}\\AppData\\Roaming\\Krnl", "Cheats", true));
-                dataBase.cleaners.Add(krnl_roblox_cheat_category);
-                #endregion
-                #region INTERIUM (CS:GO, CS:1.6) (Cheat)
-                CleanerCategory interium_cheat_category = new CleanerCategory("INTERIUM");
-                interium_cheat_category.allFilesRecursives.Add(new AllFilesRecursive("C:\\Users\\{username}\\AppData\\Roaming\\INTERIUM", "Cheats", true));
-                dataBase.cleaners.Add(interium_cheat_category);
-                #endregion
-                #region Steam
-                CleanerCategory steam_category = new CleanerCategory("Steam");
-                steam_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("C:\\Program Files (x86)\\Steam\\resource", "*.txt", true, "Language"));
-                steam_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("C:\\Program Files (x86)\\Steam\\clientui\\localization", "*.json", true, "Language"));
-                steam_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("C:\\Program Files (x86)\\Steam\\steamui\\localization", "*.js", true, "Language"));
-                steam_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("C:\\Program Files (x86)\\Steam\\bin\\cef\\cef.win7\\locales", "*.pak", true, "Language"));
-                steam_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("C:\\Program Files (x86)\\Steam\\bin\\cef\\cef.win7x64\\locales", "*.pak", true, "Language"));
-                // D
-                steam_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("D:\\Program Files (x86)\\Steam\\resource", "*.txt", true, "Language"));
-                steam_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("D:\\Program Files (x86)\\Steam\\clientui\\localization", "*.json", true, "Language"));
-                steam_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("D:\\Program Files (x86)\\Steam\\steamui\\localization", "*.js", true, "Language"));
-                steam_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("D:\\Program Files (x86)\\Steam\\bin\\cef\\cef.win7\\locales", "*.pak", true, "Language"));
-                steam_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("D:\\Program Files (x86)\\Steam\\bin\\cef\\cef.win7x64\\locales", "*.pak", true, "Language"));
-
-                steam_category.paternFiles.Add(new PaternFiles("C:\\Program Files (x86)\\Steam\\logs", "*.txt", "Logs"));
-                steam_category.paternFiles.Add(new PaternFiles("D:\\Program Files (x86)\\Steam\\logs", "*.txt", "Logs"));
-                steam_category.paternFiles.Add(new PaternFiles("C:\\Program Files (x86)\\Common Files\\Steam", "*.txt", "Logs"));
-                steam_category.allFilesRecursives.Add(new AllFilesRecursive("C:\\Users\\{username}\\AppData\\Local\\Steam\\htmlcache", "Cache"));
-                dataBase.cleaners.Add(steam_category);
-                #endregion
-                #region Black Desert
-                CleanerCategory black_desert_category = new CleanerCategory("Black Desert");
-                black_desert_category.listFiles.Add(new ListFiles("C:\\Users\\{username}\\Documents\\Black Desert", "Logs", new List<string>() { "debug.log", "EventLog.txt" }));
-                black_desert_category.listFiles.Add(new ListFiles("Ñ:\\Pearlabyss\\BlackDesert", "Logs", new List<string>() { "debug.log", "console.log" }));
-                black_desert_category.listFiles.Add(new ListFiles("D:\\Pearlabyss\\BlackDesert", "Logs", new List<string>() { "debug.log", "console.log" }));
-                dataBase.cleaners.Add(black_desert_category);
                 #endregion
                 #region OBS Studio
                 CleanerCategory obs_studio_category = new CleanerCategory("OBS Studio");
@@ -461,18 +292,6 @@ namespace DataBase_Adder
                 lghub_category.listFiles.Add(new ListFiles("C:\\Program Files\\LGHUB", "Logs", new List<string>() { "LICENSE", "LICENSES.chromium.html" }));
                 dataBase.cleaners.Add(lghub_category);
                 #endregion
-                #region InkSpace
-                CleanerCategory inkSpace_category = new CleanerCategory("InkSpace");
-                inkSpace_category.listFiles.Add(new ListFiles("C:\\Program Files\\Inkscape", "Logs", new List<string>() { "NEWS.md", "README.md" }));
-                inkSpace_category.listFiles.Add(new ListFiles("C:\\Users\\{username}\\AppData\\Roaming\\inkscape", "Logs", new List<string>() { "extension-errors.log" }));
-                dataBase.cleaners.Add(inkSpace_category);
-                #endregion
-                #region Genshin Impact
-                CleanerCategory genshin_impact_category = new CleanerCategory("Genshin Impact");
-                genshin_impact_category.listFiles.Add(new ListFiles("C:\\Program Files\\Genshin Impact", "Logs", new List<string>() { "README.txt" }));
-                genshin_impact_category.listFiles.Add(new ListFiles("C:\\Users\\{username}\\AppData\\LocalLow\\miHoYo\\Genshin Impact", "Logs", new List<string>() { "output_log.txt", "output_log.txt.last" }));
-                dataBase.cleaners.Add(genshin_impact_category);
-                #endregion
                 #region 1Password
                 CleanerCategory password1 = new CleanerCategory("1Password");
                 password1.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Local\\1Password\\logs\\setup", "*.log", "Logs"));
@@ -490,36 +309,6 @@ namespace DataBase_Adder
                 microsoft_lobe_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("C:\\Program Files\\Lobe\\locales", "*.pak", true, "Language"));
                 dataBase.cleaners.Add(microsoft_lobe_category);
                 #endregion
-                #region BlueStacks X
-                CleanerCategory blueStacks_x_category = new CleanerCategory("BlueStacks X");
-                blueStacks_x_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("C:\\Program Files (x86)\\BlueStacks X\\language", "*.qm", true, "Language"));
-                dataBase.cleaners.Add(blueStacks_x_category);
-                #endregion
-                #region BlueStacks 5
-                CleanerCategory blueStacks_five_category = new CleanerCategory("BlueStacks 5");
-                blueStacks_five_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("C:\\Program Files\\BlueStacks_nxt\\translations\\qtwebengine_locales", "*.qm", true, "Language"));
-                blueStacks_five_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("C:\\Users\\{username}\\AppData\\Local\\BlueStacksSetup", "*.exe", true, "Cache"));
-                blueStacks_five_category.paternFiles.Add(new PaternFiles("C:\\ProgramData\\BlueStacks_nxt\\Logs", "*.log", "Logs"));
-                blueStacks_five_category.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\Pictures\\BlueStacks", "*.png", "Photo"));
-                dataBase.cleaners.Add(blueStacks_five_category);
-                #endregion
-                #region YouTube Music Desktop
-                CleanerCategory youtube_music_category = new CleanerCategory("YouTube Music Desktop");
-                youtube_music_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("C:\\Users\\{username}\\AppData\\Local\\Programs\\youtube-music-desktop-app\\locales", "*.pak", true, "Language"));
-                dataBase.cleaners.Add(youtube_music_category);
-                #endregion
-                #region GameLoop
-                CleanerCategory gameloop_category = new CleanerCategory("Gameloop");
-                gameloop_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("C:\\Program Files\\TxGameAssistant\\AppMarket\\locale", "*.pak", true, "Language"));
-                gameloop_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("D:\\Program Files\\TxGameAssistant\\AppMarket\\locale", "*.pak", true, "Language"));
-                gameloop_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("E:\\Program Files\\TxGameAssistant\\AppMarket\\locale", "*.pak", true, "Language"));
-                dataBase.cleaners.Add(gameloop_category);
-                #endregion
-                #region ExecHack
-                CleanerCategory execHack = new CleanerCategory("ExecHack");
-                execHack.allFilesRecursives.Add(new AllFilesRecursive("C:\\exechack", "Cheats", true));
-                dataBase.cleaners.Add(execHack);
-                #endregion
                 #region Tonfotos Telegram Connector
                 CleanerCategory tonfotos = new CleanerCategory("Tonfotos Telegram Connector");
                 tonfotos.allFilesRecursives.Add(new AllFilesRecursive("C:\\Users\\{username}\\Pictures\\Tonfotos Telegram Connector", "Photo", true));
@@ -531,23 +320,6 @@ namespace DataBase_Adder
                 dotnet_category.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\.dotnet\\TelemetryStorageService", "*", "Cache"));
                 dataBase.cleaners.Add(dotnet_category);
                 #endregion
-                #region Minecraft
-                CleanerCategory minecraft_category = new CleanerCategory("Minecraft");
-                minecraft_category.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\.minecraft\\logs", "*", "Logs"));
-                dataBase.cleaners.Add(minecraft_category);
-                #endregion
-                #region The Long Drive
-                CleanerCategory The_Long_Drive = new CleanerCategory("The Long Drive");
-                The_Long_Drive.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\Documents\\TheLongDrive\\Screenshots", "*", "Photo"));
-                The_Long_Drive.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\Documents\\TheLongDrive\\Saves", "*.jpg", "Photo"));
-                The_Long_Drive.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\Documents\\TheLongDrive\\Saves", "*.tlds", "Game save"));
-                dataBase.cleaners.Add(The_Long_Drive);
-                #endregion
-                #region Terraria
-                CleanerCategory terraria = new CleanerCategory("Terraria");
-                terraria.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\Documents\\My Games\\Terraria\\Worlds", "*", "Game save"));
-                dataBase.cleaners.Add(terraria);
-                #endregion
                 #region FileZilla
                 CleanerCategory fileZilla = new CleanerCategory("FileZilla");
                 fileZilla.foldersIsNotLanguageByPatern.Add(new FoldersIfCurrentLanguageByPatern("C:\\Program Files\\FileZilla FTP Client\\locales", "*", true, "Language"));
@@ -558,13 +330,6 @@ namespace DataBase_Adder
                 
                 mccreator.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\.mcreator\\logs", "*.log", "Logs"));
                 dataBase.cleaners.Add(mccreator);
-                #endregion
-                #region Magpie
-                CleanerCategory magpie = new CleanerCategory("Magpie");
-
-                magpie.paternFiles.Add(new PaternFiles("C:\\Program Files\\Magpie\\logs", "*.log", "Logs"));
-                magpie.paternFiles.Add(new PaternFiles("C:\\Program Files\\Magpie\\cache", "*", "Cache"));
-                dataBase.cleaners.Add(magpie);
                 #endregion
                 #region 7-Zip
                 CleanerCategory sevenZip = new CleanerCategory("7-Zip");
@@ -589,11 +354,6 @@ namespace DataBase_Adder
                 CleanerCategory tribler = new CleanerCategory("Tribler");
                 tribler.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\.Tribler", "*.log", "Logs"));
                 dataBase.cleaners.Add(tribler);
-                #endregion
-                #region Notepad++
-                CleanerCategory notepad_plus_plus = new CleanerCategory("Notepad++");
-                notepad_plus_plus.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\Notepad++", "*.log", "Logs"));
-                dataBase.cleaners.Add(notepad_plus_plus);
                 #endregion
                 #region Element (Matrix)
                 CleanerCategory element = new CleanerCategory("Element");
@@ -629,6 +389,7 @@ namespace DataBase_Adder
                 CleanerCategory enigmaVirtualBox = new CleanerCategory("Enigma Virtual Box");
                 enigmaVirtualBox.listFiles.Add(new ListFiles("C:\\Program Files (x86)\\Enigma Virtual Box", "Logs", new List<string>()
                 {
+                    "help.chm",
                     "History.txt",
                     "License.txt",
                     "site.url",
@@ -681,18 +442,6 @@ namespace DataBase_Adder
                 virtualBox.allFilesRecursives.Add(new AllFilesRecursive("C:\\Program Files\\Oracle\\VirtualBox\\doc", "Logs", true));
                 dataBase.cleaners.Add(virtualBox);
                 #endregion
-                #region LibreOffice
-                CleanerCategory libreOffice = new CleanerCategory("LibreOffice");
-                libreOffice.listFiles.Add(new ListFiles("C:\\Program Files\\LibreOffice", "Logs", new List<string>()
-                {
-                    "CREDITS.fodt",
-                    "LICENSE.html",
-                    "license.txt",
-                    "NOTICE",
-                }));
-                libreOffice.allFilesRecursives.Add(new AllFilesRecursive("C:\\Program Files\\LibreOffice\\readmes", "Logs", true));
-                dataBase.cleaners.Add(libreOffice);
-                #endregion
                 #region Process Hacker 2
                 CleanerCategory Process_Hacker_2 = new CleanerCategory("Process Hacker 2");
                 Process_Hacker_2.listFiles.Add(new ListFiles("C:\\Program Files\\Process Hacker 2", "Logs", new List<string>()
@@ -705,6 +454,12 @@ namespace DataBase_Adder
                 }));
                 dataBase.cleaners.Add(Process_Hacker_2);
                 #endregion
+                #region Audio
+                #region YouTube Music Desktop
+                CleanerCategory youtube_music_category = new CleanerCategory("YouTube Music Desktop");
+                youtube_music_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("C:\\Users\\{username}\\AppData\\Local\\Programs\\youtube-music-desktop-app\\locales", "*.pak", true, "Language"));
+                dataBase.cleaners.Add(youtube_music_category);
+                #endregion
                 #region AAF Optimus DCH Audio
                 CleanerCategory AAF = new CleanerCategory("AAF Optimus DCH Audio");
                 AAF.listFiles.Add(new ListFiles("C:\\Program Files\\AAFTweak", "Logs", new List<string>()
@@ -713,6 +468,38 @@ namespace DataBase_Adder
                 }));
                 dataBase.cleaners.Add(AAF);
                 #endregion
+                #region FL Studio 21
+                CleanerCategory flStudio = new CleanerCategory("FL Studio");
+                flStudio.listFiles.Add(new ListFiles("C:\\Program Files\\Image-Line\\FL Studio 21", "Logs", new List<string>() { "WhatsNew.rtf" }));
+                flStudio.listFiles.Add(new ListFiles("C:\\Program Files\\Image-Line\\Shared\\Start\\FL Studio 21", "Logs", new List<string>() { "What's new.lnk" }));
+                flStudio.listFiles.Add(new ListFiles("C:\\Program Files (x86)\\ASIO4ALL v2", "Logs", new List<string>() { "ASIO4ALL Web Site.url" }));
+                flStudio.allFilesRecursives.Add(new AllFilesRecursive("C:\\Program Files\\Image-Line\\FL Studio 21\\System\\Legal", "Logs", true));
+                dataBase.cleaners.Add(flStudio);
+                #endregion
+                #endregion
+                #region Video
+                #region HandBrake
+                CleanerCategory handbrake_category = new CleanerCategory("HandBrake");
+                handbrake_category.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\HandBrake\\logs", "*.txt", "Logs"));
+                handbrake_category.allFilesRecursives.Add(new AllFilesRecursive("C:\\Program Files\\HandBrake\\doc", "Logs", true));
+                dataBase.cleaners.Add(handbrake_category);
+                #endregion
+                #region Topaz Video AI
+                CleanerCategory Topaz_Video_AI = new CleanerCategory("Topaz Video AI");
+                Topaz_Video_AI.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("C:\\Program Files\\Topaz Labs LLC\\Topaz Video AI\\translations", "*.qm", true, "Language"));
+                Topaz_Video_AI.listFiles.Add(new ListFiles("C:\\ProgramData\\Topaz Labs LLC\\Topaz Video AI", "Language", new List<string> { "oss-licenses.txt" }));
+                dataBase.cleaners.Add(Topaz_Video_AI);
+                #endregion
+                #region AVCLabs Video Enhancer AI
+                CleanerCategory AVCLabs_Video_Enhancer_AI = new CleanerCategory("AVCLabs Video Enhancer AI");
+                AVCLabs_Video_Enhancer_AI.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("C:\\Program Files (x86)\\AVCLabs\\AVCLabs Video Enhancer AI\\locales", "*.pak", true, "Language"));
+                AVCLabs_Video_Enhancer_AI.paternFiles.Add(new PaternFiles("C:\\Program Files (x86)\\AVCLabs\\AVCLabs Video Enhancer AI", "*.txt", "Logs"));
+                AVCLabs_Video_Enhancer_AI.paternFiles.Add(new PaternFiles("C:\\Program Files (x86)\\AVCLabs\\AVCLabs Video Enhancer AI", "*.html", "Logs"));
+                AVCLabs_Video_Enhancer_AI.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\AVCLabs Video Enhancer AI\\logs", "*.log", "Logs"));
+                dataBase.cleaners.Add(AVCLabs_Video_Enhancer_AI);
+                #endregion
+                #endregion
+                #region Image
                 #region ImageGlass
                 CleanerCategory image_glass = new CleanerCategory("ImageGlass");
                 image_glass.listFiles.Add(new ListFiles("C:\\Program Files\\ImageGlass", "Logs", new List<string>()
@@ -742,6 +529,341 @@ namespace DataBase_Adder
                 }));
                 image_glass.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("C:\\Program Files\\ImageGlass\\Languages", "*.iglang", true, "Language"));
                 dataBase.cleaners.Add(image_glass);
+                #endregion
+                #region InkSpace
+                CleanerCategory inkSpace_category = new CleanerCategory("InkSpace");
+                inkSpace_category.listFiles.Add(new ListFiles("C:\\Program Files\\Inkscape", "Logs", new List<string>() { "NEWS.md", "README.md" }));
+                inkSpace_category.listFiles.Add(new ListFiles("C:\\Users\\{username}\\AppData\\Roaming\\inkscape", "Logs", new List<string>() { "extension-errors.log" }));
+                dataBase.cleaners.Add(inkSpace_category);
+                #endregion
+                #region Magpie
+                CleanerCategory magpie = new CleanerCategory("Magpie");
+
+                magpie.paternFiles.Add(new PaternFiles("C:\\Program Files\\Magpie\\logs", "*.log", "Logs"));
+                magpie.paternFiles.Add(new PaternFiles("C:\\Program Files\\Magpie\\cache", "*", "Cache"));
+                dataBase.cleaners.Add(magpie);
+                #endregion
+                #region ShareX
+                CleanerCategory shareX_category = new CleanerCategory("ShareX");
+                shareX_category.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\Documents\\ShareX\\Logs", "*.log", "Logs"));
+                shareX_category.paternFilesRecursives.Add(new PaternFilesRecursive("C:\\Users\\{username}\\Documents\\ShareX\\Screenshots", "*.png", "Photo", true));
+                dataBase.cleaners.Add(shareX_category);
+                #endregion
+                #endregion
+                #region Text
+                #region Notepad++
+                CleanerCategory notepad_plus_plus = new CleanerCategory("Notepad++");
+                notepad_plus_plus.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\Notepad++", "*.log", "Logs"));
+                dataBase.cleaners.Add(notepad_plus_plus);
+                #endregion
+                #region Sublime Text
+                CleanerCategory sublimeText = new CleanerCategory("Sublime Text");
+                sublimeText.listFiles.Add(new ListFiles("C:\\Program Files\\Sublime Text", "Logs", new List<string>()
+                {
+                    "changelog.txt"
+                }));
+                dataBase.cleaners.Add(sublimeText);
+                #endregion
+                #region LibreOffice
+                CleanerCategory libreOffice = new CleanerCategory("LibreOffice");
+                libreOffice.listFiles.Add(new ListFiles("C:\\Program Files\\LibreOffice", "Logs", new List<string>()
+                {
+                    "CREDITS.fodt",
+                    "LICENSE.html",
+                    "license.txt",
+                    "NOTICE",
+                }));
+                libreOffice.allFilesRecursives.Add(new AllFilesRecursive("C:\\Program Files\\LibreOffice\\readmes", "Logs", true));
+                dataBase.cleaners.Add(libreOffice);
+                #endregion
+                #endregion
+                #region Crypto wallets
+                #region Exodus
+                CleanerCategory exodus_category = new CleanerCategory("Exodus Crypto Wallet");
+                exodus_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("C:\\Users\\{username}\\AppData\\Local\\exodus\\app-23.2.27\\locales", "*.pak", true, "Language"));
+                exodus_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("C:\\Users\\{username}\\AppData\\Local\\exodus\\app-23.3.13\\locales", "*.pak", true, "Language"));
+                dataBase.cleaners.Add(exodus_category);
+                #endregion
+                #region Wasabi Wallet
+                CleanerCategory wasabi_wallet = new CleanerCategory("Wasabi Wallet");
+                wasabi_wallet.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\WalletWasabi\\Client", "*.txt", "Logs"));
+                dataBase.cleaners.Add(wasabi_wallet);
+                #endregion
+                #region Monero GUI
+                CleanerCategory bitMonero = new CleanerCategory("Bit Monero");
+                bitMonero.paternFiles.Add(new PaternFiles("C:\\ProgramData\\bitmonero", "*.log", "Logs"));
+                dataBase.cleaners.Add(bitMonero);
+                #endregion
+                #endregion
+                #region Emulators
+                #region GameLoop
+                CleanerCategory gameloop_category = new CleanerCategory("Gameloop");
+                gameloop_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("C:\\Program Files\\TxGameAssistant\\AppMarket\\locale", "*.pak", true, "Language"));
+                gameloop_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("D:\\Program Files\\TxGameAssistant\\AppMarket\\locale", "*.pak", true, "Language"));
+                gameloop_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("E:\\Program Files\\TxGameAssistant\\AppMarket\\locale", "*.pak", true, "Language"));
+                dataBase.cleaners.Add(gameloop_category);
+                #endregion
+                #region BlueStacks X
+                CleanerCategory blueStacks_x_category = new CleanerCategory("BlueStacks X");
+                blueStacks_x_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("C:\\Program Files (x86)\\BlueStacks X\\language", "*.qm", true, "Language"));
+                dataBase.cleaners.Add(blueStacks_x_category);
+                #endregion
+                #region BlueStacks 5
+                CleanerCategory blueStacks_five_category = new CleanerCategory("BlueStacks 5");
+                blueStacks_five_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("C:\\Program Files\\BlueStacks_nxt\\translations\\qtwebengine_locales", "*.qm", true, "Language"));
+                blueStacks_five_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("C:\\Users\\{username}\\AppData\\Local\\BlueStacksSetup", "*.exe", true, "Cache"));
+                blueStacks_five_category.paternFiles.Add(new PaternFiles("C:\\ProgramData\\BlueStacks_nxt\\Logs", "*.log", "Logs"));
+                blueStacks_five_category.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\Pictures\\BlueStacks", "*.png", "Photo"));
+                dataBase.cleaners.Add(blueStacks_five_category);
+                #endregion
+                #endregion
+                #region AntiCheats
+                #region GameGuard
+                CleanerCategory gameGuard_category = new CleanerCategory("GameGuard");
+                gameGuard_category.paternFiles.Add(new PaternFiles("C:\\Program Files (x86)\\GameGuard\\cache", "*.cache", "Cache"));
+                dataBase.cleaners.Add(gameGuard_category);
+                #endregion
+                #region FACEIT AC
+                CleanerCategory faceit_ac_category = new CleanerCategory("FACEIT AC");
+                faceit_ac_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("C:\\Users\\{username}\\AppData\\Local\\FACEIT\\app-1.31.12\\locales", "*.pak", true, "Language"));
+                faceit_ac_category.paternFiles.Add(new PaternFiles("C:\\Program Files\\FACEIT AC\\logs", "*.log", "Logs"));
+                dataBase.cleaners.Add(faceit_ac_category);
+                #endregion
+                #region EasyAntiCheat
+                CleanerCategory easyAnticheat_category = new CleanerCategory("EasyAntiCheat");
+                easyAnticheat_category.paternFilesRecursives.Add(new PaternFilesRecursive("C:\\Users\\{username}\\AppData\\Roaming\\EasyAntiCheat", "*.log", "Logs", false));
+                dataBase.cleaners.Add(easyAnticheat_category);
+                #endregion
+                #endregion
+                #region Cheats
+                #region Fatality
+                CleanerCategory fatality = new CleanerCategory("Fatality");
+                fatality.allFilesRecursives.Add(new AllFilesRecursive("{steam}\\steamapps\\common\\Counter-Strike Global Offensive\\fatality", "Cheats", true));
+                fatality.listFiles.Add(new ListFiles("{steam}\\steamapps\\common\\Counter-Strike Global Offensive", "Logs", new List<string>()
+                {
+                    "slot1",
+                    "skins",
+                    "flog.log",
+                }));
+                dataBase.cleaners.Add(fatality);
+                #endregion
+                #region Pandora
+                CleanerCategory pandora = new CleanerCategory("Pandora");
+                pandora.allFilesRecursives.Add(new AllFilesRecursive("{steam}\\steamapps\\common\\Counter-Strike Global Offensive\\Pandora", "Cheats", true));
+                pandora.listFiles.Add(new ListFiles("{steam}\\steamapps\\common\\Counter-Strike Global Offensive", "Logs", new List<string>()
+                {
+                    "log.pdr",
+                }));
+                dataBase.cleaners.Add(pandora);
+                #endregion
+                #region OneTap
+                CleanerCategory otc = new CleanerCategory("OneTap");
+                otc.allFilesRecursives.Add(new AllFilesRecursive("{steam}\\steamapps\\common\\Counter-Strike Global Offensive\\ot", "Cheats", true));
+                dataBase.cleaners.Add(otc);
+                #endregion
+                #region INTERIUM (CS:GO, CS:1.6) (Cheat)
+                CleanerCategory interium_cheat_category = new CleanerCategory("INTERIUM");
+                interium_cheat_category.allFilesRecursives.Add(new AllFilesRecursive("C:\\Users\\{username}\\AppData\\Roaming\\INTERIUM", "Cheats", true));
+                dataBase.cleaners.Add(interium_cheat_category);
+                #endregion
+                #region Krnl (Roblox) (Cheat)
+                CleanerCategory krnl_roblox_cheat_category = new CleanerCategory("Krnl");
+                krnl_roblox_cheat_category.allFilesRecursives.Add(new AllFilesRecursive("C:\\Users\\{username}\\AppData\\Roaming\\Krnl", "Cheats", true));
+                dataBase.cleaners.Add(krnl_roblox_cheat_category);
+                #endregion
+                #region ExecHack
+                CleanerCategory execHack = new CleanerCategory("ExecHack");
+                execHack.allFilesRecursives.Add(new AllFilesRecursive("C:\\exechack", "Cheats", true));
+                dataBase.cleaners.Add(execHack);
+                #endregion
+                #endregion
+                #region Games
+                #region Steam
+                CleanerCategory steam_category = new CleanerCategory("Steam");
+                steam_category.listFiles.Add(new ListFiles("{steam}", "Logs", new List<string>()
+                {
+                    "ThirdPartyLegalNotices.doc",
+                    "ThirdPartyLegalNotices.html",
+                    "GameOverlayRenderer.log",
+                    "GameOverlayUI.exe.log",
+                }));
+                steam_category.allFilesRecursives.Add(new AllFilesRecursive("{steam}\\dumps", "Logs"));
+                steam_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("{steam}\\resource", "*.txt", true, "Language"));
+                steam_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("{steam}\\clientui\\localization", "*.json", true, "Language"));
+                steam_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("{steam}\\steamui\\localization", "*.js", true, "Language"));
+                steam_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("{steam}\\bin\\cef\\cef.win7\\locales", "*.pak", true, "Language"));
+                steam_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("{steam}\\bin\\cef\\cef.win7x64\\locales", "*.pak", true, "Language")); ;
+                steam_category.allFilesRecursives.Add(new AllFilesRecursive("{steam}\\appcache", "Cache"));
+                steam_category.paternFiles.Add(new PaternFiles("{steam}\\logs", "*.txt", "Logs"));
+                steam_category.paternFiles.Add(new PaternFiles("{steam}", "*.txt", "Logs"));
+                steam_category.allFilesRecursives.Add(new AllFilesRecursive("C:\\Users\\{username}\\AppData\\Local\\Steam\\htmlcache", "Cache"));
+                dataBase.cleaners.Add(steam_category);
+                #endregion
+                #region Black Desert
+                CleanerCategory black_desert_category = new CleanerCategory("Black Desert");
+                black_desert_category.listFiles.Add(new ListFiles("C:\\Users\\{username}\\Documents\\Black Desert", "Logs", new List<string>() { "debug.log", "EventLog.txt" }));
+                black_desert_category.listFiles.Add(new ListFiles("Ñ:\\Pearlabyss\\BlackDesert", "Logs", new List<string>() { "debug.log", "console.log" }));
+                black_desert_category.listFiles.Add(new ListFiles("D:\\Pearlabyss\\BlackDesert", "Logs", new List<string>() { "debug.log", "console.log" }));
+                dataBase.cleaners.Add(black_desert_category);
+                #endregion
+                #region Genshin Impact
+                CleanerCategory genshin_impact_category = new CleanerCategory("Genshin Impact");
+                genshin_impact_category.listFiles.Add(new ListFiles("C:\\Program Files\\Genshin Impact", "Logs", new List<string>() { "README.txt" }));
+                genshin_impact_category.listFiles.Add(new ListFiles("C:\\Users\\{username}\\AppData\\LocalLow\\miHoYo\\Genshin Impact", "Logs", new List<string>() { "output_log.txt", "output_log.txt.last" }));
+                dataBase.cleaners.Add(genshin_impact_category);
+                #endregion
+                #region Counter-Strike Global Offensive
+                CleanerCategory csgo = new CleanerCategory("Counter-Strike Global Offensive");
+                csgo.listFiles.Add(new ListFiles("{steam}\\steamapps\\common\\Counter-Strike Global Offensive", "Logs", new List<string>()
+                {
+                    "csgo.signatures",
+                    "system.signatures",
+                    "thirdpartylegalnotices.doc",
+                }));
+                csgo.listFiles.Add(new ListFiles("{steam}\\steamapps\\common\\Counter-Strike Global Offensive\\game", "Logs", new List<string>()
+                {
+                    "thirdpartylegalnotices.txt",
+                }));
+                dataBase.cleaners.Add(csgo);
+                #endregion
+                #region Geometry Dash
+                #region Original
+                CleanerCategory geometryDash = new CleanerCategory("Geometry Dash");
+                geometryDash.listFiles.Add(new ListFiles("C:\\Games\\Geometry Dash", "Logs", new List<string>()
+                {
+                    "ReadMe.txt",
+                }));
+                geometryDash.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Local\\GeometryDash", "*.mp3", "Cache"));
+                geometryDash.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Local\\GeometryDash", "*.dat", "Game save"));
+                geometryDash.allFilesRecursives.Add(new AllFilesRecursive("C:\\Games\\Geometry Dash\\Profile", "Game save", true));
+                #endregion
+                #region Private servers
+                geometryDash.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Local\\GDPS-2.2-by-user666", "*.mp3", "Cache"));
+                geometryDash.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Local\\GDPS-2.2-by-user666", "*.dat", "Game save"));
+                #endregion
+                dataBase.cleaners.Add(geometryDash);
+                #endregion
+                #region Plants Vs Zombies
+                CleanerCategory plantsVsZombies = new CleanerCategory("Plants Vs Zombies");
+                plantsVsZombies.allFilesRecursives.Add(new AllFilesRecursive("C:\\ProgramData\\Steam\\PlantsVsZombies\\userdata", "Game save", true));
+                plantsVsZombies.allFilesRecursives.Add(new AllFilesRecursive("C:\\ProgramData\\Steam\\PlantsVsZombies\\cached\\sounds", "Cache", true));
+                dataBase.cleaners.Add(plantsVsZombies);
+                #endregion
+                #region Terraria
+                CleanerCategory terraria = new CleanerCategory("Terraria");
+                terraria.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\Documents\\My Games\\Terraria\\Worlds", "*", "Game save"));
+                dataBase.cleaners.Add(terraria);
+                #endregion
+                #region Cossacks 3
+                CleanerCategory cossacks3 = new CleanerCategory("Cossacks 3");
+                cossacks3.listFiles.Add(new ListFiles("C:\\GOG Games\\Cossacks 3", "Logs", new List<string>()
+                {
+                    "EULA.txt",
+                    "gog.ico",
+                    "support.ico",
+                    "goggame-1797227701.hashdb",
+                    "goggame-1797227701.info",
+                    "goggame-1797227701.script",
+                    "goggame-galaxyFileList.ini",
+                    "goglog.ini",
+                }));
+                cossacks3.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\Documents\\cossacks\\profiles\\Cossack\\saves", "*.map", "Game save"));
+                dataBase.cleaners.Add(cossacks3);
+                #endregion
+                #region The Long Drive
+                CleanerCategory The_Long_Drive = new CleanerCategory("The Long Drive");
+                The_Long_Drive.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\Documents\\TheLongDrive\\Screenshots", "*", "Photo"));
+                The_Long_Drive.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\Documents\\TheLongDrive\\Saves", "*.jpg", "Photo"));
+                The_Long_Drive.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\Documents\\TheLongDrive\\Saves", "*.tlds", "Game save"));
+                dataBase.cleaners.Add(The_Long_Drive);
+                #endregion
+                #region Minecraft launchers
+                #region Minecraft
+                CleanerCategory minecraft_category = new CleanerCategory("Minecraft");
+                minecraft_category.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\.minecraft\\logs", "*", "Logs"));
+                dataBase.cleaners.Add(minecraft_category);
+                #endregion
+                #region Lunar Client
+                CleanerCategory lunarClient = new CleanerCategory("Lunar Client");
+                lunarClient.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\.lunarclient\\logs\\launcher", "*", "Logs"));
+                lunarClient.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\.lunarclient\\offline\\multiver\\logs", "*", "Logs"));
+                lunarClient.allFilesRecursives.Add(new AllFilesRecursive("C:\\Users\\{username}\\.lunarclient\\licenses", "Logs"));
+
+                dataBase.cleaners.Add(lunarClient);
+                #endregion
+                #region PrismLauncher
+                CleanerCategory prismLauncher = new CleanerCategory("PrismLauncher");
+                prismLauncher.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\PrismLauncher", "*.log", "Logs"));
+                prismLauncher.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\PrismLauncher\\instances\\{unknowfolder}\\.minecraft\\logs", "*", "Logs"));
+                prismLauncher.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\PrismLauncher\\instances\\{unknowfolder}\\.minecraft\\screenshots", "*.png", "Photo"));
+                dataBase.cleaners.Add(prismLauncher);
+                #endregion
+                #region PolyMC
+                CleanerCategory polyMC = new CleanerCategory("PolyMC");
+                polyMC.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\PolyMC", "*.log", "Logs"));
+                polyMC.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\PolyMC\\instances\\{unknowfolder}\\.minecraft\\logs", "*", "Logs"));
+                polyMC.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\PolyMC\\instances\\{unknowfolder}\\.minecraft\\screenshots", "*.png", "Photo"));
+                dataBase.cleaners.Add(polyMC);
+                #endregion
+                #region ATLauncher
+                CleanerCategory ATLauncher = new CleanerCategory("ATLauncher");
+                ATLauncher.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\ATLauncher\\logs", "*.log", "Logs"));
+                ATLauncher.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\ATLauncher\\logs\\old", "*.log", "Logs"));
+                ATLauncher.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\ATLauncher\\instances\\{unknowfolder}\\logs", "*log*", "Logs"));
+                ATLauncher.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\ATLauncher\\instances\\{unknowfolder}\\logs\\telemetry", "*json*", "Logs"));
+                ATLauncher.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\ATLauncher\\instances\\{unknowfolder}\\logs\\crash-reports", "*.txt", "Logs"));
+                ATLauncher.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\ATLauncher\\instances\\{unknowfolder}\\screenshots", "*.png", "Photo"));
+                dataBase.cleaners.Add(ATLauncher);
+                #endregion
+                #region Cristalix
+                CleanerCategory cristalixCategory = new CleanerCategory("Cristalix");
+                cristalixCategory.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\.cristalix\\updates\\{unknowfolder}\\logs", "*.log", "Logs"));
+                cristalixCategory.listFiles.Add(new ListFiles("C:\\Users\\{username}\\.cristalix", "Accounts", new List<string>() { ".launcher" }));
+                dataBase.cleaners.Add(cristalixCategory);
+                #endregion
+                #region LoliLand
+                CleanerCategory loliLandCategory = new CleanerCategory("LoliLand");
+                loliLandCategory.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\loliland\\updates\\clients\\{unknowfolder}", "*.log", "Logs"));
+                loliLandCategory.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\loliland\\updates\\clients\\{unknowfolder}\\logs", "*", "Logs"));
+                loliLandCategory.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\loliland\\updates\\clients\\{unknowfolder}\\DivineRPG", "*", "Logs"));
+                loliLandCategory.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\loliland\\updates\\clients\\{unknowfolder}\\screenshots", "*.png", "Photo"));
+                loliLandCategory.listFiles.Add(new ListFiles("C:\\Users\\{username}\\loliland", "Accounts", new List<string>() { "auth.json" }));
+                dataBase.cleaners.Add(loliLandCategory);
+                #endregion
+                #region AurMine
+                CleanerCategory aurMineCategory = new CleanerCategory("AurMine");
+                aurMineCategory.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\.AurMine\\updates\\{unknowfolder}", "*.log", "Logs"));
+                aurMineCategory.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\.AurMine\\updates\\{unknowfolder}\\logs", "*", "Logs"));
+                aurMineCategory.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\.AurMine\\updates\\{unknowfolder}\\screenshots", "*.png", "Photo"));
+                aurMineCategory.listFiles.Add(new ListFiles("C:\\Users\\{username}\\.AurMine", "Accounts", new List<string>() { "settings.bin" }));
+                dataBase.cleaners.Add(aurMineCategory);
+                #endregion
+                #region Excalubur Craft
+                CleanerCategory excaluburCraftCategory = new CleanerCategory("Excalubur Craft");
+                excaluburCraftCategory.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\.exlauncher\\clients\\{unknowfolder}\\logs", "*", "Logs"));
+                excaluburCraftCategory.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\.exlauncher\\clients\\{unknowfolder}\\screenshots", "*.png", "Photo"));
+                dataBase.cleaners.Add(excaluburCraftCategory);
+                #endregion
+                #region Minecraft Only
+                CleanerCategory minecraftOnlyCategory = new CleanerCategory("Minecraft Only");
+                minecraftOnlyCategory.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\.minecraftonly\\{unknowfolder}\\logs", "*", "Logs"));
+                minecraftOnlyCategory.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\.minecraftonly\\{unknowfolder}\\screenshots", "*.png", "Photo"));
+                dataBase.cleaners.Add(minecraftOnlyCategory);
+                #endregion
+                #region Feather Launcher
+                CleanerCategory feather_lanuncher_category = new CleanerCategory("Feather Launcher");
+                feather_lanuncher_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("C:\\Program Files\\Feather Launcher\\locales", "*.pak", true, "Language"));
+                feather_lanuncher_category.listFiles.Add(new ListFiles("C:\\Program Files\\Feather Launcher", "Logs", new List<string>() { "LICENSE.electron.txt", "LICENSES.chromium.html" }));
+                dataBase.cleaners.Add(feather_lanuncher_category);
+                #endregion
+                #endregion
+                #region Roblox
+                CleanerCategory roblox_category = new CleanerCategory("Roblox");
+                roblox_category.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\Pictures\\Roblox", "*.png", "Photo"));
+                roblox_category.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\LocalLow", "*.rbx", "Logs"));
+                roblox_category.paternFilesRecursives.Add(new PaternFilesRecursive("C:\\Program Files (x86)\\Roblox\\Versions", "*.txt", "Logs", false));
+                dataBase.cleaners.Add(roblox_category);
+                #endregion
                 #endregion
                 Console.WriteLine("Cleaner database");
                 ClipboardService.SetText(dataBase.ToJson());
@@ -833,10 +955,33 @@ namespace DataBase_Adder
                         icon = "M9.99754 2.70682C10.0398 3.11887 9.73995 3.48714 9.32789 3.52936C6.05111 3.8651 3.49438 6.63471 3.49438 10.0005C3.49438 13.5933 6.40694 16.5059 9.99977 16.5059C13.3652 16.5059 16.1346 13.9498 16.4708 10.6735C16.5131 10.2615 16.8814 9.96171 17.2935 10.004C17.7055 10.0463 18.0053 10.4146 17.963 10.8267C17.549 14.8601 14.1422 18.0059 9.99977 18.0059C5.57852 18.0059 1.99438 14.4218 1.99438 10.0005C1.99438 5.85759 5.14088 2.45051 9.175 2.03717C9.58706 1.99495 9.95532 2.29476 9.99754 2.70682Z M11.0178 2.6409C11.1143 2.23806 11.519 1.98966 11.9218 2.08608C12.3006 2.17674 12.6691 2.29397 13.0251 2.43568C13.41 2.58885 13.5978 3.025 13.4446 3.40986C13.2915 3.79471 12.8553 3.98253 12.4705 3.82936C12.1807 3.71404 11.8809 3.61865 11.5727 3.54488C11.1698 3.44846 10.9214 3.04374 11.0178 2.6409Z M17.5639 6.97359C17.4107 6.58876 16.9745 6.40103 16.5897 6.55427C16.2049 6.70751 16.0171 7.14369 16.1704 7.52852C16.2858 7.81839 16.3813 8.11835 16.4551 8.42673C16.5516 8.82956 16.9563 9.07792 17.3591 8.98146C17.762 8.885 18.0103 8.48025 17.9139 8.07742C17.8231 7.69845 17.7058 7.3298 17.5639 6.97359Z M14.2902 3.92629C14.562 3.6138 15.0358 3.58089 15.3483 3.85278C15.6554 4.12001 15.9422 4.41 16.2061 4.72013C16.4745 5.0356 16.4364 5.50894 16.1209 5.77736C15.8054 6.04578 15.3321 6.00764 15.0637 5.69217C14.8484 5.43911 14.6143 5.20247 14.3637 4.9844C14.0512 4.71251 14.0183 4.23878 14.2902 3.92629Z M10 5.75024C10 5.33603 9.66421 5.00024 9.25 5.00024C8.83579 5.00024 8.5 5.33603 8.5 5.75024V10.7502C8.5 11.1645 8.83579 11.5002 9.25 11.5002H12.25C12.6642 11.5002 13 11.1645 13 10.7502C13 10.336 12.6642 10.0002 12.25 10.0002H10V5.75024Z",
                         version = "1.2.0",
                         description = "Cleans traces of user activity",
-                        sha3 = "2dcd57246d8dab06e7885e9e35d71cfdd873952fc85751e2b688f013645c699c",
+                        sha3 = "117942a164be149d941e559c797f5eeae8148a8987a9db66b88bd913bbf574a3",
                         url = "https://github.com/WinBooster/WinBooster_Scripts/raw/main/scripts/LastActivity.cs",
+                        winbooster_version = "2.0.8.8"
+                    });
+
+                    scriptsDataBase.scripts.Add(new ScriptInfo
+                    {
+                        name = "Process Screen Protector",
+                        icon = "M3 4V16H21V4H3M3 2H21C22.1 2 23 2.89 23 4V16C23 16.53 22.79 17.04 22.41 17.41C22.04 17.79 21.53 18 21 18H14V20H16V22H8V20H10V18H3C2.47 18 1.96 17.79 1.59 17.41C1.21 17.04 1 16.53 1 16V4C1 2.89 1.89 2 3 2M10.84 8.93C11.15 8.63 11.57 8.45 12 8.45C12.43 8.46 12.85 8.63 13.16 8.94C13.46 9.24 13.64 9.66 13.64 10.09C13.64 10.53 13.46 10.94 13.16 11.25C12.85 11.56 12.43 11.73 12 11.73C11.57 11.73 11.15 11.55 10.84 11.25C10.54 10.94 10.36 10.53 10.36 10.09C10.36 9.66 10.54 9.24 10.84 8.93M10.07 12C10.58 12.53 11.28 12.82 12 12.82C12.72 12.82 13.42 12.53 13.93 12C14.44 11.5 14.73 10.81 14.73 10.09C14.73 9.37 14.44 8.67 13.93 8.16C13.42 7.65 12.72 7.36 12 7.36C11.28 7.36 10.58 7.65 10.07 8.16C9.56 8.67 9.27 9.37 9.27 10.09C9.27 10.81 9.56 11.5 10.07 12M6 10.09C6.94 7.7 9.27 6 12 6C14.73 6 17.06 7.7 18 10.09C17.06 12.5 14.73 14.18 12 14.18C9.27 14.18 6.94 12.5 6 10.09Z",
+                        version = "1.0.0",
+                        description = "Makes selected processes unavailable for screenshots and recording",
+                        sha3 = "65d931a125d3f2c36e187d11c2a5e0e947be95eddb89d37067fcae6b29e8af50",
+                        url = "https://raw.githubusercontent.com/WinBooster/WinBooster_Scripts/main/scripts/Process%20Screen%20Protector.cs",
                         winbooster_version = "2.0.8.9"
                     });
+
+                    scriptsDataBase.scripts.Add(new ScriptInfo
+                    {
+                        name = "Brave Telemetry Disabler",
+                        icon = "M39.43,13.84l.92-2.24s-1.15-1.25-2.57-2.66-4.41-.6-4.41-.6L30,4.5H18L14.6,8.37s-3-.82-4.41.59-2.57,2.67-2.57,2.67l.92,2.24L7.38,17.18s3.43,13,3.82,14.55c.8,3.11,1.33,4.32,3.57,5.92s6.3,4.31,7,4.73A5.24,5.24,0,0,0,24,43.5c.74,0,1.57-.71,2.25-1.12s4.73-3.17,7-4.73S36,34.87,36.8,31.73l3.82-14.55Z M18.71,31.52a19.57,19.57,0,0,1-2.84-3.78,3.59,3.59,0,0,1,.32-3.22,1.49,1.49,0,0,0-.59-1.75c-.29-.32-2.72-2.89-3.28-3.49s-1.12-.85-1.12-2,4.37-6.44,4.37-6.44,3.7.71,4.2.71a13.77,13.77,0,0,0,2.57-.74A5.92,5.92,0,0,1,24,10.47l-1.66.33A5.92,5.92,0,0,1,24,10.47a5.92,5.92,0,0,1,1.66.33,13.77,13.77,0,0,0,2.57.74c.5,0,4.2-.71,4.2-.71s4.37,5.29,4.37,6.44-.56,1.42-1.12,2-3,3.17-3.28,3.49a1.49,1.49,0,0,0-.59,1.75,3.59,3.59,0,0,1,.32,3.22,19.57,19.57,0,0,1-2.84,3.78 M32.19,14.82a13.89,13.89,0,0,0-3.73-.09,13.45,13.45,0,0,0-2.66.86c-.11.2-.23.2-.11.94s.82,4.2.88,4.82.21,1-.47,1.19a17.94,17.94,0,0,1-2.16.41,18.31,18.31,0,0,1-2.16-.41c-.65-.15-.53-.57-.47-1.19s.74-4.08.89-4.82,0-.74-.12-.94a12.78,12.78,0,0,0-2.66-.86,12.76,12.76,0,0,0-3.73.09 M24,28.75V23 M29.14,31.08c.27.18.12.5-.14.65s-3.58,2.75-3.88,3.05-.79.74-1.12.74-.8-.48-1.12-.74S19.24,31.91,19,31.73s-.41-.5-.14-.65,1.12-.59,2.27-1.21A12.5,12.5,0,0,1,24,28.75a12.5,12.5,0,0,1,2.87,1.12Z",
+                        version = "1.0.0",
+                        description = "Disable brave browser telemetry",
+                        sha3 = "9a1067e563e37b03127d0af47be2dc47bff5111394e461751f53b61d786d2655",
+                        url = "https://github.com/WinBooster/WinBooster_Scripts/raw/main/scripts/Brave%20Telemetry%20Disabler.cs",
+                        winbooster_version = "2.0.9.0"
+                    });
+
 
                     ClipboardService.SetText(scriptsDataBase.ToJson());
                 }

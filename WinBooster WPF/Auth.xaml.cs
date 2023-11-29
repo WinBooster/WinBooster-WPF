@@ -6,19 +6,13 @@ using HandyControl.Controls;
 using HandyControl.Data;
 using HandyControl.Tools.Extension;
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Net;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using System.Windows.Threading;
-using Telegram.Bot;
-using Telegram.Bot.Types;
 using WinBooster_WPF.RemoteControl;
-using WinBooster_WPF.RemoteControl.Pipeline.Messages;
 using WinBoosterNative.data;
 
 namespace WinBooster_WPF
@@ -211,7 +205,7 @@ namespace WinBooster_WPF
                 names_stack.Children.Add(names_text);
                 StepBar2.Items.Add(names_stack);
                 StepBar2.Visibility = System.Windows.Visibility.Visible;
-                StepBar2.Width = 230;
+                StepBar2.Width = 245;
                 this.Height = 180;
             }));
             #region Cleaner DataBase
@@ -491,7 +485,6 @@ namespace WinBooster_WPF
                     {
                         AuthPanel.Hide();
                         DownloadPanel.Visibility = System.Windows.Visibility.Visible;
-                        //StepBar.Width = 480;
                         Title = "Loading";
                     }));
                     await Task.Factory.StartNew(async () =>

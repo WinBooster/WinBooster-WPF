@@ -151,10 +151,12 @@ namespace WinBoosterNative
                 if (ProcHandle == null)
                 {
                     Debug.WriteLine("[!] Handle to target process could not be obtained!");
+                    Console.WriteLine("[!] Handle to target process could not be obtained!");
                 }
                 else
                 {
                     Debug.WriteLine("[+] Handle (0x" + ProcHandle + ") to target process has been be obtained.");
+                    Console.WriteLine("[+] Handle (0x" + ProcHandle + ") to target process has been be obtained.");
                     // Allocate DLL space
                     IntPtr DllSpace = VirtualAllocEx(
                         ProcHandle,
@@ -166,10 +168,12 @@ namespace WinBoosterNative
                     if (DllSpace == null)
                     {
                         Debug.WriteLine("[!] DLL space allocation failed.");
+                        Console.WriteLine("[!] DLL space allocation failed.");
                     }
                     else
                     {
                         Debug.WriteLine("[+] DLL space (0x" + DllSpace + ") allocation is successful.");
+                        Console.WriteLine("[+] DLL space (0x" + DllSpace + ") allocation is successful.");
                         // Write DLL content to VAS of target process
                         byte[] bytes = Encoding.ASCII.GetBytes(DllPath);
                         bool DllWrite = WriteProcessMemory(
@@ -183,10 +187,12 @@ namespace WinBoosterNative
                         if (DllWrite == false)
                         {
                             Debug.WriteLine("[!] Writing DLL content to target process failed.");
+                            Console.WriteLine("[!] Writing DLL content to target process failed.");
                         }
                         else
                         {
                             Debug.WriteLine("[+] Writing DLL content to target process is successful.");
+                            Console.WriteLine("[+] Writing DLL content to target process is successful.");
                             // Get handle to Kernel32.dll and get address for LoadLibraryA
                             IntPtr Kernel32Handle = GetModuleHandle("Kernel32.dll");
                             IntPtr LoadLibraryAAddress = GetProcAddress(Kernel32Handle, "LoadLibraryA");
@@ -194,10 +200,12 @@ namespace WinBoosterNative
                             if (LoadLibraryAAddress == null)
                             {
                                 Debug.WriteLine("[!] Obtaining an addess to LoadLibraryA function has failed.");
+                                Console.WriteLine("[!] Obtaining an addess to LoadLibraryA function has failed.");
                             }
                             else
                             {
                                 Debug.WriteLine("[+] LoadLibraryA function address (0x" + LoadLibraryAAddress + ") has been obtained.");
+                                Console.WriteLine("[+] LoadLibraryA function address (0x" + LoadLibraryAAddress + ") has been obtained.");
                                 // Create remote thread in the target process
                                 IntPtr RemoteThreadHandle = CreateRemoteThread(
                                     ProcHandle,
@@ -212,10 +220,12 @@ namespace WinBoosterNative
                                 if (RemoteThreadHandle == null)
                                 {
                                     Debug.WriteLine("[!] Obtaining a handle to remote thread in target process failed.");
+                                    Console.WriteLine("[!] Obtaining a handle to remote thread in target process failed.");
                                 }
                                 else
                                 {
                                     Debug.WriteLine("[+] Obtaining a handle to remote thread (0x" + RemoteThreadHandle + ") in target process is successful.");
+                                    Console.WriteLine("[+] Obtaining a handle to remote thread (0x" + RemoteThreadHandle + ") in target process is successful.");
                                     bool FreeDllSpace = VirtualFreeEx(
                                     ProcHandle,
                                     DllSpace,
@@ -224,13 +234,14 @@ namespace WinBoosterNative
                                     if (FreeDllSpace == false)
                                     {
                                         Debug.WriteLine("[!] Failed to release DLL memory in target process.");
+                                        Console.WriteLine("[!] Failed to release DLL memory in target process.");
                                     }
                                     else
                                     {
                                         Debug.WriteLine("[+] Successfully released DLL memory in target process.");
+                                        Console.WriteLine("[+] Successfully released DLL memory in target process.");
                                         CloseHandle(RemoteThreadHandle);
                                         CloseHandle(DllSpace);
-                                        CloseHandle(ProcHandle);
                                         return true;
                                     }
                                 }

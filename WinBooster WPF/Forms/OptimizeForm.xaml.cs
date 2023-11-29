@@ -1,12 +1,8 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Interop;
-using WinBooster_WPF.Forms.OptimizeClasses;
 using WinBoosterNative;
-using WinBoosterNative.winapi;
 
 namespace WinBooster_WPF.Forms
 {

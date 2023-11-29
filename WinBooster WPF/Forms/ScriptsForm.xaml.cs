@@ -173,7 +173,7 @@ namespace WinBooster_WPF.Forms
                                     {
                                         code = streamReader.ReadToEnd();
                                     }
-                                    var script_loaded = loader.LoadCode<IScript>(code);
+                                    var script_loaded = loader.LoadCode<IScript?>(code);
                                     if (script_loaded != null)
                                     {
                                         string scriptname = script_loaded.GetScriptName();

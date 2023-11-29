@@ -317,11 +317,11 @@ namespace WinBooster_WPF
                         });
 
                         List<string> categories = new List<string>();
-                        foreach (var category in dataBase.cleaners)
+                        foreach (var category in dataBase.cleaners.ToArray())
                         {
 
                             List<ICleanerWorker> workers = category.GetWorkers();
-                            foreach (var worker in workers)
+                            foreach (var worker in workers.ToArray())
                             {
                                 string category_text = worker.GetCategory();
                                 if (!categories.Contains(category_text))
@@ -330,7 +330,7 @@ namespace WinBooster_WPF
                         }
                         int row = 0;
                         int col = 0;
-                        foreach (var category in categories)
+                        foreach (var category in categories.ToArray())
                         {
                             this.Dispatcher.Invoke(() =>
                             {
