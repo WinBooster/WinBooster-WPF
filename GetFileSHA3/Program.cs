@@ -8,10 +8,13 @@ namespace MyApp // Note: actual namespace depends on the project name.
     {
         static void Main(string[] args)
         {
-            FileInfo file = new FileInfo(@"C:\Program Files\WinBooster\Scripts\LastActivity Cleaner.cs");
+            Console.Write("File path: ");
+            string path = Console.ReadLine().Replace("\"", "");
+            FileInfo file = new FileInfo(path);
             var bytes = File.ReadAllBytes(file.FullName);
 
             Console.WriteLine(file.Name + ": " + SHA3DataBase.GetHashString(SHA3DataBase.GetHash(bytes)));
+            Console.ReadKey();
         }
     }
 }

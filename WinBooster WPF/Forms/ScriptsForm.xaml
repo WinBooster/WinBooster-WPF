@@ -13,7 +13,7 @@
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         Activated="Window_Activated"
-        Title="Scripts" Height="350" Width="619">
+        Title="Scripts" Height="390" Width="619">
     <ScrollViewer>
         <Grid Margin="5">
             <Grid.RowDefinitions>
@@ -28,9 +28,9 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <GroupBox Height="305" Width="600" Margin="5,0,0,0" Style="{StaticResource GroupBoxTab}" hc:TitleElement.TitlePlacement="Top" Header="Market" VerticalAlignment="Center" HorizontalAlignment="Left">
+            <GroupBox Height="345" Width="600" Margin="5,0,0,0" Style="{StaticResource GroupBoxTab}" hc:TitleElement.TitlePlacement="Top" Header="Market" VerticalAlignment="Center" HorizontalAlignment="Left">
                 <ScrollViewer>
-                    <Grid Margin="5" x:Name="Categories">
+                    <Grid Margin="5" Width="600" x:Name="Categories">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>

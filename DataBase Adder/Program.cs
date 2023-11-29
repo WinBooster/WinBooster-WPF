@@ -956,8 +956,33 @@ namespace DataBase_Adder
                         version = "1.2.0",
                         description = "Cleans traces of user activity",
                         sha3 = "117942a164be149d941e559c797f5eeae8148a8987a9db66b88bd913bbf574a3",
-                        url = "https://github.com/WinBooster/WinBooster_Scripts/raw/main/scripts/LastActivity.cs",
-                        winbooster_version = "2.0.8.8"
+                        url = "https://raw.githubusercontent.com/WinBooster/WinBooster_Scripts/main/scripts/LastActivity%20Cleaner.cs",
+                        winbooster_version = "2.0.8.8",
+                        type = "Cleaner"
+                    });
+
+                    scriptsDataBase.scripts.Add(new ScriptInfo
+                    {
+                        name = "Maximum electrical circuit",
+                        icon = "M213.607,56.578H0v120h213.607v-32.086h19.549V88.664h-19.549V56.578z M193.607,156.578H20v-80h173.607V156.578z\r\n\t M58.804,143.035h-24V90.121h24V143.035z M98.804,143.035h-24V90.121h24V143.035z M138.804,143.035h-24V90.121h24V143.035z\r\n\t M178.804,143.035h-24V90.121h24V143.035z",
+                        version = "1.0.0",
+                        description = "Set maximum electro scheme",
+                        sha3 = "a0f4b64a66884102242ba7226c5e405e13024aee42dc9759e1975743ca74c436",
+                        url = "https://raw.githubusercontent.com/WinBooster/WinBooster_Scripts/main/scripts/Maximum%20electrical%20circuit.cs",
+                        winbooster_version = "2.0.9.0",
+                        type = "Tweaks"
+                    });
+
+                    scriptsDataBase.scripts.Add(new ScriptInfo
+                    {
+                        name = "Brave Telemetry Disabler",
+                        icon = "M39.43,13.84l.92-2.24s-1.15-1.25-2.57-2.66-4.41-.6-4.41-.6L30,4.5H18L14.6,8.37s-3-.82-4.41.59-2.57,2.67-2.57,2.67l.92,2.24L7.38,17.18s3.43,13,3.82,14.55c.8,3.11,1.33,4.32,3.57,5.92s6.3,4.31,7,4.73A5.24,5.24,0,0,0,24,43.5c.74,0,1.57-.71,2.25-1.12s4.73-3.17,7-4.73S36,34.87,36.8,31.73l3.82-14.55Z M18.71,31.52a19.57,19.57,0,0,1-2.84-3.78,3.59,3.59,0,0,1,.32-3.22,1.49,1.49,0,0,0-.59-1.75c-.29-.32-2.72-2.89-3.28-3.49s-1.12-.85-1.12-2,4.37-6.44,4.37-6.44,3.7.71,4.2.71a13.77,13.77,0,0,0,2.57-.74A5.92,5.92,0,0,1,24,10.47l-1.66.33A5.92,5.92,0,0,1,24,10.47a5.92,5.92,0,0,1,1.66.33,13.77,13.77,0,0,0,2.57.74c.5,0,4.2-.71,4.2-.71s4.37,5.29,4.37,6.44-.56,1.42-1.12,2-3,3.17-3.28,3.49a1.49,1.49,0,0,0-.59,1.75,3.59,3.59,0,0,1,.32,3.22,19.57,19.57,0,0,1-2.84,3.78 M32.19,14.82a13.89,13.89,0,0,0-3.73-.09,13.45,13.45,0,0,0-2.66.86c-.11.2-.23.2-.11.94s.82,4.2.88,4.82.21,1-.47,1.19a17.94,17.94,0,0,1-2.16.41,18.31,18.31,0,0,1-2.16-.41c-.65-.15-.53-.57-.47-1.19s.74-4.08.89-4.82,0-.74-.12-.94a12.78,12.78,0,0,0-2.66-.86,12.76,12.76,0,0,0-3.73.09 M24,28.75V23 M29.14,31.08c.27.18.12.5-.14.65s-3.58,2.75-3.88,3.05-.79.74-1.12.74-.8-.48-1.12-.74S19.24,31.91,19,31.73s-.41-.5-.14-.65,1.12-.59,2.27-1.21A12.5,12.5,0,0,1,24,28.75a12.5,12.5,0,0,1,2.87,1.12Z",
+                        version = "1.0.0",
+                        description = "Disable brave browser telemetry",
+                        sha3 = "9a1067e563e37b03127d0af47be2dc47bff5111394e461751f53b61d786d2655",
+                        url = "https://raw.githubusercontent.com/WinBooster/WinBooster_Scripts/main/scripts/Brave%20Telemetry%20Disabler.cs",
+                        winbooster_version = "2.0.9.0",
+                        type = "Tweaks"
                     });
 
                     scriptsDataBase.scripts.Add(new ScriptInfo
@@ -968,20 +993,9 @@ namespace DataBase_Adder
                         description = "Makes selected processes unavailable for screenshots and recording",
                         sha3 = "65d931a125d3f2c36e187d11c2a5e0e947be95eddb89d37067fcae6b29e8af50",
                         url = "https://raw.githubusercontent.com/WinBooster/WinBooster_Scripts/main/scripts/Process%20Screen%20Protector.cs",
-                        winbooster_version = "2.0.8.9"
+                        winbooster_version = "2.0.8.9",
+                        type = "Anti ScreenShare"
                     });
-
-                    scriptsDataBase.scripts.Add(new ScriptInfo
-                    {
-                        name = "Brave Telemetry Disabler",
-                        icon = "M39.43,13.84l.92-2.24s-1.15-1.25-2.57-2.66-4.41-.6-4.41-.6L30,4.5H18L14.6,8.37s-3-.82-4.41.59-2.57,2.67-2.57,2.67l.92,2.24L7.38,17.18s3.43,13,3.82,14.55c.8,3.11,1.33,4.32,3.57,5.92s6.3,4.31,7,4.73A5.24,5.24,0,0,0,24,43.5c.74,0,1.57-.71,2.25-1.12s4.73-3.17,7-4.73S36,34.87,36.8,31.73l3.82-14.55Z M18.71,31.52a19.57,19.57,0,0,1-2.84-3.78,3.59,3.59,0,0,1,.32-3.22,1.49,1.49,0,0,0-.59-1.75c-.29-.32-2.72-2.89-3.28-3.49s-1.12-.85-1.12-2,4.37-6.44,4.37-6.44,3.7.71,4.2.71a13.77,13.77,0,0,0,2.57-.74A5.92,5.92,0,0,1,24,10.47l-1.66.33A5.92,5.92,0,0,1,24,10.47a5.92,5.92,0,0,1,1.66.33,13.77,13.77,0,0,0,2.57.74c.5,0,4.2-.71,4.2-.71s4.37,5.29,4.37,6.44-.56,1.42-1.12,2-3,3.17-3.28,3.49a1.49,1.49,0,0,0-.59,1.75,3.59,3.59,0,0,1,.32,3.22,19.57,19.57,0,0,1-2.84,3.78 M32.19,14.82a13.89,13.89,0,0,0-3.73-.09,13.45,13.45,0,0,0-2.66.86c-.11.2-.23.2-.11.94s.82,4.2.88,4.82.21,1-.47,1.19a17.94,17.94,0,0,1-2.16.41,18.31,18.31,0,0,1-2.16-.41c-.65-.15-.53-.57-.47-1.19s.74-4.08.89-4.82,0-.74-.12-.94a12.78,12.78,0,0,0-2.66-.86,12.76,12.76,0,0,0-3.73.09 M24,28.75V23 M29.14,31.08c.27.18.12.5-.14.65s-3.58,2.75-3.88,3.05-.79.74-1.12.74-.8-.48-1.12-.74S19.24,31.91,19,31.73s-.41-.5-.14-.65,1.12-.59,2.27-1.21A12.5,12.5,0,0,1,24,28.75a12.5,12.5,0,0,1,2.87,1.12Z",
-                        version = "1.0.0",
-                        description = "Disable brave browser telemetry",
-                        sha3 = "9a1067e563e37b03127d0af47be2dc47bff5111394e461751f53b61d786d2655",
-                        url = "https://github.com/WinBooster/WinBooster_Scripts/raw/main/scripts/Brave%20Telemetry%20Disabler.cs",
-                        winbooster_version = "2.0.9.0"
-                    });
-
 
                     ClipboardService.SetText(scriptsDataBase.ToJson());
                 }

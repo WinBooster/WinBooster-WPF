@@ -19,6 +19,7 @@ using WinBooster_WPF.Data;
 using WinBooster_WPF.Forms;
 using WinBooster_WPF.ScriptAPI;
 using WinBoosterNative.database.cleaner.workers.language;
+using WinBoosterNative.database.error_fix;
 using WinBoosterNative.database.sha3;
 
 namespace WinBooster_WPF
@@ -93,9 +94,6 @@ namespace WinBooster_WPF
                 Dictionary<string, Exception> errored_sripts = new Dictionary<string, Exception>();
 
                 var script_tasks = new Task<bool>[files.Length];
-
-
-                //var loader = CSScript.Evaluator.ReferenceDomainAssemblies().ReferenceAssembly(Assembly.GetExecutingAssembly().Location);
                 int index = 0;
                 foreach (string file in files)
                 {
@@ -365,7 +363,55 @@ namespace WinBooster_WPF
 
         private void Button_Click_6(object sender, RoutedEventArgs e)
         {
-            
+            ErrorFixDataBase errorFixDataBase = new ErrorFixDataBase();
+            List<string> error_fixed = new List<string>();
+            Task.Factory.StartNew(async () =>
+            {
+                var fixer_tasks = new Task<bool>[errorFixDataBase.workers.Count];
+                int index = 0;
+                foreach (var worker in errorFixDataBase.workers)
+                {
+                    fixer_tasks[index] = Task<bool>.Run(() =>
+                    {
+                        if (worker.IsAvalible())
+                        {
+                            try
+                            {
+                                string name = worker.GetName();
+                                bool isFixed = worker.TryFix();
+                                if (isFixed)
+                                {
+                                    error_fixed.Add(name);
+                                    return true;
+                                }
+                            }
+                            catch { }
+                        }
+                        return false;
+                    });
+                    index++;
+                }
+                await Task.WhenAll(fixer_tasks);
+
+                if (error_fixed.Count != 0)
+                {
+                    GrowlInfo growl_scripts = new GrowlInfo
+                    {
+                        Message = "🦠 Fixed errors:\n" + string.Join("\"", error_fixed),
+                        ShowDateTime = true,
+                    };
+                    Growl.WarningGlobal(growl_scripts);
+                }
+                else
+                {
+                    GrowlInfo growl_scripts = new GrowlInfo
+                    {
+                        Message = "🌻 Not found that can be fixed",
+                        ShowDateTime = true,
+                    };
+                    Growl.InfoGlobal(growl_scripts);
+                }
+            });
         }
     }
 }

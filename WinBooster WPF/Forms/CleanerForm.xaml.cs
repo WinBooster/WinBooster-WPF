@@ -370,7 +370,10 @@ namespace WinBooster_WPF
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             App.UpdateScreenCapture(this);
-            UpdateCheckboxes();
+            Task.Factory.StartNew(() =>
+            {
+                UpdateCheckboxes();
+            });
         }
     }
 }

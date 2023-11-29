@@ -3,11 +3,11 @@ using System.Runtime.InteropServices;
 
 namespace WinBoosterNative.database.error_fix.workers
 {
-    public class TaskManager : IErrorFixerWorker
+    public class Regedit : IErrorFixerWorker
     {
         public string GetName()
         {
-            return "No Access To Task Manager";
+            return "No Access To Regedit";
         }
 
         public bool IsAvalible()
@@ -16,7 +16,7 @@ namespace WinBoosterNative.database.error_fix.workers
             {
                 RegistryKey? objRegistryKey = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Policies\System");
                 if (objRegistryKey != null)
-                    if (objRegistryKey.GetValue("DisableTaskMgr") != null)
+                    if (objRegistryKey.GetValue("DisableRegistryTools") != null)
                         return true;
             }
 
@@ -38,9 +38,9 @@ namespace WinBoosterNative.database.error_fix.workers
                 RegistryKey objRegistryKey = Registry.CurrentUser.CreateSubKey(
                 @"Software\Microsoft\Windows\CurrentVersion\Policies\System");
                 if (enable && objRegistryKey.GetValue("DisableTaskMgr") != null)
-                    objRegistryKey.DeleteValue("DisableTaskMgr");
+                    objRegistryKey.DeleteValue("DisableRegistryTools");
                 else
-                    objRegistryKey.SetValue("DisableTaskMgr", "1");
+                    objRegistryKey.SetValue("DisableRegistryTools", "1");
                 objRegistryKey.Close();
 
                 return true;
