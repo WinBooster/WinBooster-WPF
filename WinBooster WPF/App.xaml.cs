@@ -12,10 +12,9 @@ namespace WinBooster_WPF
 
     public partial class App : Application
     {
-        public static string version = "2.0.9.1";
+        public static string version = "2.0.9.2";
 
         public static RemoteControlData remoteControlData = new RemoteControlData();
-        public static DiscordRpcClient client;
         public static Auth auth;
 
         public static void UpdateScreenCapture(Window window)
@@ -75,8 +74,6 @@ namespace WinBooster_WPF
         public App()
         {
             auth = new Auth();
-            client = new DiscordRpcClient("1084174375814713374");
-            client.Initialize();
             if (File.Exists("temp.ico"))
             {
                 try { File.Delete("temp.ico"); } catch { }
@@ -88,8 +85,6 @@ namespace WinBooster_WPF
 
         public static void SuperExit()
         {
-            try { client?.ClearPresence(); } catch { }
-            try { client?.Dispose(); } catch { }
             try { Auth.tiWorkerServer?.DisposeAsync(); } catch { }
             System.Diagnostics.Process.GetCurrentProcess().Kill();
         }

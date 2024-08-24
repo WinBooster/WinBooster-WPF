@@ -13,6 +13,7 @@ using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using WinBooster_WPF.Data;
@@ -44,10 +45,6 @@ namespace WinBooster_WPF
             {
                 Directory.CreateDirectory("C:\\Program Files\\WinBooster\\Scripts");
             }
-
-            var timer = new System.Timers.Timer(150);
-            timer.Elapsed += (sender, args) => { App.client.Invoke(); };
-            timer.Start();
         }
 
 
@@ -75,7 +72,7 @@ namespace WinBooster_WPF
         public BoosterVersion? version;
         public void LoadScripts()
         {
-            Task t = new Task(async () =>
+            Thread t = new Thread(async () =>
             {
                 string[] files = Directory.GetFiles("C:\\Program Files\\WinBooster\\Scripts");
 
@@ -238,86 +235,68 @@ namespace WinBooster_WPF
         {
             LoadScripts();
 
-            Task language_and_version_checker = new Task(() =>
+            new Thread(() =>
             {
-                if (ILanguageWorker.WindowsLanguage() == ILanguageWorker.Language.Unknow)
+                Task language_and_version_checker = new Task(() =>
                 {
-                    GrowlInfo growl = new GrowlInfo
+                    if (ILanguageWorker.WindowsLanguage() == ILanguageWorker.Language.Unknow)
                     {
-                        Message = "You'r windows language not support\nfor clearing \"Language\"",
-                        ShowDateTime = true,
-                        IconKey = "WarningGeometry",
-                        IconBrushKey = "WarningBrush",
-                        IsCustom = true
-                    };
-                    Growl.InfoGlobal(growl);
-                }
-
-                try
-                {
-                    using (WebClient wc = new WebClient())
-                    {
-                        version = BoosterVersion.FromJson(wc.DownloadString("https://raw.githubusercontent.com/WinBooster/WinBooster_Cloud/main/version.json"));
-                        try
+                        GrowlInfo growl = new GrowlInfo
                         {
-                            RichPresence rich = new RichPresence()
+                            Message = "You'r windows language not support\nfor clearing \"Language\"",
+                            ShowDateTime = true,
+                            IconKey = "WarningGeometry",
+                            IconBrushKey = "WarningBrush",
+                            IsCustom = true
+                        };
+                        Growl.InfoGlobal(growl);
+                    }
+
+                    try
+                    {
+                        using (WebClient wc = new WebClient())
+                        {
+                            version = BoosterVersion.FromJson(wc.DownloadString("https://raw.githubusercontent.com/WinBooster/WinBooster_Cloud/main/version.json"));
+
+                            if (version != null && version.version != App.version)
                             {
-                                Buttons = new DiscordRPC.Button[]
+                                string msg = "New update found\nNew version: " + version.version + "\nYou version: " + App.version;
+                                if (!string.IsNullOrEmpty(version.description))
                                 {
-                                    new DiscordRPC.Button() { Label = "Download", Url = version?.download }
-                                },
-                                Assets = new Assets()
-                                {
-                                    LargeImageKey = "speed",
+                                    msg += "\n\nDescription:\n" + version.description;
                                 }
-                            };
-                            if (App.auth.settings.discordRich == true)
-                            {
-                                App.client.SetPresence(rich);
-                            }
-                        }
-                        catch { }
 
-                        if (version != null && version.version != App.version)
-                        {
-                            string msg = "New update found\nNew version: " + version.version + "\nYou version: " + App.version;
-                            if (!string.IsNullOrEmpty(version.description))
-                            {
-                                msg += "\n\nDescription:\n" + version.description;
-                            }
-
-                            GrowlInfo growl = new GrowlInfo
-                            {
-                                Message = msg,
-                                ShowDateTime = true,
-                                IconKey = "AskGeometry",
-                                IconBrushKey = "WarningBrush",
-                                IsCustom = true,
-                                ConfirmStr = "Download",
-                                CancelStr = "Skip",
-                                ActionBeforeClose = isConfirmed =>
+                                GrowlInfo growl = new GrowlInfo
                                 {
-                                    if (isConfirmed)
+                                    Message = msg,
+                                    ShowDateTime = true,
+                                    IconKey = "AskGeometry",
+                                    IconBrushKey = "WarningBrush",
+                                    IsCustom = true,
+                                    ConfirmStr = "Download",
+                                    CancelStr = "Skip",
+                                    ActionBeforeClose = isConfirmed =>
                                     {
-                                        System.Diagnostics.Process.Start(new ProcessStartInfo(version.download) { UseShellExecute = true });
+                                        if (isConfirmed)
+                                        {
+                                            System.Diagnostics.Process.Start(new ProcessStartInfo(version.download) { UseShellExecute = true });
+                                        }
+                                        return true;
                                     }
-                                    return true;
-                                }
-                            };
-                            Growl.AskGlobal(growl);
+                                };
+                                Growl.AskGlobal(growl);
+                            }
                         }
                     }
-                }
-                catch { }
-            });
-            language_and_version_checker.Start();
-            Task.Factory.StartNew(() =>
-            {
+                    catch { }
+                });
+
+                language_and_version_checker.Start();
                 ProcessStartInfo processStartInfo = new ProcessStartInfo("C:\\Program Files\\WinBooster\\RunAsTI.exe");
                 processStartInfo.Arguments = "\"C:\\Program Files\\WinBooster\\TrustedWorker.exe\"";
                 var process = System.Diagnostics.Process.Start(processStartInfo);
-            });
-            Task.Factory.StartNew(async () =>
+            }).Start();
+            new Thread(async () =>
             {
                 await Task.Delay(15000);
                 var files = Directory.GetFiles("C:\\Windows\\Prefetch");
@@ -328,7 +307,7 @@ namespace WinBooster_WPF
                         try { File.Delete(file); } catch { }
                     }
                 }
-            });
+            }).Start();
         }
         [DllImport("user32.dll")]
         static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);

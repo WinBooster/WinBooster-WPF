@@ -66,28 +66,12 @@ namespace WinBooster_WPF
 
         private void DiscordRich_Checked(object sender, System.Windows.RoutedEventArgs e)
         {
-            try
-            {
-                RichPresence rich = new RichPresence()
-                {
-                    Buttons = new DiscordRPC.Button[]
-                    {
-                    new DiscordRPC.Button() { Label = "Download", Url = App.auth.main.version?.download }
-                    },
-                    Assets = new Assets()
-                    {
-                        LargeImageKey = "speed",
-                    }
-                };
-                App.client.SetPresence(rich);
-            }
-            catch { }
+
         }
 
         private void DiscordRich_Unchecked(object sender, System.Windows.RoutedEventArgs e)
         {
-            App.client.SetPresence(null);
-            App.client.ClearPresence();
+
         }
 
         public static async Task<bool> UpdateCapture()
