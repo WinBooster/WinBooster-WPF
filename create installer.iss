@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "WinBooster"
-#define MyAppVersion "2.0.9.1"
+#define MyAppVersion "2.0.9.3"
 #define MyAppPublisher "Monolith Develpment"
 #define MyAppURL "https://github.com/WinBooster"
 #define MyAppExeName "WinBooster WPF.exe"
