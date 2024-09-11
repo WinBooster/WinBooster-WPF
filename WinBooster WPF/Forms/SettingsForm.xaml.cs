@@ -25,7 +25,6 @@ namespace WinBooster_WPF
         {
             InitializeComponent();
             PasswordBox.Password = App.auth.settings.password;
-            DiscordRich.IsChecked = App.auth.settings.discordRich;
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -38,40 +37,12 @@ namespace WinBooster_WPF
         private void SaveSettings()
         {
             App.auth.settings.password = PasswordBox.Password;
-            App.auth.settings.discordRich = DiscordRich.IsChecked;
             App.auth.settings.DisableScreenCapture = ScreenShots.IsChecked;
             App.auth.settings.SaveFile(App.auth.settings.GetPath(), Settings.protection_password, Settings.protection_salt);
         }
 
         private void Window_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            if (App.auth.settings.discordRich == true)
-            {
-                DiscordRich.IsChecked = true;
-            }
-            else
-            {
-                DiscordRich.IsChecked = false;
-            }
-
-            if (App.auth.settings.DisableScreenCapture == true)
-            {
-                ScreenShots.IsChecked = true;
-            }
-            else
-            {
-                ScreenShots.IsChecked = false;
-            }
-        }
-
-        private void DiscordRich_Checked(object sender, System.Windows.RoutedEventArgs e)
-        {
-
-        }
-
-        private void DiscordRich_Unchecked(object sender, System.Windows.RoutedEventArgs e)
-        {
-
         }
 
         public static async Task<bool> UpdateCapture()

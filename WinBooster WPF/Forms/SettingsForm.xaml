@@ -59,11 +59,7 @@
                             </StackPanel>
                             <ScrollViewer Grid.Row="2" MaxHeight="150">
                                 <StackPanel>
-                                    <StackPanel Margin="5">
-                                        <CheckBox x:Name="DiscordRich" Checked="DiscordRich_Checked" Unchecked="DiscordRich_Unchecked">
-                                            <TextBlock >Discord rich presence</TextBlock>
-                                        </CheckBox>
-                                    </StackPanel>
+       
                                     <StackPanel Margin="5">
                                         <CheckBox x:Name="ScreenShots" Checked="ScreenShots_Checked" Unchecked="ScreenShots_Unchecked">
                                             <TextBlock >Disable WinBooster capture</TextBlock>
