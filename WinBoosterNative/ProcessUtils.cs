@@ -45,13 +45,9 @@ namespace WinBoosterNative
                     if (!String.IsNullOrEmpty(data))
                     {
                         read.Add(data);
-                        //Debug.WriteLine(data);
                     }
                 });
                 started.Start();
-                //started.BeginOutputReadLine();
-                //started.WaitForExit();
-                //started.Close();
             }
             return read;
         }

@@ -7,7 +7,7 @@ namespace WinBoosterNative.database.sha3
     public class SHA3FileInfo
     {
         public string name;
-        public string game;
+        public string? game;
         public Category category;
 
         public SHA3FileInfo(string name, Category category)
@@ -18,7 +18,7 @@ namespace WinBoosterNative.database.sha3
 
         public enum Category
         {
-            Cheat,
+            Cheat, Programm, DLL, System_DLL
         }
 
         public string ToJson()

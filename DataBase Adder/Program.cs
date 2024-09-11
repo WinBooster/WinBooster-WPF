@@ -64,7 +64,19 @@ namespace DataBase_Adder
                 java_category.listFiles.Add(new ListFiles("C:\\Program Files (x86)\\Java\\{unknowfolder}", "Logs", new List<string>() { "COPYRIGHT", "LICENSE", "release", "README" }));
                 java_category.listFiles.Add(new ListFiles("C:\\Program Files\\Eclipse Adoptium\\jdk-8.0.362.9-hotspot", "Cache", new List<string>() { "src.zip", }));
                 java_category.listFolders.Add(new ListFolders("C:\\Program Files\\Eclipse Adoptium\\jdk-8.0.362.9-hotspot", "Cache", new List<string>() { "sample", }));
+
+                java_category.paternFiles.Add(new PaternFiles("C:\\Program Files\\Zulu\\{unknowfolder}", "*.txt", "Logs"));
                 dataBase.cleaners.Add(java_category);
+                #endregion
+                #region 4uKey for Android
+                CleanerCategory uKey_for_androind_category = new CleanerCategory("4uKey for Android");
+                uKey_for_androind_category.paternFiles.Add(new PaternFiles("C:\\Program Files (x86)\\Tenorshare\\4uKey for Android\\Logs", "*", "Logs"));
+                dataBase.cleaners.Add(uKey_for_androind_category);
+                #endregion
+                #region Cloudflare Warp
+                CleanerCategory cloudflare_warp_category = new CleanerCategory("Cloudflare Warp");
+                cloudflare_warp_category.paternFiles.Add(new PaternFiles("C:\\Program Files (x86)\\Radmin VPN", "*.lng_rad", "Logs"));
+                dataBase.cleaners.Add(cloudflare_warp_category);
                 #endregion
                 #region Telegram Desktop
                 CleanerCategory telegram_category = new CleanerCategory("Telegram");
@@ -130,6 +142,7 @@ namespace DataBase_Adder
                 #region Radmin VPN
                 CleanerCategory radmin_vpn_caregory = new CleanerCategory("Radmin VPN");
                 radmin_vpn_caregory.listFiles.Add(new ListFiles("C:\\Program Files (x86)\\Radmin VPN\\CHATLOGS", "Logs", new List<string>() { "info.txt" }));
+                radmin_vpn_caregory.listFiles.Add(new ListFiles("C:\\ProgramData\\Famatech\\Radmin VPN", "Logs", new List<string>() { "service.log" }));
                 radmin_vpn_caregory.paternFiles.Add(new PaternFiles("C:\\ProgramData\\Famatech\\Radmin VPN", "*.txt", "Logs"));
                 radmin_vpn_caregory.paternFiles.Add(new PaternFiles("C:\\Program Files (x86)\\Radmin VPN", "*.lng_rad", "Cache"));
                 radmin_vpn_caregory.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("C:\\Program Files (x86)\\Radmin VPN", "*.qm", true, "Language"));

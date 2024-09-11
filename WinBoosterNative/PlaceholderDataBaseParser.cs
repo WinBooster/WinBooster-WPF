@@ -57,10 +57,7 @@ namespace WinBoosterNative
                         }
                     }
                 }
-                catch
-                {
-
-                }
+                catch { }
             }
             else
             {

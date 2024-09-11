@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace WinBoosterNative
 {
@@ -15,16 +16,23 @@ namespace WinBoosterNative
             p.StartInfo.Arguments = "/c taskkill /F /IM svchost.exe\"";
             p.Start();
         }
-        public static DirectoryInfo FindSteamDirectory()
+        public static DirectoryInfo? FindSteamDirectory()
         {
             try
             {
-                string steamdir = (string)Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Valve\Steam", "InstallPath", "Nothing");
-                if (string.IsNullOrEmpty(steamdir) || steamdir == "Nothing")
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 {
-                    steamdir = (string)Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Valve\Steam", "InstallPath", "Nothing");
-                    if (!string.IsNullOrEmpty(steamdir) || steamdir != "Nothing")
+                    string? steamdir = (string?)Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Valve\Steam", "InstallPath", "Nothing");
+                    if (string.IsNullOrEmpty(steamdir) || steamdir == "Nothing")
+                    {
+                        steamdir = (string?)Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Valve\Steam", "InstallPath", "Nothing");
+                        if (steamdir != null && !string.IsNullOrEmpty(steamdir) || steamdir != "Nothing")
+                            return new DirectoryInfo(steamdir);
+                    }
+                    else
+                    {
                         return new DirectoryInfo(steamdir);
+                    }
                 }
             }
             catch { }

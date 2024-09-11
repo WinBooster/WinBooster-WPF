@@ -88,7 +88,7 @@ namespace WinBooster_WPF
                 }
                
 
-                Dictionary<string, Exception> errored_sripts = new Dictionary<string, Exception>();
+                Dictionary<string, Exception?> errored_sripts = new Dictionary<string, Exception?>();
 
                 var script_tasks = new Task<bool>[files.Length];
                 int index = 0;
@@ -97,17 +97,18 @@ namespace WinBooster_WPF
                     var loader = CSScript.Evaluator.ReferenceDomainAssemblies().ReferenceAssembly(Assembly.GetExecutingAssembly().Location);
 
                     FileInfo info = new FileInfo(file);
-                    script_tasks[index] = Task<bool>.Run(() =>
+                    script_tasks[index] = new Task<bool>(() =>
                     {
                         try
                         {
+
                             string hash = SHA3DataBase.GetHashString(SHA3DataBase.GetHash(File.ReadAllBytes(info.FullName)));
                             scripts_sha3.Add(hash, info.FullName);
                             List<string> dlls = new List<string>();
                             List<string> lines = new List<string>();
                             using (StreamReader streamReader = new StreamReader(file, Encoding.UTF8))
                             {
-                                string line = null;
+                                string? line = null;
                                 while ((line = streamReader.ReadLine()) != null)
                                 {
                                     if (line.StartsWith("//dll ") && !line.IsNullOrEmpty())
@@ -171,6 +172,11 @@ namespace WinBooster_WPF
                     index++;
                 }
 
+                foreach (Task<bool> task in script_tasks)
+                {
+                    task.Start();
+                }
+
                 await Task.WhenAll(script_tasks);
 
 
@@ -201,17 +207,20 @@ namespace WinBooster_WPF
 
                 foreach (var error_script in errored_sripts.ToArray())
                 {
-                    GrowlInfo growl_scripts = new GrowlInfo
+                    if (error_script.Value != null)
                     {
-                        Message = "📁 Error script:\n" + error_script.Key + "\n" + error_script.Value.ToString(),
-                        ShowDateTime = true,
-                        StaysOpen = true,
-                        IconKey = "ErrorGeometry",
-                        IconBrushKey = "DangerBrush",
-                        IsCustom = true,
-                    };
+                        GrowlInfo growl_scripts = new GrowlInfo
+                        {
+                            Message = "📁 Error script:\n" + error_script.Key + "\n" + error_script.Value.ToString(),
+                            ShowDateTime = true,
+                            StaysOpen = true,
+                            IconKey = "ErrorGeometry",
+                            IconBrushKey = "DangerBrush",
+                            IsCustom = true,
+                        };
 
-                    Growl.ErrorGlobal(growl_scripts);
+                        Growl.ErrorGlobal(growl_scripts);
+                    }
                 }
 
                 lock (scripts)
