@@ -12,9 +12,8 @@ namespace WinBooster_WPF
 
     public partial class App : Application
     {
-        public static string version = "2.0.9.3";
+        public static string version = "2.0.9.4";
 
-        public static RemoteControlData remoteControlData = new RemoteControlData();
         public static Auth auth;
 
         public static void UpdateScreenCapture(Window window)

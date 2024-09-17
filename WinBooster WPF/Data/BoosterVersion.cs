@@ -5,9 +5,9 @@ namespace WinBooster_WPF.Data
 {
     public class BoosterVersion
     {
-        public string version;
-        public string download;
-        public string description;
+        public string? version;
+        public string? download;
+        public string? description;
 
         public string ToJson()
         {

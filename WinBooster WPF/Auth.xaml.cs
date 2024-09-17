@@ -30,7 +30,6 @@ namespace WinBooster_WPF
         int attemp = 1;
         private async void Button_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            RemoteControlData remoteControlData = App.remoteControlData;
             string password = string.Empty;
             Settings? temp = Settings.FromFile(settings.GetPath(), Settings.protection_password, Settings.protection_salt);
             if (temp != null)

@@ -352,6 +352,15 @@ namespace WinBooster_WPF
         private void Button_Click_6(object sender, RoutedEventArgs e)
         {
             ErrorFixDataBase errorFixDataBase = new ErrorFixDataBase();
+
+            foreach (var script in App.auth.main.scripts.Values.ToArray())
+            {
+                if (script != null)
+                {
+                    script.OnErrorFixerInit(errorFixDataBase);
+                }
+            }
+
             List<string> error_fixed = new List<string>();
             Task.Factory.StartNew(async () =>
             {

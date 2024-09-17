@@ -111,31 +111,13 @@ namespace WinBooster_WPF
                             script.OnCleanerInit(dataBase);
                         }
                     }
-                    Threads.Maximum = dataBase.Count;
+                    Threads.Maximum = dataBase.Count / 2;
                     int removed = 0;
                     int removedFiles = 0;
                     long total = dataBase.Count;
                     UpdatePanels();
                     Task.Factory.StartNew(async() =>
                     {
-                        Task ESPdxTask = new Task(() =>
-                        {
-                            UpdateUI(removed, total, removedFiles);
-                            if (CheckCategory("Cheats"))
-                            {
-                                ESPdx espDx = new ESPdx();
-                                var result = espDx.TryDelete();
-                                if (result.found)
-                                {
-                                    GrowlInfo growl = new GrowlInfo
-                                    {
-                                        Message = "Cheat detected: ESPdX (CS:GO)\nFolder: " + result.path,
-                                        ShowDateTime = true,
-                                    };
-                                    Growl.WarningGlobal(growl);
-                                }
-                            }
-                        });
                         Task<CleanerResult> worker = Task.Run<CleanerResult>(async () =>
                         {
                             List<Task<CleanerResult>> chunkWorkers = new List<Task<CleanerResult>>();
@@ -181,8 +163,6 @@ namespace WinBooster_WPF
                             }
                             return result;
                         });
-                        ESPdxTask.Start();
-                        await ESPdxTask;
                         CleanerResult workerResult = await worker;
                         foreach (var script in App.auth.main.scripts.Values)
                         {
@@ -272,8 +252,8 @@ namespace WinBooster_WPF
                     UpdateStatistic(dataBase);
                     if (dataBase != null)
                     {
-                        Threads.Maximum = dataBase.Count;
-                        Threads.Value = dataBase.Count / 2;
+                        Threads.Maximum = dataBase.Count / 2;
+                        Threads.Value = dataBase.Count / 4;
                     }
                     first = false;
                 }
