@@ -25,6 +25,7 @@ namespace WinBooster_WPF
         {
             InitializeComponent();
             PasswordBox.Password = App.auth.settings.password;
+            DebugMode.IsChecked = App.auth.settings.DebugMode;
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -38,6 +39,7 @@ namespace WinBooster_WPF
         {
             App.auth.settings.password = PasswordBox.Password;
             App.auth.settings.DisableScreenCapture = ScreenShots.IsChecked;
+            App.auth.settings.DebugMode = DebugMode.IsChecked;
             App.auth.settings.SaveFile(App.auth.settings.GetPath(), Settings.protection_password, Settings.protection_salt);
         }
 
@@ -91,6 +93,28 @@ namespace WinBooster_WPF
             await UpdateCapture();
             SaveSettings();
         }
+
+        private async void Debug_Checked(object sender, System.Windows.RoutedEventArgs e)
+        {
+            GrowlInfo growl_scripts = new GrowlInfo
+            {
+                Message = "🌻 For apply debug mode, need restart",
+                ShowDateTime = true,
+            };
+            Growl.InfoGlobal(growl_scripts);
+
+            App.auth.settings.DebugMode = true;
+            await UpdateCapture();
+            SaveSettings();
+        }
+
+        private async void Debug_Unchecked(object sender, System.Windows.RoutedEventArgs e)
+        {
+            App.auth.settings.DebugMode = false;
+            await UpdateCapture();
+            SaveSettings();
+        }
+
 
         private async void Window_Activated(object sender, System.EventArgs e)
         {

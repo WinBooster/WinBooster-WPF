@@ -59,10 +59,14 @@
                             </StackPanel>
                             <ScrollViewer Grid.Row="2" MaxHeight="150">
                                 <StackPanel>
-       
                                     <StackPanel Margin="5">
                                         <CheckBox x:Name="ScreenShots" Checked="ScreenShots_Checked" Unchecked="ScreenShots_Unchecked">
                                             <TextBlock >Disable WinBooster capture</TextBlock>
+                                        </CheckBox>
+                                    </StackPanel>
+                                    <StackPanel Margin="5">
+                                        <CheckBox x:Name="DebugMode" Checked="Debug_Checked" Unchecked="Debug_Unchecked">
+                                            <TextBlock >Debug mode</TextBlock>
                                         </CheckBox>
                                     </StackPanel>
                                     <StackPanel Margin="5"/>

@@ -8,6 +8,7 @@ using HandyControl.Tools.Extension;
 using System;
 using System.IO;
 using System.Net;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -23,6 +24,9 @@ namespace WinBooster_WPF
     public partial class Auth : HandyControl.Controls.Window
     {
         public Main main = null;
+
+       
+
         public Auth()
         {
             InitializeComponent();

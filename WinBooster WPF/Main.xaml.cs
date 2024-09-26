@@ -19,6 +19,7 @@ using System.Windows;
 using WinBooster_WPF.Data;
 using WinBooster_WPF.Forms;
 using WinBooster_WPF.ScriptAPI;
+using WinBoosterNative.data;
 using WinBoosterNative.database.cleaner.workers.language;
 using WinBoosterNative.database.error_fix;
 using WinBoosterNative.database.sha3;
@@ -27,6 +28,9 @@ namespace WinBooster_WPF
 {
     public partial class Main : HandyControl.Controls.Window
     {
+        [DllImport("Kernel32")]
+        public static extern void AllocConsole();
+
         public ScriptsForm scriptsForm = new ScriptsForm();
         public CleanerForm cleanerForm = new CleanerForm();
         public SettingsForm settingsForm = new SettingsForm();
@@ -40,6 +44,12 @@ namespace WinBooster_WPF
         public Main()
         {
             InitializeComponent();
+
+            if (App.auth.settings.DebugMode == true)
+            {
+                AllocConsole();
+                Console.Title = "WinBooster debug console";
+            }
 
             if (!Directory.Exists("C:\\Program Files\\WinBooster\\Scripts"))
             {
@@ -372,9 +382,9 @@ namespace WinBooster_WPF
                     {
                         if (worker.IsAvalible())
                         {
+                            string name = worker.GetName();
                             try
                             {
-                                string name = worker.GetName();
                                 bool isFixed = worker.TryFix();
                                 if (isFixed)
                                 {
@@ -382,7 +392,10 @@ namespace WinBooster_WPF
                                     return true;
                                 }
                             }
-                            catch { }
+                            catch(Exception e) {
+                                Console.WriteLine("Error in error fixer: " + name + " | " + e.ToString());
+                                Console.WriteLine();
+                            }
                         }
                         return false;
                     });

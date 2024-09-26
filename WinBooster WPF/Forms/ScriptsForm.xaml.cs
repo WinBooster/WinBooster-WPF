@@ -10,6 +10,7 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -234,11 +235,8 @@ namespace WinBooster_WPF.Forms
                                                     };
                                                     Growl.InfoGlobal(growl_scripts);
 
-                                                    this.Dispatcher.Invoke(() =>
-                                                    {
-                                                        UpdateInstalledScripts();
-                                                        UpdateList();
-                                                    });
+                                                    UpdateInstalledScripts();
+                                                    UpdateList();
                                                 }
                                             }
                                             else
@@ -309,7 +307,7 @@ namespace WinBooster_WPF.Forms
         private const string databasePath = @"C:\Program Files\WinBooster\DataBase\scripts.json";
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Task.Factory.StartNew(() => { UpdateList(); });
+            UpdateList();;
             //UpdateList();
         }
 

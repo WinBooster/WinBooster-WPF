@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "WinBooster"
-#define MyAppVersion "2.0.9.3"
+#define MyAppVersion "2.0.9.4"
 #define MyAppPublisher "Monolith Develpment"
 #define MyAppURL "https://github.com/WinBooster"
 #define MyAppExeName "WinBooster WPF.exe"
@@ -39,36 +39,36 @@ Name: "russian"; MessagesFile: "compiler:Languages\Russian.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "WinBooster WPF\bin\Release\net8.0-windows10.0.17763.0\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "WinBooster WPF\bin\Release\net8.0-windows10.0.17763.0\BouncyCastle.Crypto.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "WinBooster WPF\bin\Release\net8.0-windows10.0.17763.0\CSScriptLib.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "WinBooster WPF\bin\Release\net8.0-windows10.0.17763.0\DiscordRPC.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "WinBooster WPF\bin\Release\net8.0-windows10.0.17763.0\H.Formatters.BinaryFormatter.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "WinBooster WPF\bin\Release\net8.0-windows10.0.17763.0\H.Formatters.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "WinBooster WPF\bin\Release\net8.0-windows10.0.17763.0\H.Formatters.Newtonsoft.Json.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "WinBooster WPF\bin\Release\net8.0-windows10.0.17763.0\H.Pipes.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "WinBooster WPF\bin\Release\net8.0-windows10.0.17763.0\HandyControl.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "WinBooster WPF\bin\Release\net8.0-windows10.0.17763.0\MaterialDesignColors.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "WinBooster WPF\bin\Release\net8.0-windows10.0.17763.0\MaterialDesignThemes.Wpf.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "WinBooster WPF\bin\Release\net8.0-windows10.0.17763.0\Microsoft.CodeAnalysis.CSharp.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "WinBooster WPF\bin\Release\net8.0-windows10.0.17763.0\Microsoft.CodeAnalysis.CSharp.Scripting.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "WinBooster WPF\bin\Release\net8.0-windows10.0.17763.0\Microsoft.CodeAnalysis.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "WinBooster WPF\bin\Release\net8.0-windows10.0.17763.0\Microsoft.CodeAnalysis.Scripting.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "WinBooster WPF\bin\Release\net8.0-windows10.0.17763.0\Microsoft.Extensions.DependencyModel.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "WinBooster WPF\bin\Release\net8.0-windows10.0.17763.0\Microsoft.Xaml.Behaviors.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "WinBooster WPF\bin\Release\net8.0-windows10.0.17763.0\Newtonsoft.Json.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "WinBooster WPF\bin\Release\net8.0-windows10.0.17763.0\QRCoder.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "WinBooster WPF\bin\Release\net8.0-windows10.0.17763.0\ShowMeTheXAML.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "WinBooster WPF\bin\Release\net8.0-windows10.0.17763.0\Spire.Barcode.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "WinBooster WPF\bin\Release\net8.0-windows10.0.17763.0\System.Management.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "WinBooster WPF\bin\Release\net8.0-windows10.0.17763.0\Telegram.Bot.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "WinBooster WPF\bin\Release\net8.0-windows10.0.17763.0\WinBooster WPF.deps.json"; DestDir: "{app}"; Flags: ignoreversion
-Source: "WinBooster WPF\bin\Release\net8.0-windows10.0.17763.0\WinBooster WPF.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "WinBooster WPF\bin\Release\net8.0-windows10.0.17763.0\WinBooster WPF.runtimeconfig.json"; DestDir: "{app}"; Flags: ignoreversion
-Source: "WinBooster WPF\bin\Release\net8.0-windows10.0.17763.0\WinBoosterNative.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "WinBooster WPF\bin\Release\net8.0-windows10.0.17763.0\WinRT.Runtime.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "WinBooster WPF\bin\Release\net8.0-windows10.0.17763.0\runtimes\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "WinBooster WPF\bin\Release\net8.0-windows10.0.17763.0\ru\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "WinBooster WPF\bin\Release\net6.0-windows10.0.17763.0\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "WinBooster WPF\bin\Release\net6.0-windows10.0.17763.0\BouncyCastle.Crypto.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "WinBooster WPF\bin\Release\net6.0-windows10.0.17763.0\CSScriptLib.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "WinBooster WPF\bin\Release\net6.0-windows10.0.17763.0\DiscordRPC.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "WinBooster WPF\bin\Release\net6.0-windows10.0.17763.0\H.Formatters.BinaryFormatter.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "WinBooster WPF\bin\Release\net6.0-windows10.0.17763.0\H.Formatters.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "WinBooster WPF\bin\Release\net6.0-windows10.0.17763.0\H.Formatters.Newtonsoft.Json.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "WinBooster WPF\bin\Release\net6.0-windows10.0.17763.0\H.Pipes.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "WinBooster WPF\bin\Release\net6.0-windows10.0.17763.0\HandyControl.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "WinBooster WPF\bin\Release\net6.0-windows10.0.17763.0\MaterialDesignColors.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "WinBooster WPF\bin\Release\net6.0-windows10.0.17763.0\MaterialDesignThemes.Wpf.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "WinBooster WPF\bin\Release\net6.0-windows10.0.17763.0\Microsoft.CodeAnalysis.CSharp.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "WinBooster WPF\bin\Release\net6.0-windows10.0.17763.0\Microsoft.CodeAnalysis.CSharp.Scripting.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "WinBooster WPF\bin\Release\net6.0-windows10.0.17763.0\Microsoft.CodeAnalysis.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "WinBooster WPF\bin\Release\net6.0-windows10.0.17763.0\Microsoft.CodeAnalysis.Scripting.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "WinBooster WPF\bin\Release\net6.0-windows10.0.17763.0\Microsoft.Extensions.DependencyModel.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "WinBooster WPF\bin\Release\net6.0-windows10.0.17763.0\Microsoft.Xaml.Behaviors.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "WinBooster WPF\bin\Release\net6.0-windows10.0.17763.0\Newtonsoft.Json.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "WinBooster WPF\bin\Release\net6.0-windows10.0.17763.0\QRCoder.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "WinBooster WPF\bin\Release\net6.0-windows10.0.17763.0\ShowMeTheXAML.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "WinBooster WPF\bin\Release\net6.0-windows10.0.17763.0\Spire.Barcode.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "WinBooster WPF\bin\Release\net6.0-windows10.0.17763.0\System.Management.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "WinBooster WPF\bin\Release\net6.0-windows10.0.17763.0\Telegram.Bot.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "WinBooster WPF\bin\Release\net6.0-windows10.0.17763.0\WinBooster WPF.deps.json"; DestDir: "{app}"; Flags: ignoreversion
+Source: "WinBooster WPF\bin\Release\net6.0-windows10.0.17763.0\WinBooster WPF.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "WinBooster WPF\bin\Release\net6.0-windows10.0.17763.0\WinBooster WPF.runtimeconfig.json"; DestDir: "{app}"; Flags: ignoreversion
+Source: "WinBooster WPF\bin\Release\net6.0-windows10.0.17763.0\WinBoosterNative.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "WinBooster WPF\bin\Release\net6.0-windows10.0.17763.0\WinRT.Runtime.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "WinBooster WPF\bin\Release\net6.0-windows10.0.17763.0\runtimes\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "WinBooster WPF\bin\Release\net6.0-windows10.0.17763.0\ru\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
