@@ -57,6 +57,7 @@ Source: "WinBooster WPF\bin\Release\net6.0-windows10.0.17763.0\Microsoft.CodeAna
 Source: "WinBooster WPF\bin\Release\net6.0-windows10.0.17763.0\Microsoft.Extensions.DependencyModel.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "WinBooster WPF\bin\Release\net6.0-windows10.0.17763.0\Microsoft.Xaml.Behaviors.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "WinBooster WPF\bin\Release\net6.0-windows10.0.17763.0\Newtonsoft.Json.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "WinBooster WPF\bin\Release\net6.0-windows10.0.17763.0\Process.NET.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "WinBooster WPF\bin\Release\net6.0-windows10.0.17763.0\QRCoder.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "WinBooster WPF\bin\Release\net6.0-windows10.0.17763.0\ShowMeTheXAML.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "WinBooster WPF\bin\Release\net6.0-windows10.0.17763.0\Spire.Barcode.dll"; DestDir: "{app}"; Flags: ignoreversion
@@ -69,6 +70,7 @@ Source: "WinBooster WPF\bin\Release\net6.0-windows10.0.17763.0\WinBoosterNative.
 Source: "WinBooster WPF\bin\Release\net6.0-windows10.0.17763.0\WinRT.Runtime.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "WinBooster WPF\bin\Release\net6.0-windows10.0.17763.0\runtimes\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "WinBooster WPF\bin\Release\net6.0-windows10.0.17763.0\ru\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]

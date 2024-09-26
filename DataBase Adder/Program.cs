@@ -1091,6 +1091,19 @@ namespace DataBase_Adder
                         type = "Anti ScreenShare"
                     });
 
+                    scriptsDataBase.scripts.Add(new ScriptInfo
+                    {
+                        name = "Oscar Keyboard Editor Fixer",
+                        icon = "M8.14,14.94v4.53h4.53V14.94Zm6.8,0v4.53h4.53V14.94Zm6.79,0v4.53h4.54V14.94Zm6.8,0v4.53h4.53V14.94Zm6.8,0v4.53h4.53V14.94ZM8.14,21.73v4.54h4.53V21.73Zm6.8,0v4.54h4.53V21.73Zm6.79,0v4.54h4.54V21.73Zm6.8,0v4.54h4.53V21.73Zm6.8,0v4.54h4.53V21.73ZM8.14,28.53v4.53h4.53V28.53Zm6.8,0v4.53H33.06V28.53Zm20.39,0v4.53h4.53V28.53Z M43.5,35.5v-23a2,2,0,0,0-2-2H6.5a2,2,0,0,0-2,2v23a2,2,0,0,0,2,2h35A2,2,0,0,0,43.5,35.5Z",
+                        version = "1.0.0",
+                        description = "Fixes saving macros",
+                        sha3 = "04f67db2c18bef5ef3859ccb3a8d28c02279839a3b47c95f4e4203e58225f42a",
+                        url = "https://raw.githubusercontent.com/WinBooster/WinBooster_Scripts/refs/heads/main/scripts/Oscar%20Keyboard%20Editor%20Fixer.cs",
+                        winbooster_version = "2.0.9.4",
+                        type = "Error fixer"
+                    });
+
+
                     ClipboardService.SetText(scriptsDataBase.ToJson());
                 }
             }

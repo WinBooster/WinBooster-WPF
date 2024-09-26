@@ -96,13 +96,6 @@ namespace WinBooster_WPF
 
         private async void Debug_Checked(object sender, System.Windows.RoutedEventArgs e)
         {
-            GrowlInfo growl_scripts = new GrowlInfo
-            {
-                Message = "🌻 For apply debug mode, need restart",
-                ShowDateTime = true,
-            };
-            Growl.InfoGlobal(growl_scripts);
-
             App.auth.settings.DebugMode = true;
             await UpdateCapture();
             SaveSettings();
