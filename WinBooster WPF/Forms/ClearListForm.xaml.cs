@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -252,15 +253,6 @@ namespace WinBooster_WPF.Forms
         public ClearListForm()
         {
             InitializeComponent();
-
-            Task.Factory.StartNew(() =>
-            {
-                Dispatcher.BeginInvoke(() =>
-                {
-                    UpdateList();
-                    UpdateList2();
-                });
-            });
         }
         public static CleanerEnabledSettings enabledSettings = new CleanerEnabledSettings();
 
@@ -340,7 +332,15 @@ namespace WinBooster_WPF.Forms
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            
+            Thread t = new Thread(() =>
+            {
+                Dispatcher.BeginInvoke(() =>
+                {
+                    UpdateList();
+                    UpdateList2();
+                });
+            });
+            t.Start();
         }
     }
 }

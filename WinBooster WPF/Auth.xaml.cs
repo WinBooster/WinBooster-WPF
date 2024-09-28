@@ -1,9 +1,11 @@
-﻿using H.Formatters;
+﻿using CSScripting;
+using H.Formatters;
 using H.Pipes;
 using HandyControl.Controls;
 using HandyControl.Data;
 using HandyControl.Tools.Extension;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
@@ -57,13 +59,13 @@ namespace WinBooster_WPF
                         {
                             StepBar.Next();
                         }));
-                        await Task.Delay(150);
+                        await Task.Delay(50);
                         StepBar.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
                         {
                             StepBar.Next();
                         }));
 
-                        await Task.Delay(150);
+                        await Task.Delay(50);
                         this.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
                         {
                             OpenForm();
@@ -102,7 +104,7 @@ namespace WinBooster_WPF
                 Directory.CreateDirectory("C:\\Program Files\\WinBooster\\DataBase");
             if (!Directory.Exists("C:\\Program Files\\WinBooster\\Statistic"))
                 Directory.CreateDirectory("C:\\Program Files\\WinBooster\\Statistic");
-
+            List<string> errors = new List<string>();
             if (!System.IO.File.Exists("C:\\Program Files\\WinBooster\\RunAsTI.exe"))
             {
                 try
@@ -112,18 +114,7 @@ namespace WinBooster_WPF
                         System.IO.File.Create("C:\\Program Files\\WinBooster\\RunAsTI.exe").Close();
                     System.IO.File.WriteAllBytes("C:\\Program Files\\WinBooster\\RunAsTI.exe", bytes);
                 }
-                catch
-                {
-                    GrowlInfo growl = new GrowlInfo
-                    {
-                        Message = "Error downloading: RunAsTI",
-                        ShowDateTime = true,
-                        IconKey = "ErrorGeometry",
-                        IconBrushKey = "DangerBrush",
-                        IsCustom = true
-                    };
-                    Growl.InfoGlobal(growl);
-                }
+                catch { errors.Add("RunAsTI"); }
             }
 
             if (!System.IO.File.Exists("C:\\Program Files\\WinBooster\\IconInjector.exe"))
@@ -135,18 +126,7 @@ namespace WinBooster_WPF
                         System.IO.File.Create("C:\\Program Files\\WinBooster\\IconInjector.exe").Close();
                     System.IO.File.WriteAllBytes("C:\\Program Files\\WinBooster\\IconInjector.exe", bytes);
                 }
-                catch
-                {
-                    GrowlInfo growl = new GrowlInfo
-                    {
-                        Message = "Error downloading: IconInjector",
-                        ShowDateTime = true,
-                        IconKey = "ErrorGeometry",
-                        IconBrushKey = "DangerBrush",
-                        IsCustom = true
-                    };
-                    Growl.InfoGlobal(growl);
-                }
+                catch { errors.Add("IconInjector"); }
             }
 
             if (!System.IO.File.Exists("C:\\Program Files\\WinBooster\\TrustedWorker.exe"))
@@ -158,18 +138,19 @@ namespace WinBooster_WPF
                         System.IO.File.Create("C:\\Program Files\\WinBooster\\TrustedWorker.exe").Close();
                     System.IO.File.WriteAllBytes("C:\\Program Files\\WinBooster\\TrustedWorker.exe", bytes);
                 }
-                catch
+                catch { errors.Add("TrustedWorker");  }
+            }
+            if (!errors.IsEmpty())
+            {
+                GrowlInfo growl = new GrowlInfo
                 {
-                    GrowlInfo growl = new GrowlInfo
-                    {
-                        Message = "Error downloading: TrustedWorker",
-                        ShowDateTime = true,
-                        IconKey = "ErrorGeometry",
-                        IconBrushKey = "DangerBrush",
-                        IsCustom = true
-                    };
-                    Growl.InfoGlobal(growl);
-                }
+                    Message = "Error downloading: " + string.Join("\n", errors),
+                    ShowDateTime = true,
+                    IconKey = "ErrorGeometry",
+                    IconBrushKey = "DangerBrush",
+                    IsCustom = true
+                };
+                Growl.InfoGlobal(growl);
             }
             StepBar.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
             {
@@ -190,21 +171,18 @@ namespace WinBooster_WPF
                 scripts_stack.Children.Add(scripts_text);
                 StepBar2.Items.Add(scripts_stack);
 
-                StackPanel sha3_stack = new StackPanel();
-                TextBlock sha3_text = new TextBlock();
-                sha3_text.Text = "Hash";
-                sha3_stack.Children.Add(sha3_text);
-                StepBar2.Items.Add(sha3_stack);
-
                 StackPanel names_stack = new StackPanel();
                 TextBlock names_text = new TextBlock();
                 names_text.Text = "Names";
                 names_stack.Children.Add(names_text);
                 StepBar2.Items.Add(names_stack);
                 StepBar2.Visibility = System.Windows.Visibility.Visible;
-                StepBar2.Width = 245;
+                //StepBar2.Width = 245;
                 this.Height = 180;
             }));
+
+            List<string> updated = new List<string>();
+            List<string> errored = new List<string>();
             #region Cleaner DataBase
             try
             {
@@ -218,15 +196,7 @@ namespace WinBooster_WPF
                 string current = System.IO.File.ReadAllText(bdPath);
                 if (current != bd)
                 {
-                    GrowlInfo growl = new GrowlInfo
-                    {
-                        Message = "Successfully updated: cleaner database",
-                        ShowDateTime = true,
-                        IconKey = "SuccessGeometry",
-                        IconBrushKey = "SuccessBrush",
-                        IsCustom = true
-                    };
-                    Growl.InfoGlobal(growl);
+                    updated.Add("Cleaner database");
                 }
 
                 System.IO.File.WriteAllText(bdPath, bd);
@@ -234,20 +204,10 @@ namespace WinBooster_WPF
             catch (Exception e)
             {
                 string bdPath = "C:\\Program Files\\WinBooster\\DataBase\\clear.json";
-                string message = "Error updating: cleaner database";
                 if (!System.IO.File.Exists(bdPath))
                 {
-                    message = "Error downloading: cleaner database";
+                    errored.Add("Cleaner database");
                 }
-                GrowlInfo growl = new GrowlInfo
-                {
-                    Message = message,
-                    ShowDateTime = true,
-                    IconKey = "ErrorGeometry",
-                    IconBrushKey = "DangerBrush",
-                    IsCustom = true
-                };
-                Growl.InfoGlobal(growl);
             }
             #endregion
             StepBar2.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
@@ -267,15 +227,7 @@ namespace WinBooster_WPF
                 string current = System.IO.File.ReadAllText(bdPath);
                 if (current != bd)
                 {
-                    GrowlInfo growl = new GrowlInfo
-                    {
-                        Message = "Successfully updated: scripts database",
-                        ShowDateTime = true,
-                        IconKey = "SuccessGeometry",
-                        IconBrushKey = "SuccessBrush",
-                        IsCustom = true
-                    };
-                    Growl.InfoGlobal(growl);
+                    updated.Add("Scripts database");
                 }
 
                 System.IO.File.WriteAllText(bdPath, bd);
@@ -283,68 +235,10 @@ namespace WinBooster_WPF
             catch (Exception e)
             {
                 string bdPath = "C:\\Program Files\\WinBooster\\DataBase\\scripts.json";
-                string message = "Error updating: scripts database";
                 if (!System.IO.File.Exists(bdPath))
                 {
-                    message = "Error downloading: scripts database";
+                    errored.Add("Scripts database");
                 }
-                GrowlInfo growl = new GrowlInfo
-                {
-                    Message = message,
-                    ShowDateTime = true,
-                    IconKey = "ErrorGeometry",
-                    IconBrushKey = "DangerBrush",
-                    IsCustom = true
-                };
-                Growl.InfoGlobal(growl);
-            }
-            #endregion
-            StepBar2.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
-            {
-                StepBar2.Next();
-            }));
-            #region SHA3 DataBase
-            try
-            {
-                string bdPath = "C:\\Program Files\\WinBooster\\DataBase\\sha3.json";
-                string bd = wc.DownloadString("https://raw.githubusercontent.com/WinBooster/WinBooster_Cloud/main/database/sha3/list.json");
-                if (!System.IO.File.Exists(bdPath))
-                {
-                    System.IO.File.Create(bdPath).Close();
-                }
-
-                string current = System.IO.File.ReadAllText(bdPath);
-                if (current != bd)
-                {
-                    GrowlInfo growl = new GrowlInfo
-                    {
-                        Message = "Successfully updated: sha3 database",
-                        ShowDateTime = true,
-                        IconKey = "SuccessGeometry",
-                        IconBrushKey = "SuccessBrush",
-                        IsCustom = true
-                    };
-                    Growl.InfoGlobal(growl);
-                }
-
-                System.IO.File.WriteAllText(bdPath, bd);
-            }
-            catch
-            {
-                string message = "Error updating: sha3 database";
-                if (!System.IO.File.Exists("C:\\Program Files\\WinBooster\\DataBase\\sha3.json"))
-                {
-                    message = "Error downloading: sha3 database";
-                }
-                GrowlInfo growl = new GrowlInfo
-                {
-                    Message = message,
-                    ShowDateTime = true,
-                    IconKey = "ErrorGeometry",
-                    IconBrushKey = "DangerBrush",
-                    IsCustom = true
-                };
-                Growl.InfoGlobal(growl);
             }
             #endregion
             StepBar2.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
@@ -364,15 +258,7 @@ namespace WinBooster_WPF
                 string current = System.IO.File.ReadAllText(bdPath);
                 if (current != bd)
                 {
-                    GrowlInfo growl = new GrowlInfo
-                    {
-                        Message = "Successfully updated: languages database",
-                        ShowDateTime = true,
-                        IconKey = "SuccessGeometry",
-                        IconBrushKey = "SuccessBrush",
-                        IsCustom = true
-                    };
-                    Growl.InfoGlobal(growl);
+                    updated.Add("Languages database");
                 }
 
                 System.IO.File.WriteAllText(bdPath, bd);
@@ -380,14 +266,16 @@ namespace WinBooster_WPF
             catch
             {
                 string bdPath = "C:\\Program Files\\WinBooster\\DataBase\\fileNameLanguages.json";
-                string message = "Error updating: Languages database";
                 if (!System.IO.File.Exists(bdPath))
                 {
-                    message = "Error downloading: Languages database";
+                    errored.Add("Languages database");
                 }
+            }
+            if (!errored.IsEmpty())
+            {
                 GrowlInfo growl = new GrowlInfo
                 {
-                    Message = message,
+                    Message = "Error downloading: " + string.Join("\n", errored),
                     ShowDateTime = true,
                     IconKey = "ErrorGeometry",
                     IconBrushKey = "DangerBrush",
@@ -395,6 +283,19 @@ namespace WinBooster_WPF
                 };
                 Growl.InfoGlobal(growl);
             }
+            if (!updated.IsEmpty())
+            {
+                GrowlInfo growl = new GrowlInfo
+                {
+                    Message = "Successfully updated: " + string.Join("\n", updated),
+                    ShowDateTime = true,
+                    IconKey = "SuccessGeometry",
+                    IconBrushKey = "SuccessBrush",
+                    IsCustom = true
+                };
+                Growl.InfoGlobal(growl);
+            }
+
             StepBar.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
             {
                 StepBar.Next();

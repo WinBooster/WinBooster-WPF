@@ -156,19 +156,21 @@ namespace WinBooster_WPF
                                 if (added)
                                 {
                                     script.OnEnabled();
+                                    Console.WriteLine("Script: " + scriptname + " enabled");
                                     return true;
                                 }
                             }
                             else
                             {
                                 errored_sripts.Add(info.Name, null);
+                                Console.WriteLine("Errored script: " + info.Name);
                             }
                             return false;
                         }
                         catch (Exception e)
                         {
                             errored_sripts.Add(info.Name, e);
-                            Debug.WriteLine("Errored script: " + info.Name);
+                            Console.WriteLine("Errored script: " + info.Name + " | " + e.ToString());
                             return false;
                         }
                     });

@@ -1,10 +1,8 @@
-﻿using DiscordRPC;
-using HandyControl.Themes;
+﻿using HandyControl.Themes;
 using System;
 using System.IO;
 using System.Windows;
 using System.Windows.Interop;
-using WinBooster_WPF.RemoteControl;
 using WinBoosterNative.winapi;
 
 namespace WinBooster_WPF
@@ -12,7 +10,7 @@ namespace WinBooster_WPF
 
     public partial class App : Application
     {
-        public static string version = "2.0.9.5";
+        public static string version = "2.0.9.6";
 
         public static Auth auth;
 

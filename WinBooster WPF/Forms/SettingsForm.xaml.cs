@@ -231,7 +231,6 @@ namespace WinBooster_WPF
 
                 string file = openFileDialog.FileName;
                 FileInfo fileInfo = new FileInfo(file);
-                Debug.WriteLine(fileInfo.Extension);
                 if (fileInfo.Extension == ".png")
                 {
                     File.Create("temp.ico").Close();
@@ -257,54 +256,22 @@ namespace WinBooster_WPF
                                 }
                                 else
                                 {
-                                    GrowlInfo growl = new GrowlInfo
-                                    {
-                                        Message = "Module name not found",
-                                        ShowDateTime = true,
-                                        IconKey = "WarningGeometry",
-                                        IconBrushKey = "WarningBrush",
-                                        IsCustom = true
-                                    };
-                                    Growl.ErrorGlobal(growl);
+                                    process_module_not_found();
                                 }
                             }
                             else
                             {
-                                GrowlInfo growl = new GrowlInfo
-                                {
-                                    Message = "Module not found",
-                                    ShowDateTime = true,
-                                    IconKey = "WarningGeometry",
-                                    IconBrushKey = "WarningBrush",
-                                    IsCustom = true
-                                };
-                                Growl.ErrorGlobal(growl);
+                                process_module_not_found();
                             }
                         }
                         else
                         {
-                            GrowlInfo growl = new GrowlInfo
-                            {
-                                Message = "Process not found",
-                                ShowDateTime = true,
-                                IconKey = "WarningGeometry",
-                                IconBrushKey = "WarningBrush",
-                                IsCustom = true
-                            };
-                            Growl.ErrorGlobal(growl);
+                            process_not_found();
                         }
                     }
                     else
                     {
-                        GrowlInfo growl = new GrowlInfo
-                        {
-                            Message = "Icon size not 64x64",
-                            ShowDateTime = true,
-                            IconKey = "WarningGeometry",
-                            IconBrushKey = "WarningBrush",
-                            IsCustom = true
-                        };
-                        Growl.InfoGlobal(growl);
+                        incorect_size();
                     }
                 }
                 else
@@ -312,23 +279,77 @@ namespace WinBooster_WPF
                     Icon image2 = new System.Drawing.Icon(fileInfo.FullName, -1, -1);
                     if ((image2.Size.Width == 16 && image2.Size.Height == 16) || (image2.Size.Width == 32 && image2.Size.Height == 32) || (image2.Size.Width == 64 && image2.Size.Height == 64))
                     {
-                        IconInjector.Change(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName, file, 1);
-                        App.SuperExit();
+                        System.Diagnostics.Process process = System.Diagnostics.Process.GetCurrentProcess();
+                        if (process != null)
+                        {
+                            ProcessModule? module = process.MainModule;
+                            if (module != null)
+                            {
+                                string? module_name = module.FileName;
+                                if (module_name != null)
+                                {
+                                    IconInjector.Change(module_name, file, 1);
+                                }
+                                else
+                                {
+                                    process_module_not_found();
+                                }
+                            }
+                            else
+                            {
+                                process_module_not_found();
+                            }
+                        }
+                        else
+                        {
+                            process_not_found();
+                        }
                     }
                     else
                     {
-                        GrowlInfo growl = new GrowlInfo
-                        {
-                            Message = "Icon size not 16x16",
-                            ShowDateTime = true,
-                            IconKey = "WarningGeometry",
-                            IconBrushKey = "WarningBrush",
-                            IsCustom = true
-                        };
-                        Growl.InfoGlobal(growl);
+                        incorect_size();
                     }
                 }
             }
+        }
+
+        private void process_module_not_found()
+        {
+            GrowlInfo growl = new GrowlInfo
+            {
+                Message = "Process module not found",
+                ShowDateTime = true,
+                IconKey = "WarningGeometry",
+                IconBrushKey = "WarningBrush",
+                IsCustom = true
+            };
+            Growl.ErrorGlobal(growl);
+        }
+
+        private void process_not_found()
+        {
+            GrowlInfo growl = new GrowlInfo
+            {
+                Message = "Process not found",
+                ShowDateTime = true,
+                IconKey = "WarningGeometry",
+                IconBrushKey = "WarningBrush",
+                IsCustom = true
+            };
+            Growl.ErrorGlobal(growl);
+        }
+
+        private void incorect_size()
+        {
+            GrowlInfo growl = new GrowlInfo
+            {
+                Message = "Icon size not 64x64 or 32x32 or 16x16",
+                ShowDateTime = true,
+                IconKey = "WarningGeometry",
+                IconBrushKey = "WarningBrush",
+                IsCustom = true
+            };
+            Growl.InfoGlobal(growl);
         }
     }
 }
