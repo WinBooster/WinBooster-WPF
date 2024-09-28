@@ -53,7 +53,7 @@ namespace WinBooster_WPF
 
             return numberString;
         }
-        private void UpdateStatistic(CleanerDataBase? dataBase)
+        public void UpdateStatistic(CleanerDataBase? dataBase)
         {
             this.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
             {
@@ -73,7 +73,7 @@ namespace WinBooster_WPF
         private void UpdateUI(int removed, long total, int files)
         {
             double progress = ((double)removed / total) * 100.0;
-            ProgressBar.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
+            ProgressBar.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
             {
                 ProgressBar.Value = progress;
             }));
@@ -81,7 +81,7 @@ namespace WinBooster_WPF
         }
         private void UpdatePanels(bool reverse = false)
         {
-            this.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
+            this.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
             {
                 if (reverse)
                 {

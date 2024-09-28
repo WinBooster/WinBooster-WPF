@@ -8,6 +8,7 @@
     <UseWindowsForms>False</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <Platforms>AnyCPU;x64;x86</Platforms>
+    <StartupObject>DataBase_Adder.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>

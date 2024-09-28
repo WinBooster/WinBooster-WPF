@@ -1,6 +1,4 @@
-﻿
-
-using H.Formatters;
+﻿using H.Formatters;
 using H.Pipes;
 using HandyControl.Controls;
 using HandyControl.Data;
@@ -8,12 +6,10 @@ using HandyControl.Tools.Extension;
 using System;
 using System.IO;
 using System.Net;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
-using WinBooster_WPF.RemoteControl;
 using WinBoosterNative.data;
 
 namespace WinBooster_WPF
@@ -24,8 +20,6 @@ namespace WinBooster_WPF
     public partial class Auth : HandyControl.Controls.Window
     {
         public Main main = null;
-
-       
 
         public Auth()
         {

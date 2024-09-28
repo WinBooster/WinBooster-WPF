@@ -12,7 +12,7 @@ namespace WinBooster_WPF
 
     public partial class App : Application
     {
-        public static string version = "2.0.9.4";
+        public static string version = "2.0.9.5";
 
         public static Auth auth;
 

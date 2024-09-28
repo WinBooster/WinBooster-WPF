@@ -1,8 +1,6 @@
-﻿using DiscordRPC;
-using HandyControl.Controls;
+﻿using HandyControl.Controls;
 using HandyControl.Data;
 using Microsoft.Win32;
-using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -10,9 +8,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Controls;
-using System.Windows.Interop;
 using WinBoosterNative.data;
-using WinBoosterNative.winapi;
 
 namespace WinBooster_WPF
 {
@@ -26,6 +22,7 @@ namespace WinBooster_WPF
             InitializeComponent();
             PasswordBox.Password = App.auth.settings.password;
             DebugMode.IsChecked = App.auth.settings.DebugMode;
+            ScreenShots.IsChecked = App.auth.settings.DisableScreenCapture;
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -241,19 +238,67 @@ namespace WinBooster_WPF
 
                     FileInfo icon = new FileInfo("temp.ico");
 
-                    Convert(fileInfo.FullName, icon.FullName, 16, false);
+                    Convert(fileInfo.FullName, icon.FullName, 64, false);
 
                     Icon image2 = new System.Drawing.Icon(icon.FullName, -1, -1);
-                    if (image2.Size.Width == 16 && image2.Size.Height == 16)
+                    if ((image2.Size.Width == 16 && image2.Size.Height == 16) || (image2.Size.Width == 32 && image2.Size.Height == 32) || (image2.Size.Width == 64 && image2.Size.Height == 64))
                     {
-                        IconInjector.Change(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName, icon.FullName, 1);
-                        App.SuperExit();
+                        System.Diagnostics.Process process = System.Diagnostics.Process.GetCurrentProcess();
+                        if (process != null)
+                        {
+                            ProcessModule? module = process.MainModule;
+                            if (module != null)
+                            {
+                                string? module_name = module.FileName;
+                                if (module_name != null)
+                                {
+                                    IconInjector.Change(module_name, icon.FullName, 1);
+                                    App.SuperExit();
+                                }
+                                else
+                                {
+                                    GrowlInfo growl = new GrowlInfo
+                                    {
+                                        Message = "Module name not found",
+                                        ShowDateTime = true,
+                                        IconKey = "WarningGeometry",
+                                        IconBrushKey = "WarningBrush",
+                                        IsCustom = true
+                                    };
+                                    Growl.ErrorGlobal(growl);
+                                }
+                            }
+                            else
+                            {
+                                GrowlInfo growl = new GrowlInfo
+                                {
+                                    Message = "Module not found",
+                                    ShowDateTime = true,
+                                    IconKey = "WarningGeometry",
+                                    IconBrushKey = "WarningBrush",
+                                    IsCustom = true
+                                };
+                                Growl.ErrorGlobal(growl);
+                            }
+                        }
+                        else
+                        {
+                            GrowlInfo growl = new GrowlInfo
+                            {
+                                Message = "Process not found",
+                                ShowDateTime = true,
+                                IconKey = "WarningGeometry",
+                                IconBrushKey = "WarningBrush",
+                                IsCustom = true
+                            };
+                            Growl.ErrorGlobal(growl);
+                        }
                     }
                     else
                     {
                         GrowlInfo growl = new GrowlInfo
                         {
-                            Message = "Icon size not 16x16",
+                            Message = "Icon size not 64x64",
                             ShowDateTime = true,
                             IconKey = "WarningGeometry",
                             IconBrushKey = "WarningBrush",
@@ -265,7 +310,7 @@ namespace WinBooster_WPF
                 else
                 {
                     Icon image2 = new System.Drawing.Icon(fileInfo.FullName, -1, -1);
-                    if (image2.Size.Width == 16 && image2.Size.Height == 16)
+                    if ((image2.Size.Width == 16 && image2.Size.Height == 16) || (image2.Size.Width == 32 && image2.Size.Height == 32) || (image2.Size.Width == 64 && image2.Size.Height == 64))
                     {
                         IconInjector.Change(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName, file, 1);
                         App.SuperExit();

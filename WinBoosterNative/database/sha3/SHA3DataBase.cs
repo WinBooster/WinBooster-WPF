@@ -1,24 +1,24 @@
-﻿using Newtonsoft.Json.Converters;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Org.BouncyCastle.Crypto.Digests;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WinBoosterNative.database.sha3
 {
     public class SHA3DataBase
     {
-        public Dictionary<string, SHA3FileInfo> database = new Dictionary<string, SHA3FileInfo>();
         public SHA3FileInfo? TryGetFileInfo(string hash)
         {
-            if (database.ContainsKey(hash))
+            try
             {
-                return database[hash];
+                using (WebClient wc = new WebClient())
+                {
+                    string json = wc.DownloadString(string.Format("https://github.com/WinBooster/WinBooster_hash_list/raw/refs/heads/main/list/{0}.json", hash));
+                    SHA3FileInfo? info = SHA3FileInfo.FromJson(json);
+                    return info;
+                }
             }
+            catch { }
             return null;
         }
         public static byte[] GetHash(byte[] bytes)

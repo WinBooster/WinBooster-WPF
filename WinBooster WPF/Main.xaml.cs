@@ -1,6 +1,5 @@
 ﻿using CSScripting;
 using CSScriptLib;
-using DiscordRPC;
 using HandyControl.Controls;
 using HandyControl.Data;
 using HandyControl.Tools.Extension;
@@ -19,7 +18,6 @@ using System.Windows;
 using WinBooster_WPF.Data;
 using WinBooster_WPF.Forms;
 using WinBooster_WPF.ScriptAPI;
-using WinBoosterNative.data;
 using WinBoosterNative.database.cleaner.workers.language;
 using WinBoosterNative.database.error_fix;
 using WinBoosterNative.database.sha3;
@@ -154,11 +152,6 @@ namespace WinBooster_WPF
                                         scripts.Add(scriptname, script);
                                         added = true;
                                     }
-                                    if (!scripts.ContainsKey(scriptname))
-                                    {
-                                        scripts.Add(scriptname, script);
-                                        added = true;
-                                    }
                                 }
                                 if (added)
                                 {
@@ -190,30 +183,31 @@ namespace WinBooster_WPF
                 await Task.WhenAll(script_tasks);
 
 
-                await Task.Delay(5);
+                await Task.Delay(2);
                 lock (scripts)
                 {
                     var orderedInput = scripts.OrderBy(key => key.Key);
                     var newDict = new Dictionary<string, IScript?>(orderedInput);
                     scripts = newDict;
                 }
-                await Task.Delay(5);
+                await Task.Delay(2);
                 cleanerForm.UpdateCheckboxes();
-                await Task.Delay(5);
+                await Task.Delay(2);
                 await cleanerForm.clearListForm.Dispatcher.BeginInvoke(() =>
                 {
                     cleanerForm.clearListForm.UpdateList();
                 });
-                await Task.Delay(5);
+                await Task.Delay(2);
                 await cleanerForm.clearListForm.Dispatcher.BeginInvoke(() =>
                 {
                     cleanerForm.clearListForm.UpdateList2();
                 });
-                await Task.Delay(5);
+                await Task.Delay(2);
                 await cleanerForm.clearListForm.Dispatcher.BeginInvoke(() =>
                 {
                     cleanerForm.clearListForm.CheckAfterScriptsLoad();
                 });
+                await Task.Delay(2);
 
                 foreach (var error_script in errored_sripts.ToArray())
                 {
@@ -237,7 +231,6 @@ namespace WinBooster_WPF
                 {
                     if (!scripts.IsEmpty())
                     {
-                        
                         string print = string.Join("\n", scripts.Keys);
                         GrowlInfo growl_scripts = new GrowlInfo
                         {

@@ -6,20 +6,24 @@ namespace WinBoosterNative.database.sha3
 {
     public class SHA3FileInfo
     {
-        public string name;
+        public string? name;
+        public string? version;
+        public string? author;
         public string? game;
-        public Category category;
-
-        public SHA3FileInfo(string name, Category category)
+        public string? category;
+        public string? extension;
+        public string? decription;
+        public SHA3FileInfo(string? name, string? version, string? author, string? category, string? game, string? extension, string? decription)
         {
             this.name = name;
+            this.version = version;
+            this.author = author;
             this.category = category;
+            this.game = game;
+            this.extension = extension;
+            this.decription = decription;
         }
 
-        public enum Category
-        {
-            Cheat, Programm, DLL, System_DLL
-        }
 
         public string ToJson()
         {

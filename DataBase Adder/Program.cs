@@ -81,27 +81,6 @@ namespace DataBase_Adder
                 uKey_for_androind_category.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\TSMonitor\\4uKey for Android\\logs", "*", "Logs"));
                 dataBase.cleaners.Add(uKey_for_androind_category);
                 #endregion
-                #region Telegram Desktop
-                CleanerCategory telegram_category = new CleanerCategory("Telegram");
-                telegram_category.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\Telegram Desktop", "*.txt", "Logs"));
-                telegram_category.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\Telegram Desktop", ".log", "Logs"));
-                telegram_category.listFiles.Add(new ListFiles("C:\\Users\\{username}\\AppData\\Roaming\\Telegram Desktop\\tdata", "Accounts", new List<string>() { "key_datas", }));
-                telegram_category.allFilesRecursives.Add(new AllFilesRecursive("C:\\Users\\{username}\\AppData\\Roaming\\Telegram Desktop\\tdata\\user_data\\cache\\0", "Cache", true));
-                telegram_category.allFilesRecursives.Add(new AllFilesRecursive("C:\\Users\\{username}\\AppData\\Roaming\\Telegram Desktop\\tdata\\user_data\\media_cache\\0", "Cache", true));
-                telegram_category.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\Telegram Desktop\\tdata\\emoji", "*cache_*", "Cache"));
-                dataBase.cleaners.Add(telegram_category);
-                #endregion
-                #region Signal
-                CleanerCategory signal = new CleanerCategory("Signal");
-                signal.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\Signal\\logs", "*", "Logs"));
-                signal.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\Signal\\update-cache", "*", "Cache"));
-                dataBase.cleaners.Add(signal);
-                #endregion
-                #region Guilded
-                CleanerCategory guilded = new CleanerCategory("Guilded");
-                guilded.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\Guilded", "*.log", "Logs"));
-                dataBase.cleaners.Add(guilded);
-                #endregion
                 #region Postman
                 CleanerCategory postman = new CleanerCategory("Postman");
                 postman.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\PostmanAgent\\logs", "*.log", "Logs"));
@@ -127,12 +106,6 @@ namespace DataBase_Adder
                 CleanerCategory windscire_category = new CleanerCategory("Windscribe");
                 windscire_category.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Local\\Windscribe\\Windscribe2", "*.txt", "Logs"));
                 dataBase.cleaners.Add(windscire_category);
-                #endregion
-                #region Discord
-                CleanerCategory discord_category = new CleanerCategory("Discord");
-                discord_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("C:\\Users\\{username}\\AppData\\Local\\Discord\\app-1.0.9013\\locales", "*.pak", true, "Language"));
-                discord_category.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Local\\Discord", "*.log", "Logs"));
-                dataBase.cleaners.Add(discord_category);
                 #endregion
                 #region GitHub Desktop
                 CleanerCategory github_desktop_category = new CleanerCategory("GitHub Desktop");
@@ -268,11 +241,6 @@ namespace DataBase_Adder
                 dataBase.cleaners.Add(IObit_Driver_Booster);
                 #endregion
                 #endregion
-                #region iTop VPN
-                CleanerCategory iTop_vpn_category = new CleanerCategory("iTop VPN");
-                iTop_vpn_category.listFiles.Add(new ListFiles("C:\\ProgramData\\iTop VPN", "Logs", new List<string>() { "iTop_setup.log", "Setup.log" }));
-                dataBase.cleaners.Add(iTop_vpn_category);
-                #endregion
                 #region Process Lasso
                 CleanerCategory process_lasso_category = new CleanerCategory("Process Lasso");
                 process_lasso_category.paternFiles.Add(new PaternFiles("C:\\ProgramData\\ProcessLasso\\logs", "*", "Logs"));
@@ -288,11 +256,6 @@ namespace DataBase_Adder
                 CleanerCategory unity_hub_category = new CleanerCategory("Unity Hub");
                 unity_hub_category.listFiles.Add(new ListFiles("C:\\Program Files\\Unity Hub", "Logs", new List<string>() { "LICENSES.chromium.html" }));
                 dataBase.cleaners.Add(unity_hub_category);
-                #endregion
-                #region PowerToys
-                CleanerCategory powerToys_category = new CleanerCategory("PowerToys");
-                powerToys_category.listFiles.Add(new ListFiles("C:\\Program Files\\PowerToys", "Logs", new List<string>() { "License.rtf", "Notice.md" }));
-                dataBase.cleaners.Add(powerToys_category);
                 #endregion
                 #region KeePass 2
                 CleanerCategory keePass_password_safe_2 = new CleanerCategory("KeePass 2");
@@ -356,27 +319,10 @@ namespace DataBase_Adder
                 sevenZip.foldersIsNotLanguageByPatern.Add(new FoldersIfCurrentLanguageByPatern("C:\\Program Files\\7-Zip\\Lang", "*.txt", false, "Language"));
                 dataBase.cleaners.Add(sevenZip);
                 #endregion
-                #region Amnezia VPN
-                CleanerCategory amneziaVPN = new CleanerCategory("Amnezia VPN");
-                amneziaVPN.listFiles.Add(new ListFiles("C:\\Program Files\\AmneziaVPN", "Logs", new List<string>
-                {
-                    "InstallationLog.txt"
-                }));
-                amneziaVPN.listFiles.Add(new ListFiles("C:\\Program Files\\AmneziaVPN\\tap", "Logs", new List<string>
-                {
-                    "license.txt"
-                }));
-                dataBase.cleaners.Add(amneziaVPN);
-                #endregion
                 #region Tribler
                 CleanerCategory tribler = new CleanerCategory("Tribler");
                 tribler.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\.Tribler", "*.log", "Logs"));
                 dataBase.cleaners.Add(tribler);
-                #endregion
-                #region Element (Matrix)
-                CleanerCategory element = new CleanerCategory("Element");
-                element.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Local\\element-desktop", "*.log", "Logs"));
-                dataBase.cleaners.Add(element);
                 #endregion
                 #region I2P
                 CleanerCategory i2p = new CleanerCategory("I2P");
@@ -485,8 +431,55 @@ namespace DataBase_Adder
                 dataBase.cleaners.Add(docker);
                 #endregion
 
+                #region Messengers
+
+                #region Discord
+                CleanerCategory discord_category = new CleanerCategory("Discord");
+                discord_category.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("C:\\Users\\{username}\\AppData\\Local\\Discord\\app-1.0.9013\\locales", "*.pak", true, "Language"));
+                discord_category.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Local\\Discord", "*.log", "Logs"));
+                dataBase.cleaners.Add(discord_category);
+                #endregion
+                #region Guilded
+                CleanerCategory guilded = new CleanerCategory("Guilded");
+                guilded.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\Guilded", "*.log", "Logs"));
+                dataBase.cleaners.Add(guilded);
+                #endregion
+                #region Element (Matrix)
+                CleanerCategory element = new CleanerCategory("Element");
+                element.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Local\\element-desktop", "*.log", "Logs"));
+                dataBase.cleaners.Add(element);
+                #endregion
+                #region Telegram Desktop
+                CleanerCategory telegram_category = new CleanerCategory("Telegram");
+                telegram_category.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\Telegram Desktop", "*.txt", "Logs"));
+                telegram_category.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\Telegram Desktop", ".log", "Logs"));
+                telegram_category.listFiles.Add(new ListFiles("C:\\Users\\{username}\\AppData\\Roaming\\Telegram Desktop\\tdata", "Accounts", new List<string>() { "key_datas", }));
+                telegram_category.allFilesRecursives.Add(new AllFilesRecursive("C:\\Users\\{username}\\AppData\\Roaming\\Telegram Desktop\\tdata\\user_data\\cache\\0", "Cache", true));
+                telegram_category.allFilesRecursives.Add(new AllFilesRecursive("C:\\Users\\{username}\\AppData\\Roaming\\Telegram Desktop\\tdata\\user_data\\media_cache\\0", "Cache", true));
+                telegram_category.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\Telegram Desktop\\tdata\\emoji", "*cache_*", "Cache"));
+                dataBase.cleaners.Add(telegram_category);
+                #endregion
+                #region Signal
+                CleanerCategory signal = new CleanerCategory("Signal");
+                signal.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\Signal\\logs", "*", "Logs"));
+                signal.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\Signal\\update-cache", "*", "Cache"));
+                dataBase.cleaners.Add(signal);
+                #endregion
+                #endregion
                 #region VPN Clients
 
+                #region Amnezia VPN
+                CleanerCategory amneziaVPN = new CleanerCategory("Amnezia VPN");
+                amneziaVPN.listFiles.Add(new ListFiles("C:\\Program Files\\AmneziaVPN", "Logs", new List<string>
+                {
+                    "InstallationLog.txt"
+                }));
+                amneziaVPN.listFiles.Add(new ListFiles("C:\\Program Files\\AmneziaVPN\\tap", "Logs", new List<string>
+                {
+                    "license.txt"
+                }));
+                dataBase.cleaners.Add(amneziaVPN);
+                #endregion
                 #region Radmin VPN
                 CleanerCategory radmin_vpn_caregory = new CleanerCategory("Radmin VPN");
                 radmin_vpn_caregory.listFiles.Add(new ListFiles("C:\\Program Files (x86)\\Radmin VPN\\CHATLOGS", "Logs", new List<string>() { "info.txt" }));
@@ -510,6 +503,11 @@ namespace DataBase_Adder
                 CleanerCategory PlanetVPN = new CleanerCategory("PlanetVPN");
                 PlanetVPN.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Local\\PlanetVPN\\cache\\qmlcache", "*", "Cache"));
                 dataBase.cleaners.Add(PlanetVPN);
+                #endregion
+                #region iTop VPN
+                CleanerCategory iTop_vpn_category = new CleanerCategory("iTop VPN");
+                iTop_vpn_category.listFiles.Add(new ListFiles("C:\\ProgramData\\iTop VPN", "Logs", new List<string>() { "iTop_setup.log", "Setup.log" }));
+                dataBase.cleaners.Add(iTop_vpn_category);
                 #endregion
 
                 #endregion
@@ -746,6 +744,11 @@ namespace DataBase_Adder
                 #endregion
                 #region Games
 
+                #region PowerToys
+                CleanerCategory powerToys_category = new CleanerCategory("PowerToys");
+                powerToys_category.listFiles.Add(new ListFiles("C:\\Program Files\\PowerToys", "Logs", new List<string>() { "License.rtf", "Notice.md" }));
+                dataBase.cleaners.Add(powerToys_category);
+                #endregion
                 #region Steam
                 CleanerCategory steam_category = new CleanerCategory("Steam");
                 steam_category.listFiles.Add(new ListFiles("{steam}", "Logs", new List<string>()
@@ -961,15 +964,19 @@ namespace DataBase_Adder
                 #endregion
                 Console.WriteLine("Cleaner database");
                 ClipboardService.SetText(dataBase.ToJson());
+                Console.WriteLine("Cleaner database saved to clipboard");
             }
             if (selected == "2")
             {
                 Console.WriteLine("SHA3 database");
-                SHA3DataBase sha3DataBase = new SHA3DataBase();
-                SHA3FileInfo ESPdX = new SHA3FileInfo("ESPdX", SHA3FileInfo.Category.Cheat);
-                ESPdX.game = "CS:GO";
-                sha3DataBase.database.Add("df2451fa916f786335b3f9383244e6cc93de5ffe6ef5063c2cc920cb44ac9856", ESPdX);
-                ClipboardService.SetText(sha3DataBase.ToJson());
+                #region ESPdX
+                SHA3FileInfo ESPdX = new SHA3FileInfo(name: "ESPdX", version: "1.0.0", author: "Avira", decription: "CS:GO Internal Cheat", category: "Cheat", game: "CS:GO", extension: "exe");
+                ClipboardService.SetText(ESPdX.ToJson());
+                Console.WriteLine("ESPdX version: 1.0.0 json saved to clipboard, press any key to contine");
+                Console.ReadKey();
+                #endregion
+
+                Console.WriteLine("SHA3 database done");
 
             }
             if (selected == "3")
@@ -1093,11 +1100,11 @@ namespace DataBase_Adder
 
                     scriptsDataBase.scripts.Add(new ScriptInfo
                     {
-                        name = "Oscar Keyboard Editor Fixer",
+                        name = "X7 Oscar Keyboard Editor Fixer",
                         icon = "M8.14,14.94v4.53h4.53V14.94Zm6.8,0v4.53h4.53V14.94Zm6.79,0v4.53h4.54V14.94Zm6.8,0v4.53h4.53V14.94Zm6.8,0v4.53h4.53V14.94ZM8.14,21.73v4.54h4.53V21.73Zm6.8,0v4.54h4.53V21.73Zm6.79,0v4.54h4.54V21.73Zm6.8,0v4.54h4.53V21.73Zm6.8,0v4.54h4.53V21.73ZM8.14,28.53v4.53h4.53V28.53Zm6.8,0v4.53H33.06V28.53Zm20.39,0v4.53h4.53V28.53Z M43.5,35.5v-23a2,2,0,0,0-2-2H6.5a2,2,0,0,0-2,2v23a2,2,0,0,0,2,2h35A2,2,0,0,0,43.5,35.5Z",
                         version = "1.0.1",
                         description = "Fixes saving macros",
-                        sha3 = "868d09d2ec23f6cf3603bbe3ee0dbd27c6adb71aea7d12be5ef8443bb6efd520",
+                        sha3 = "cf712a4834831c65a174bcd884248165cbaf55e1ca3a3ec5d6fa2f13d50dd0bf",
                         url = "https://raw.githubusercontent.com/WinBooster/WinBooster_Scripts/refs/heads/main/scripts/Oscar%20Keyboard%20Editor%20Fixer.cs",
                         winbooster_version = "2.0.9.4",
                         type = "Error fixer"
