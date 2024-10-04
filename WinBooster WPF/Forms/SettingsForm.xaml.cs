@@ -1,6 +1,7 @@
 ﻿using HandyControl.Controls;
 using HandyControl.Data;
 using Microsoft.Win32;
+using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -9,6 +10,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using WinBoosterNative.data;
+using WinBoosterNative.winapi;
 
 namespace WinBooster_WPF
 {
@@ -94,6 +96,12 @@ namespace WinBooster_WPF
         private async void Debug_Checked(object sender, System.Windows.RoutedEventArgs e)
         {
             App.auth.settings.DebugMode = true;
+            if (!Main.consoleIsAllocated)
+            {
+                ConsoleUtils.AllocConsole();
+                Main.consoleIsAllocated = true;
+                Console.Title = "WinBooster debug console";
+            }
             await UpdateCapture();
             SaveSettings();
         }
@@ -101,6 +109,11 @@ namespace WinBooster_WPF
         private async void Debug_Unchecked(object sender, System.Windows.RoutedEventArgs e)
         {
             App.auth.settings.DebugMode = false;
+            if (Main.consoleIsAllocated)
+            {
+                ConsoleUtils.FreeConsole();
+                Main.consoleIsAllocated = false;
+            }
             await UpdateCapture();
             SaveSettings();
         }

@@ -13,7 +13,7 @@
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         Activated="Window_Activated"
-        Title="Scripts" Height="390" Width="619">
+        Title="WinBooster Scripts" Height="390" Width="619">
     <ScrollViewer>
         <Grid Margin="5">
             <Grid.RowDefinitions>
@@ -43,14 +43,12 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
-                        <StackPanel Grid.Row="0" Grid.Column="0" Width="260">
-                            <Grid/>
-
-                        </StackPanel>
+                        <StackPanel Grid.Row="0" Grid.Column="0"/>
                     </Grid>
                 </ScrollViewer>
 
             </GroupBox>
+            <hc:TextBox Height="10" hc:InfoElement.Placeholder="Search" Margin="5,0,330,315" TextChanged="TextBox_TextChanged" x:Name="searchBox"/>
         </Grid>
     </ScrollViewer>
 </hc:Window>

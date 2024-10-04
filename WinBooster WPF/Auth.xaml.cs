@@ -394,13 +394,13 @@ namespace WinBooster_WPF
                             {
                                 StepBar.Next();
                             }));
-                            await Task.Delay(150);
+                            await Task.Delay(50);
                             StepBar.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
                             {
                                 StepBar.Next();
                             }));
 
-                            await Task.Delay(150);
+                            await Task.Delay(50);
                             this.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
                             {
                                 OpenForm();

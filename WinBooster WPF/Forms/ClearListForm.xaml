@@ -13,7 +13,7 @@
         Closing="Window_Closing"
         Loaded="Window_Loaded"
         WindowStartupLocation="CenterScreen"
-        Title="Cleaner database list" Height="450" Width="125" SizeToContent="Width">
+        Title="Cleaner Database List" Height="450" Width="125" SizeToContent="Width">
     <Grid>
         <StackPanel>
             <DataGrid SelectionMode="Single" MaxHeight="400" Width="Auto" Margin="15, 15, 15, 15" HorizontalAlignment="Center" VerticalAlignment="Top" x:Name="DataGrid" AutoGenerateColumns="False" HeadersVisibility="All">

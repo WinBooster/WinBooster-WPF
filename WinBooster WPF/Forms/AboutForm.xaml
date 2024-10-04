@@ -12,7 +12,7 @@
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         Loaded="Window_Loaded"
-        Title="About" Height="164" Width="255">
+        Title="WinBooster About" Height="164" Width="255">
     <Grid>
         <GroupBox Height="113" Grid.Row="0" Width="233" Margin="0,10,0,0" Style="{StaticResource GroupBoxTab}" hc:TitleElement.TitlePlacement="Top" Header="About" VerticalAlignment="Top" HorizontalAlignment="Center">
             <StackPanel Margin="5">

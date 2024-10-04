@@ -13,7 +13,7 @@
         Loaded="Window_Loaded"
         Activated="Window_Activated"
         mc:Ignorable="d"
-        Title="WinBooster cleaner" Height="235" Width="545">
+        Title="WinBooster Cleaner" Height="235" Width="545">
     <Grid>
         <StackPanel Margin="5">
             <Grid>

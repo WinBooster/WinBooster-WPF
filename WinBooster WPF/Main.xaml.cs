@@ -21,13 +21,13 @@ using WinBooster_WPF.ScriptAPI;
 using WinBoosterNative.database.cleaner.workers.language;
 using WinBoosterNative.database.error_fix;
 using WinBoosterNative.database.sha3;
+using WinBoosterNative.winapi;
 
 namespace WinBooster_WPF
 {
     public partial class Main : HandyControl.Controls.Window
     {
-        [DllImport("Kernel32")]
-        public static extern void AllocConsole();
+        public static bool consoleIsAllocated = false;
 
         public ScriptsForm scriptsForm = new ScriptsForm();
         public CleanerForm cleanerForm = new CleanerForm();
@@ -35,7 +35,6 @@ namespace WinBooster_WPF
         public OptimizeForm optimizeForm = new OptimizeForm();
         public AboutForm aboutForm = new AboutForm();
         public AntiScreenShareForm antiScreenForm = new AntiScreenShareForm();
-        public MarketForm marketForm = new MarketForm();
 
         public Dictionary<string, IScript?> scripts = new Dictionary<string, IScript?>();
         public Dictionary<string, string> scripts_sha3 = new Dictionary<string, string>();
@@ -45,7 +44,8 @@ namespace WinBooster_WPF
 
             if (App.auth.settings.DebugMode == true)
             {
-                AllocConsole();
+                ConsoleUtils.AllocConsole();
+                consoleIsAllocated = true;
                 Console.Title = "WinBooster debug console";
             }
 

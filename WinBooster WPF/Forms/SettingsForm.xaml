@@ -13,7 +13,7 @@
         Activated="Window_Activated"
         Loaded="Window_Loaded"
         mc:Ignorable="d"
-        Title="WinBooster cleaner" Height="290" Width="245">
+        Title="WinBooster Settings" Height="290" Width="245">
     <Grid>
         <StackPanel Margin="5">
             <!--#region Properties 1-->

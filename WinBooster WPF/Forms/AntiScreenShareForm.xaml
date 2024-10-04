@@ -12,7 +12,7 @@
         ShowMinButton="False"
         ShowMaxButton="False"
         ResizeMode="NoResize"
-        Title="Anti ScreenShare" Height="195" Width="315">
+        Title="WinBooster Anti ScreenShare" Height="195" Width="315">
     <Grid>
         <StackPanel>
             <GroupBox Width="290" Height="140" Margin="10" Style="{StaticResource GroupBoxTab}" hc:TitleElement.TitlePlacement="Top" Header="Standard protections" VerticalAlignment="Top" HorizontalAlignment="Left">
