@@ -20,8 +20,8 @@ namespace WinBooster_WPF
         public CleanerForm()
         {
             InitializeComponent();
-            clearListForm = new ClearListForm();
             App.UpdateScreenCapture(this);
+            clearListForm = new ClearListForm();
         }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -182,12 +182,14 @@ namespace WinBooster_WPF
                         Growl.InfoGlobal(growl);
                         App.auth.SaveStatistic();
 
-
-                        await clearListForm.Dispatcher.BeginInvoke(() =>
+                        if (clearListForm != null)
                         {
-                            clearListForm.UpdateList();
-                            clearListForm.UpdateList2();
-                        });
+                            await clearListForm.Dispatcher.BeginInvoke(() =>
+                            {
+                                clearListForm.UpdateList();
+                                clearListForm.UpdateList2();
+                            });
+                        }
                         //clearListForm.UpdateList();
                         //clearListForm.UpdateList2();
                     });
@@ -243,6 +245,7 @@ namespace WinBooster_WPF
         private void Window_Activated(object sender, EventArgs e)
         {
             App.UpdateScreenCapture(this);
+
             if (File.Exists(databasePath))
             {
                 if (first)
@@ -270,7 +273,10 @@ namespace WinBooster_WPF
         public ClearListForm clearListForm = null;
         private void Button_Click_1(object sender, System.Windows.RoutedEventArgs e)
         {
-            clearListForm.Show();
+            if (clearListForm != null)
+            {
+                clearListForm.Show();
+            }
         }
         public void UpdateCheckboxes()
         {

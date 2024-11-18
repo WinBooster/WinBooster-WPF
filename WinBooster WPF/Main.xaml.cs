@@ -29,6 +29,7 @@ namespace WinBooster_WPF
     {
         public static bool consoleIsAllocated = false;
 
+        public static bool isScriptsLoaded = false;
         public ScriptsForm scriptsForm = new ScriptsForm();
         public CleanerForm cleanerForm = new CleanerForm();
         public SettingsForm settingsForm = new SettingsForm();
@@ -42,7 +43,7 @@ namespace WinBooster_WPF
         {
             InitializeComponent();
 
-            if (App.auth.settings.DebugMode == true)
+            if (App.auth.settings.debugMode == true)
             {
                 ConsoleUtils.AllocConsole();
                 consoleIsAllocated = true;
@@ -80,6 +81,7 @@ namespace WinBooster_WPF
         public BoosterVersion? version;
         public void LoadScripts()
         {
+            isScriptsLoaded = false;
             Thread t = new Thread(async () =>
             {
                 string[] files = Directory.GetFiles("C:\\Program Files\\WinBooster\\Scripts");
@@ -93,6 +95,10 @@ namespace WinBooster_WPF
                         WaitTime = 1
                     };
                     Growl.InfoGlobal(growl_loading);
+                }
+                if (files.Count() <= 0)
+                {
+                    isScriptsLoaded = true;
                 }
                
 
@@ -184,7 +190,6 @@ namespace WinBooster_WPF
 
                 await Task.WhenAll(script_tasks);
 
-
                 await Task.Delay(2);
                 lock (scripts)
                 {
@@ -194,22 +199,25 @@ namespace WinBooster_WPF
                 }
                 await Task.Delay(2);
                 cleanerForm.UpdateCheckboxes();
-                await Task.Delay(2);
-                await cleanerForm.clearListForm.Dispatcher.BeginInvoke(() =>
+                if (cleanerForm.clearListForm != null)
                 {
-                    cleanerForm.clearListForm.UpdateList();
-                });
-                await Task.Delay(2);
-                await cleanerForm.clearListForm.Dispatcher.BeginInvoke(() =>
-                {
-                    cleanerForm.clearListForm.UpdateList2();
-                });
-                await Task.Delay(2);
-                await cleanerForm.clearListForm.Dispatcher.BeginInvoke(() =>
-                {
-                    cleanerForm.clearListForm.CheckAfterScriptsLoad();
-                });
-                await Task.Delay(2);
+                    await Task.Delay(2);
+                    await cleanerForm.clearListForm.Dispatcher.BeginInvoke(() =>
+                    {
+                        cleanerForm.clearListForm.UpdateList();
+                    });
+                    await Task.Delay(2);
+                    await cleanerForm.clearListForm.Dispatcher.BeginInvoke(() =>
+                    {
+                        cleanerForm.clearListForm.UpdateList2();
+                    });
+                    await Task.Delay(2);
+                    await cleanerForm.clearListForm.Dispatcher.BeginInvoke(() =>
+                    {
+                        cleanerForm.clearListForm.CheckAfterScriptsLoad();
+                    });
+                    await Task.Delay(2);
+                }
 
                 foreach (var error_script in errored_sripts.ToArray())
                 {
@@ -228,7 +236,7 @@ namespace WinBooster_WPF
                         Growl.ErrorGlobal(growl_scripts);
                     }
                 }
-
+                isScriptsLoaded = true;
                 lock (scripts)
                 {
                     if (!scripts.IsEmpty())
@@ -331,26 +339,64 @@ namespace WinBooster_WPF
             SettingsForm.UpdateCapture();
         }
 
-        #region Buttons
+        private void errorWaitScriptsLoading()
+        {
+            GrowlInfo growl_scripts = new GrowlInfo
+            {
+                Message = "⚠ Wait scripts loading...",
+                ShowDateTime = true,
+            };
+            Growl.InfoGlobal(growl_scripts);
+        }
+
+        #region Buttons open forms
 
         private void Button_Click_2(object sender, System.Windows.RoutedEventArgs e)
         {
-            optimizeForm.Show();
+            if (isScriptsLoaded)
+            {
+                optimizeForm.Show();
+            }
+            else
+            {
+                errorWaitScriptsLoading();
+            }
         }
 
         private void Button_Click_3(object sender, System.Windows.RoutedEventArgs e)
         {
-            antiScreenForm.Show();
+            if (isScriptsLoaded)
+            {
+                antiScreenForm.Show();
+            }
+            else
+            {
+                errorWaitScriptsLoading();
+            }
         }
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
-            aboutForm.Show();
+            if (isScriptsLoaded)
+            {
+                aboutForm.Show();
+            }
+            else
+            {
+                errorWaitScriptsLoading();
+            }
         }
 
         private void MarketButton_Click(object sender, RoutedEventArgs e)
         {
-            scriptsForm.Show();
+            if (isScriptsLoaded)
+            {
+                scriptsForm.Show();
+            }
+            else
+            {
+                errorWaitScriptsLoading();
+            }
         }
         #endregion
 
@@ -387,7 +433,8 @@ namespace WinBooster_WPF
                                     return true;
                                 }
                             }
-                            catch(Exception e) {
+                            catch (Exception e) 
+                            {
                                 Console.WriteLine("Error in error fixer: " + name + " | " + e.ToString());
                                 Console.WriteLine();
                             }

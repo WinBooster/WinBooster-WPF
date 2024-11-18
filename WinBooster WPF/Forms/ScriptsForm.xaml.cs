@@ -47,10 +47,29 @@ namespace WinBooster_WPF.Forms
                 App.auth.main.scripts_sha3.Add(hash, info.FullName);
             }
         }
+        List<StackPanel> panels = new List<StackPanel>();
+
+        private void RecalculateStacks(StackPanel[] stackPanels)
+        {
+            int row = 0;
+            int col = 0;
+            foreach (StackPanel stack in stackPanels)
+            {
+                stack.SetValue(Grid.RowProperty, row);
+                stack.SetValue(Grid.ColumnProperty, col);
+                col++;
+                if (col == 2)
+                {
+                    col = 0;
+                    row++;
+                }
+            }
+        }
         public async void UpdateList()
         {
             await Task.Factory.StartNew(() =>
             {
+                panels.Clear();
                 if (File.Exists(databasePath))
                 {
                     string json = File.ReadAllText(databasePath);
@@ -74,6 +93,7 @@ namespace WinBooster_WPF.Forms
                                     if (!App.auth.main.scripts_sha3.ContainsKey(script.sha3) && booster_version >= script_booster_version)
                                     {
                                         StackPanel stack = new StackPanel();
+                                        panels.Add(stack);
                                         stack.Margin = new System.Windows.Thickness(5);
                                         stack.SetValue(Grid.RowProperty, row);
                                         stack.SetValue(Grid.ColumnProperty, col);
@@ -162,6 +182,7 @@ namespace WinBooster_WPF.Forms
                                         {
                                             Task.Factory.StartNew(() =>
                                             {
+                                                panels.Remove(stack);
                                                 App.auth.main.cleanerForm.clearListForm.Dispatcher.Invoke(() =>
                                                 {
                                                     install_button.IsEnabled = false;
@@ -237,7 +258,11 @@ namespace WinBooster_WPF.Forms
                                                         Growl.InfoGlobal(growl_scripts);
 
                                                         UpdateInstalledScripts();
-                                                        UpdateList();
+                                                        Dispatcher.Invoke(() =>
+                                                        {
+                                                            Categories.Children.Remove(stack);
+                                                            RecalculateStacks(panels.ToArray());
+                                                        });
                                                     }
                                                 }
                                                 else
@@ -296,8 +321,11 @@ namespace WinBooster_WPF.Forms
                                             Categories.RowDefinitions.Add(rowDefinition2);
                                             row++;
                                         }
-                                        Categories.Children.Add(stack);
-                                    };
+                                        Dispatcher.Invoke(() =>
+                                        {
+                                            Categories.Children.Add(stack);
+                                        });
+                                    }
                                 }
                             });
 

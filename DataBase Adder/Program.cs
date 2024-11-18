@@ -435,6 +435,16 @@ namespace DataBase_Adder
                 }));
                 dataBase.cleaners.Add(docker);
                 #endregion
+                #region HiAlgo Boost
+                CleanerCategory hialgo_boost_category = new CleanerCategory("HiAlgo Boost");
+                hialgo_boost_category.listFiles.Add(new ListFiles("C:\\Program Files (x86)\\HiAlgo\\Plugins\\BOOST", "Logs", new List<string>()
+                {
+                    "hialgo_eula.txt",
+                    "Update Boost.log",
+                    "UpdateListing.txt",
+                }));
+                dataBase.cleaners.Add(hialgo_boost_category);
+                #endregion
 
                 #region Messengers
 
@@ -960,10 +970,15 @@ namespace DataBase_Adder
                 #endregion
                 #region Lords Mobile
                 CleanerCategory lords_mobile = new CleanerCategory("Lords Mobile");
-                lords_mobile.paternFiles.Add(new PaternFiles("C:\\Users\\Administrator\\AppData\\LocalLow\\IGG\\Lords Mobile", "*.log", "Logs"));
-                roblox_category.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\LocalLow", "*.rbx", "Logs"));
-                roblox_category.paternFilesRecursives.Add(new PaternFilesRecursive("C:\\Program Files (x86)\\Roblox\\Versions", "*.txt", "Logs", false));
+                lords_mobile.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\LocalLow\\IGG\\Lords Mobile", "*.log", "Logs"));
+                lords_mobile.paternFiles.Add(new PaternFiles("C:\\Lords Mobile PC\\Logs", "*.log", "Logs"));
                 dataBase.cleaners.Add(lords_mobile);
+                #endregion
+                #region ArcheAge
+                CleanerCategory arche_age_category = new CleanerCategory("ArcheAge");
+                arche_age_category.paternFiles.Add(new PaternFiles("C:\\ArcheAge\\Documents", "*.log", "Logs"));
+                arche_age_category.paternFiles.Add(new PaternFiles("C:\\ArcheAge\\Working\\-gup-", "*.log", "Logs"));
+                dataBase.cleaners.Add(arche_age_category);
                 #endregion
 
                 #endregion
@@ -977,7 +992,7 @@ namespace DataBase_Adder
                 #region ESPdX
                 SHA3FileInfo ESPdX = new SHA3FileInfo(name: "ESPdX", version: "1.0.0", author: "Avira", decription: "CS:GO Internal Cheat", category: "Cheat", game: "CS:GO", extension: "exe");
                 ClipboardService.SetText(ESPdX.ToJson());
-                Console.WriteLine("ESPdX version: 1.0.0 json saved to clipboard, press any key to contine");
+                Console.WriteLine($"{ESPdX.ToString()} json saved to clipboard, press any key to contine");
                 Console.ReadKey();
                 #endregion
 
@@ -1097,7 +1112,7 @@ namespace DataBase_Adder
                         icon = "M3 4V16H21V4H3M3 2H21C22.1 2 23 2.89 23 4V16C23 16.53 22.79 17.04 22.41 17.41C22.04 17.79 21.53 18 21 18H14V20H16V22H8V20H10V18H3C2.47 18 1.96 17.79 1.59 17.41C1.21 17.04 1 16.53 1 16V4C1 2.89 1.89 2 3 2M10.84 8.93C11.15 8.63 11.57 8.45 12 8.45C12.43 8.46 12.85 8.63 13.16 8.94C13.46 9.24 13.64 9.66 13.64 10.09C13.64 10.53 13.46 10.94 13.16 11.25C12.85 11.56 12.43 11.73 12 11.73C11.57 11.73 11.15 11.55 10.84 11.25C10.54 10.94 10.36 10.53 10.36 10.09C10.36 9.66 10.54 9.24 10.84 8.93M10.07 12C10.58 12.53 11.28 12.82 12 12.82C12.72 12.82 13.42 12.53 13.93 12C14.44 11.5 14.73 10.81 14.73 10.09C14.73 9.37 14.44 8.67 13.93 8.16C13.42 7.65 12.72 7.36 12 7.36C11.28 7.36 10.58 7.65 10.07 8.16C9.56 8.67 9.27 9.37 9.27 10.09C9.27 10.81 9.56 11.5 10.07 12M6 10.09C6.94 7.7 9.27 6 12 6C14.73 6 17.06 7.7 18 10.09C17.06 12.5 14.73 14.18 12 14.18C9.27 14.18 6.94 12.5 6 10.09Z",
                         version = "1.0.0",
                         description = "Makes selected processes unavailable for screenshots and recording",
-                        sha3 = "65d931a125d3f2c36e187d11c2a5e0e947be95eddb89d37067fcae6b29e8af50",
+                        sha3 = "3545f993f0e443594e79299a764a810cd52f2cb07829ddb72d0c1387d2056ce1",
                         url = "https://raw.githubusercontent.com/WinBooster/WinBooster_Scripts/main/scripts/Process%20Screen%20Protector.cs",
                         winbooster_version = "2.0.8.9",
                         type = "Anti ScreenShare"

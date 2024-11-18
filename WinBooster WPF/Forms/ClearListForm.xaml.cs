@@ -295,20 +295,17 @@ namespace WinBooster_WPF.Forms
                 }
                 set
                 {
-                    if (enabledSettings.keyValues.ContainsKey(Program))
-                        enabledSettings.keyValues[Program] = value;
-                    else
-                        enabledSettings.keyValues.Add(Program, value);
-
-                    AESCryptor cryptor = new AESCryptor();
-                    cryptor.SetPassword(WinBoosterNative.data.Settings.protection_password, WinBoosterNative.data.Settings.protection_salt);
-
-                    byte[] bytes = Encoding.UTF8.GetBytes(enabledSettings.ToJson());
-                    byte[] encrypted = cryptor.Encrypt(bytes);
-
-                    Directory.CreateDirectory("C:\\Program Files\\WinBooster\\Settings");
-                    File.Create("C:\\Program Files\\WinBooster\\Settings\\Enabled.json").Close();
-                    File.WriteAllBytes("C:\\Program Files\\WinBooster\\Settings\\Enabled.json", encrypted);
+                    if (value != true)
+                    {
+                        if (enabledSettings.keyValues.ContainsKey(Program))
+                        {
+                            enabledSettings.keyValues[Program] = value;
+                        }
+                        else
+                        {
+                            enabledSettings.keyValues.Add(Program, value);
+                        }
+                    }
                 }
             }
         }
@@ -316,8 +313,17 @@ namespace WinBooster_WPF.Forms
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = true;
+            AESCryptor cryptor = new AESCryptor();
+            cryptor.SetPassword(WinBoosterNative.data.Settings.protection_password, WinBoosterNative.data.Settings.protection_salt);
+
+            byte[] bytes = Encoding.UTF8.GetBytes(enabledSettings.ToJson());
+            byte[] encrypted = cryptor.Encrypt(bytes);
+
+            Directory.CreateDirectory("C:\\Program Files\\WinBooster\\Settings");
+            File.Create("C:\\Program Files\\WinBooster\\Settings\\Enabled.json").Close();
+            File.WriteAllBytes("C:\\Program Files\\WinBooster\\Settings\\Enabled.json", encrypted);
             this.Hide();
-            SettingsForm.UpdateCapture();
+            _ = SettingsForm.UpdateCapture();
         }
 
         private void Window_Activated(object sender, EventArgs e)

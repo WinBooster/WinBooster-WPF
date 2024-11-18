@@ -10,7 +10,7 @@ namespace WinBooster_WPF
 
     public partial class App : Application
     {
-        public static string version = "2.0.9.7";
+        public static string version = "2.1.0.0";
 
         public static Auth auth;
 
@@ -19,7 +19,7 @@ namespace WinBooster_WPF
             if (window != null)
             {
                 var handle = new WindowInteropHelper(window).Handle;
-                if (App.auth.settings.DisableScreenCapture == true)
+                if (App.auth.settings.disableScreenCapture == true)
                 {
                     UpdateScreenCapture(handle, true);
                 }
@@ -46,7 +46,7 @@ namespace WinBooster_WPF
         }
         public static void UpdateScreenCapture(IntPtr handle)
         {
-            if (App.auth.settings.DisableScreenCapture == true)
+            if (App.auth.settings.disableScreenCapture == true)
             {
                 UpdateScreenCapture(handle, true);
             }

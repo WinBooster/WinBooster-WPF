@@ -24,6 +24,10 @@ namespace WinBoosterNative.database.sha3
             this.decription = decription;
         }
 
+        public override string ToString()
+        {
+            return $"Name: {name}, Version: {version}, Author: {author}, Category: {category}";
+        }
 
         public string ToJson()
         {

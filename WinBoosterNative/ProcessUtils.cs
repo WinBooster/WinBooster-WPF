@@ -1,14 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO.Pipes;
-using System.Linq;
-using System.Net;
-using System.Security.Cryptography;
+﻿using System.Diagnostics;
 using System.Text;
-using System.Threading.Tasks;
-using WinBoosterNative.winapi;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace WinBoosterNative
 {
@@ -29,8 +20,10 @@ namespace WinBoosterNative
             startInfo.Arguments = "/C " + command;
             startInfo.UseShellExecute = false;
             startInfo.CreateNoWindow = true;
-            //startInfo.StandardOutputEncoding = Encoding.UTF8;
-            
+            startInfo.StandardOutputEncoding = Encoding.UTF8;
+            startInfo.StandardInputEncoding = Encoding.UTF8;
+
+
             return startInfo;
         }
         public List<string> StartCmd(string command)

@@ -271,6 +271,13 @@ namespace WinBooster_WPF
                     errored.Add("Languages database");
                 }
             }
+
+            #endregion
+            StepBar.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
+            {
+                StepBar.Next();
+            }));
+
             if (!errored.IsEmpty())
             {
                 GrowlInfo growl = new GrowlInfo
@@ -287,7 +294,7 @@ namespace WinBooster_WPF
             {
                 GrowlInfo growl = new GrowlInfo
                 {
-                    Message = "Successfully updated: " + string.Join("\n", updated),
+                    Message = "Successfully updated: \n" + string.Join("\n", updated),
                     ShowDateTime = true,
                     IconKey = "SuccessGeometry",
                     IconBrushKey = "SuccessBrush",
@@ -295,12 +302,6 @@ namespace WinBooster_WPF
                 };
                 Growl.InfoGlobal(growl);
             }
-
-            StepBar.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
-            {
-                StepBar.Next();
-            }));
-            #endregion
         }
         public Statistic statistic = new Statistic();
         public Settings settings = new Settings();

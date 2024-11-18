@@ -9,7 +9,7 @@ namespace WinBoosterNative
         {
             string directory = original;
             directory = directory.Replace("{username}", Environment.UserName);
-            DirectoryInfo steamDirectory = WinBoosterUtils.FindSteamDirectory();
+            DirectoryInfo? steamDirectory = WinBoosterUtils.FindSteamDirectory();
             if (steamDirectory != null)
             {
                 directory = directory.Replace("{steam}", steamDirectory.FullName);

@@ -23,8 +23,8 @@ namespace WinBooster_WPF
         {
             InitializeComponent();
             PasswordBox.Password = App.auth.settings.password;
-            DebugMode.IsChecked = App.auth.settings.DebugMode;
-            ScreenShots.IsChecked = App.auth.settings.DisableScreenCapture;
+            DebugMode.IsChecked = App.auth.settings.debugMode;
+            ScreenShots.IsChecked = App.auth.settings.disableScreenCapture;
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -37,8 +37,8 @@ namespace WinBooster_WPF
         private void SaveSettings()
         {
             App.auth.settings.password = PasswordBox.Password;
-            App.auth.settings.DisableScreenCapture = ScreenShots.IsChecked;
-            App.auth.settings.DebugMode = DebugMode.IsChecked;
+            App.auth.settings.disableScreenCapture = ScreenShots.IsChecked;
+            App.auth.settings.debugMode = DebugMode.IsChecked;
             App.auth.settings.SaveFile(App.auth.settings.GetPath(), Settings.protection_password, Settings.protection_salt);
         }
 
@@ -81,21 +81,21 @@ namespace WinBooster_WPF
 
         private async void ScreenShots_Checked(object sender, System.Windows.RoutedEventArgs e)
         {
-            App.auth.settings.DisableScreenCapture = true;
+            App.auth.settings.disableScreenCapture = true;
             await UpdateCapture();
             SaveSettings();
         }
 
         private async void ScreenShots_Unchecked(object sender, System.Windows.RoutedEventArgs e)
         {
-            App.auth.settings.DisableScreenCapture = false;
+            App.auth.settings.disableScreenCapture = false;
             await UpdateCapture();
             SaveSettings();
         }
 
         private async void Debug_Checked(object sender, System.Windows.RoutedEventArgs e)
         {
-            App.auth.settings.DebugMode = true;
+            App.auth.settings.debugMode = true;
             if (!Main.consoleIsAllocated)
             {
                 ConsoleUtils.AllocConsole();
@@ -108,7 +108,7 @@ namespace WinBooster_WPF
 
         private async void Debug_Unchecked(object sender, System.Windows.RoutedEventArgs e)
         {
-            App.auth.settings.DebugMode = false;
+            App.auth.settings.debugMode = false;
             if (Main.consoleIsAllocated)
             {
                 ConsoleUtils.FreeConsole();
