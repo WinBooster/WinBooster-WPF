@@ -144,7 +144,7 @@ namespace WinBooster_WPF
             {
                 GrowlInfo growl = new GrowlInfo
                 {
-                    Message = "Error downloading: " + string.Join("\n", errors),
+                    Message = "Error downloading: \n" + string.Join("\n", errors),
                     ShowDateTime = true,
                     IconKey = "ErrorGeometry",
                     IconBrushKey = "DangerBrush",
@@ -282,7 +282,7 @@ namespace WinBooster_WPF
             {
                 GrowlInfo growl = new GrowlInfo
                 {
-                    Message = "Error downloading: " + string.Join("\n", errored),
+                    Message = "Error downloading: \n" + string.Join("\n", errored),
                     ShowDateTime = true,
                     IconKey = "ErrorGeometry",
                     IconBrushKey = "DangerBrush",
@@ -337,7 +337,6 @@ namespace WinBooster_WPF
                 settings = temp;
             }
             App.UpdateScreenCapture(this);
-            bool work = true;
             try
             {
                 var server = new PipeServer<string>("WinBoosterChecker", formatter: new NewtonsoftJsonFormatter());
@@ -359,56 +358,53 @@ namespace WinBooster_WPF
                     IsCustom = true
                 };
                 Growl.InfoGlobal(growl);
-                work = false;
                 this.Hide();
                 await Task.Factory.StartNew(async () =>
                 {
                     await Task.Delay(5000);
                     App.SuperExit();
+                    return;
                 });
             }
 
-            if (work)
+            try
             {
-                try
+                if (!Directory.Exists("C:\\Program Files\\WinBooster"))
                 {
-                    if (!Directory.Exists("C:\\Program Files\\WinBooster"))
-                    {
-                        Directory.CreateDirectory("C:\\Program Files\\WinBooster");
-                    }
+                    Directory.CreateDirectory("C:\\Program Files\\WinBooster");
                 }
-                catch { }
-                if (string.IsNullOrEmpty(password) || password == "")
+            }
+            catch { }
+            if (string.IsNullOrEmpty(password) || password == "")
+            {
+                this.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
                 {
-                    this.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
+                    AuthPanel.Hide();
+                    DownloadPanel.Visibility = System.Windows.Visibility.Visible;
+                    Title = "Loading";
+                }));
+                await Task.Factory.StartNew(async () =>
+                {
+                    using (WebClient wc = new WebClient())
                     {
-                        AuthPanel.Hide();
-                        DownloadPanel.Visibility = System.Windows.Visibility.Visible;
-                        Title = "Loading";
-                    }));
-                    await Task.Factory.StartNew(async () =>
-                    {
-                        using (WebClient wc = new WebClient())
+                        DownloadFiles(wc);
+                        StepBar.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
                         {
-                            DownloadFiles(wc);
-                            StepBar.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
-                            {
-                                StepBar.Next();
-                            }));
-                            await Task.Delay(50);
-                            StepBar.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
-                            {
-                                StepBar.Next();
-                            }));
+                            StepBar.Next();
+                        }));
+                        await Task.Delay(50);
+                        StepBar.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
+                        {
+                            StepBar.Next();
+                        }));
 
-                            await Task.Delay(50);
-                            this.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
-                            {
-                                OpenForm();
-                            }));
-                        }
-                    });
-                }
+                        await Task.Delay(50);
+                        this.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
+                        {
+                            OpenForm();
+                        }));
+                    }
+                });
             }
         }
     }

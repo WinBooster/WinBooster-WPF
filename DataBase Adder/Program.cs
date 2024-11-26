@@ -1,5 +1,7 @@
+using System;
 using System.Diagnostics;
 using System.Globalization;
+using System.Security.AccessControl;
 using TextCopy;
 using WinBoosterNative.database.cleaner;
 using WinBoosterNative.database.cleaner.workers;
@@ -14,14 +16,16 @@ namespace DataBase_Adder
         static void Main()
         {
             Console.WriteLine("Avalible");
-            Console.WriteLine("1. Cleaner");
-            Console.WriteLine("2. SHA3");
-            Console.WriteLine("3. Language");
-            Console.WriteLine("4. Scripts");
+            Console.WriteLine("0. Cleaner");
+            Console.WriteLine("1. SHA3");
+            Console.WriteLine("2. Language");
+            Console.WriteLine("3. Scripts");
             Console.Write("Select database: ");
 
             string selected = Console.ReadLine();
-            if (selected == "1")
+            int selectedi1 = 0;
+            int.TryParse(selected, out selectedi1);
+            if (selectedi1 == 0)
             {
                 CleanerDataBase dataBase = new CleanerDataBase();
                 #region Windows
@@ -982,89 +986,106 @@ namespace DataBase_Adder
                 #endregion
 
                 #endregion
-                Console.WriteLine("Cleaner database");
                 ClipboardService.SetText(dataBase.ToJson());
                 Console.WriteLine("Cleaner database saved to clipboard");
             }
-            if (selected == "2")
+            if (selectedi1 == 1)
             {
-                Console.WriteLine("SHA3 database");
+                Dictionary<int, SHA3FileInfo> infos = new Dictionary<int, SHA3FileInfo>();
                 #region ESPdX
                 SHA3FileInfo ESPdX = new SHA3FileInfo(name: "ESPdX", version: "1.0.0", author: "Avira", decription: "CS:GO Internal Cheat", category: "Cheat", game: "CS:GO", extension: "exe");
-                ClipboardService.SetText(ESPdX.ToJson());
-                Console.WriteLine($"{ESPdX.ToString()} json saved to clipboard, press any key to contine");
+                infos.Add(0, ESPdX);
+
+                Console.Clear();
+                foreach (var tuple in infos)
+                {
+                    Console.WriteLine(tuple.Key + ". | " + tuple.Value.ToString());
+                }
+                Console.Write("Select info for copy to clipboard: ");
+                string selected2 = Console.ReadLine();
+                int selectedi = 0; 
+                int.TryParse(selected2, out selectedi);
+                foreach (var tuple in infos)
+                {
+                    if (tuple.Key == selectedi)
+                    {
+                        ClipboardService.SetText(tuple.Value.ToJson());
+                        Console.WriteLine($"{tuple.Value.ToString()} json saved to clipboard, press any key to contine");
+                        return;
+                    }
+                }
+                
                 Console.ReadKey();
                 #endregion
 
                 Console.WriteLine("SHA3 database done");
 
             }
-            if (selected == "3")
+            if (selectedi1 == 2)
             {
                 Console.WriteLine("File name language database");
-                {
-                    FileNameLanguageDataBase fileNameLanguageDataBase = new FileNameLanguageDataBase();
+                FileNameLanguageDataBase fileNameLanguageDataBase = new FileNameLanguageDataBase();
 
-                    fileNameLanguageDataBase.database.Add("ru-RU", ILanguageWorker.Language.Russian_RU);
-                    fileNameLanguageDataBase.database.Add("Russian", ILanguageWorker.Language.Russian_RU);
-                    fileNameLanguageDataBase.database.Add("RvRvpnGui_ru_RU", ILanguageWorker.Language.Russian_RU);
-                    fileNameLanguageDataBase.database.Add("keepassxc_ru", ILanguageWorker.Language.Russian_RU);
-                    fileNameLanguageDataBase.database.Add("qt_ru", ILanguageWorker.Language.Russian_RU);
-                    fileNameLanguageDataBase.database.Add("qtbase_ru", ILanguageWorker.Language.Russian_RU);
-                    fileNameLanguageDataBase.database.Add("ru", ILanguageWorker.Language.Russian_RU);
-                    fileNameLanguageDataBase.database.Add("steamui_russian-json", ILanguageWorker.Language.Russian_RU);
-                    fileNameLanguageDataBase.database.Add("shared_russian-json", ILanguageWorker.Language.Russian_RU);
-                    fileNameLanguageDataBase.database.Add("overlay_russian", ILanguageWorker.Language.Russian_RU);
-                    fileNameLanguageDataBase.database.Add("platform_russian", ILanguageWorker.Language.Russian_RU);
-                    fileNameLanguageDataBase.database.Add("shared_russian", ILanguageWorker.Language.Russian_RU);
-                    fileNameLanguageDataBase.database.Add("vgui_russian", ILanguageWorker.Language.Russian_RU);
+                fileNameLanguageDataBase.database.Add("ru-RU", ILanguageWorker.Language.Russian_RU);
+                fileNameLanguageDataBase.database.Add("Russian", ILanguageWorker.Language.Russian_RU);
+                fileNameLanguageDataBase.database.Add("RvRvpnGui_ru_RU", ILanguageWorker.Language.Russian_RU);
+                fileNameLanguageDataBase.database.Add("keepassxc_ru", ILanguageWorker.Language.Russian_RU);
+                fileNameLanguageDataBase.database.Add("qt_ru", ILanguageWorker.Language.Russian_RU);
+                fileNameLanguageDataBase.database.Add("qtbase_ru", ILanguageWorker.Language.Russian_RU);
+                fileNameLanguageDataBase.database.Add("ru", ILanguageWorker.Language.Russian_RU);
+                fileNameLanguageDataBase.database.Add("steamui_russian-json", ILanguageWorker.Language.Russian_RU);
+                fileNameLanguageDataBase.database.Add("shared_russian-json", ILanguageWorker.Language.Russian_RU);
+                fileNameLanguageDataBase.database.Add("overlay_russian", ILanguageWorker.Language.Russian_RU);
+                fileNameLanguageDataBase.database.Add("platform_russian", ILanguageWorker.Language.Russian_RU);
+                fileNameLanguageDataBase.database.Add("shared_russian", ILanguageWorker.Language.Russian_RU);
+                fileNameLanguageDataBase.database.Add("vgui_russian", ILanguageWorker.Language.Russian_RU);
 
-                    fileNameLanguageDataBase.database.Add("eu", ILanguageWorker.Language.English_US);
-                    fileNameLanguageDataBase.database.Add("en-US", ILanguageWorker.Language.English_US);
-                    fileNameLanguageDataBase.database.Add("English", ILanguageWorker.Language.English_US);
-                    fileNameLanguageDataBase.database.Add("RvRvpnGui_en_US", ILanguageWorker.Language.English_US);
-                    fileNameLanguageDataBase.database.Add("keepassxc_en_US", ILanguageWorker.Language.English_US);
-                    fileNameLanguageDataBase.database.Add("qt_en", ILanguageWorker.Language.English_US);
-                    fileNameLanguageDataBase.database.Add("qtbase_en", ILanguageWorker.Language.English_US);
-                    fileNameLanguageDataBase.database.Add("steamui_english-json", ILanguageWorker.Language.English_US);
-                    fileNameLanguageDataBase.database.Add("shared_english-json", ILanguageWorker.Language.English_US);
-                    fileNameLanguageDataBase.database.Add("overlay_english", ILanguageWorker.Language.English_US);
-                    fileNameLanguageDataBase.database.Add("platform_english", ILanguageWorker.Language.English_US);
-                    fileNameLanguageDataBase.database.Add("shared_english", ILanguageWorker.Language.English_US);
-                    fileNameLanguageDataBase.database.Add("vgui_english", ILanguageWorker.Language.English_US);
+                fileNameLanguageDataBase.database.Add("eu", ILanguageWorker.Language.English_US);
+                fileNameLanguageDataBase.database.Add("en-US", ILanguageWorker.Language.English_US);
+                fileNameLanguageDataBase.database.Add("English", ILanguageWorker.Language.English_US);
+                fileNameLanguageDataBase.database.Add("RvRvpnGui_en_US", ILanguageWorker.Language.English_US);
+                fileNameLanguageDataBase.database.Add("keepassxc_en_US", ILanguageWorker.Language.English_US);
+                fileNameLanguageDataBase.database.Add("qt_en", ILanguageWorker.Language.English_US);
+                fileNameLanguageDataBase.database.Add("qtbase_en", ILanguageWorker.Language.English_US);
+                fileNameLanguageDataBase.database.Add("steamui_english-json", ILanguageWorker.Language.English_US);
+                fileNameLanguageDataBase.database.Add("shared_english-json", ILanguageWorker.Language.English_US);
+                fileNameLanguageDataBase.database.Add("overlay_english", ILanguageWorker.Language.English_US);
+                fileNameLanguageDataBase.database.Add("platform_english", ILanguageWorker.Language.English_US);
+                fileNameLanguageDataBase.database.Add("shared_english", ILanguageWorker.Language.English_US);
+                fileNameLanguageDataBase.database.Add("vgui_english", ILanguageWorker.Language.English_US);
 
-                    fileNameLanguageDataBase.database.Add("uk-UK", ILanguageWorker.Language.Ukraine_UK);
-                    fileNameLanguageDataBase.database.Add("Ukrainian", ILanguageWorker.Language.Ukraine_UK);
-                    fileNameLanguageDataBase.database.Add("RvRvpnGui_uk_UA", ILanguageWorker.Language.Ukraine_UK);
-                    fileNameLanguageDataBase.database.Add("keepassxc_uk", ILanguageWorker.Language.Ukraine_UK);
-                    fileNameLanguageDataBase.database.Add("qt_uk", ILanguageWorker.Language.Ukraine_UK);
-                    fileNameLanguageDataBase.database.Add("qtbase_uk", ILanguageWorker.Language.Ukraine_UK);
-                    fileNameLanguageDataBase.database.Add("uk", ILanguageWorker.Language.Ukraine_UK);
-                    fileNameLanguageDataBase.database.Add("steamui_ukrainian-json", ILanguageWorker.Language.Ukraine_UK);
-                    fileNameLanguageDataBase.database.Add("shared_ukrainian-json", ILanguageWorker.Language.Ukraine_UK);
-                    fileNameLanguageDataBase.database.Add("overlay_ukrainian", ILanguageWorker.Language.Ukraine_UK);
-                    fileNameLanguageDataBase.database.Add("platform_ukrainian", ILanguageWorker.Language.Ukraine_UK);
-                    fileNameLanguageDataBase.database.Add("shared_ukrainian", ILanguageWorker.Language.Ukraine_UK);
-                    fileNameLanguageDataBase.database.Add("vgui_ukrainian", ILanguageWorker.Language.Ukraine_UK);
+                fileNameLanguageDataBase.database.Add("uk-UK", ILanguageWorker.Language.Ukraine_UK);
+                fileNameLanguageDataBase.database.Add("Ukrainian", ILanguageWorker.Language.Ukraine_UK);
+                fileNameLanguageDataBase.database.Add("RvRvpnGui_uk_UA", ILanguageWorker.Language.Ukraine_UK);
+                fileNameLanguageDataBase.database.Add("keepassxc_uk", ILanguageWorker.Language.Ukraine_UK);
+                fileNameLanguageDataBase.database.Add("qt_uk", ILanguageWorker.Language.Ukraine_UK);
+                fileNameLanguageDataBase.database.Add("qtbase_uk", ILanguageWorker.Language.Ukraine_UK);
+                fileNameLanguageDataBase.database.Add("uk", ILanguageWorker.Language.Ukraine_UK);
+                fileNameLanguageDataBase.database.Add("steamui_ukrainian-json", ILanguageWorker.Language.Ukraine_UK);
+                fileNameLanguageDataBase.database.Add("shared_ukrainian-json", ILanguageWorker.Language.Ukraine_UK);
+                fileNameLanguageDataBase.database.Add("overlay_ukrainian", ILanguageWorker.Language.Ukraine_UK);
+                fileNameLanguageDataBase.database.Add("platform_ukrainian", ILanguageWorker.Language.Ukraine_UK);
+                fileNameLanguageDataBase.database.Add("shared_ukrainian", ILanguageWorker.Language.Ukraine_UK);
+                fileNameLanguageDataBase.database.Add("vgui_ukrainian", ILanguageWorker.Language.Ukraine_UK);
 
-                    fileNameLanguageDataBase.database.Add("fr-FR", ILanguageWorker.Language.French_FR);
-                    fileNameLanguageDataBase.database.Add("French", ILanguageWorker.Language.French_FR);
-                    fileNameLanguageDataBase.database.Add("RvRvpnGui_fr_FR", ILanguageWorker.Language.French_FR);
-                    fileNameLanguageDataBase.database.Add("keepassxc_fr", ILanguageWorker.Language.French_FR);
-                    fileNameLanguageDataBase.database.Add("qt_fr", ILanguageWorker.Language.French_FR);
-                    fileNameLanguageDataBase.database.Add("qtbase_fr", ILanguageWorker.Language.French_FR);
-                    fileNameLanguageDataBase.database.Add("fr", ILanguageWorker.Language.French_FR);
-                    fileNameLanguageDataBase.database.Add("steamui_french-json", ILanguageWorker.Language.French_FR);
-                    fileNameLanguageDataBase.database.Add("shared_french-json", ILanguageWorker.Language.French_FR);
-                    fileNameLanguageDataBase.database.Add("overlay_french", ILanguageWorker.Language.French_FR);
-                    fileNameLanguageDataBase.database.Add("platform_french", ILanguageWorker.Language.French_FR);
-                    fileNameLanguageDataBase.database.Add("shared_french", ILanguageWorker.Language.French_FR);
-                    fileNameLanguageDataBase.database.Add("vgui_french", ILanguageWorker.Language.French_FR);
+                fileNameLanguageDataBase.database.Add("fr-FR", ILanguageWorker.Language.French_FR);
+                fileNameLanguageDataBase.database.Add("French", ILanguageWorker.Language.French_FR);
+                fileNameLanguageDataBase.database.Add("RvRvpnGui_fr_FR", ILanguageWorker.Language.French_FR);
+                fileNameLanguageDataBase.database.Add("keepassxc_fr", ILanguageWorker.Language.French_FR);
+                fileNameLanguageDataBase.database.Add("qt_fr", ILanguageWorker.Language.French_FR);
+                fileNameLanguageDataBase.database.Add("qtbase_fr", ILanguageWorker.Language.French_FR);
+                fileNameLanguageDataBase.database.Add("fr", ILanguageWorker.Language.French_FR);
+                fileNameLanguageDataBase.database.Add("steamui_french-json", ILanguageWorker.Language.French_FR);
+                fileNameLanguageDataBase.database.Add("shared_french-json", ILanguageWorker.Language.French_FR);
+                fileNameLanguageDataBase.database.Add("overlay_french", ILanguageWorker.Language.French_FR);
+                fileNameLanguageDataBase.database.Add("platform_french", ILanguageWorker.Language.French_FR);
+                fileNameLanguageDataBase.database.Add("shared_french", ILanguageWorker.Language.French_FR);
+                fileNameLanguageDataBase.database.Add("vgui_french", ILanguageWorker.Language.French_FR);
 
-                    ClipboardService.SetText(fileNameLanguageDataBase.ToJson());
-                }
+                ClipboardService.SetText(fileNameLanguageDataBase.ToJson());
+                Console.WriteLine("Languages saved to clipboard");
             }
-            if (selected == "4")
+            if (selectedi1 == 3)
             {
                 Console.WriteLine("Scripts database");
                 {
@@ -1110,9 +1131,9 @@ namespace DataBase_Adder
                     {
                         name = "Process Screen Protector",
                         icon = "M3 4V16H21V4H3M3 2H21C22.1 2 23 2.89 23 4V16C23 16.53 22.79 17.04 22.41 17.41C22.04 17.79 21.53 18 21 18H14V20H16V22H8V20H10V18H3C2.47 18 1.96 17.79 1.59 17.41C1.21 17.04 1 16.53 1 16V4C1 2.89 1.89 2 3 2M10.84 8.93C11.15 8.63 11.57 8.45 12 8.45C12.43 8.46 12.85 8.63 13.16 8.94C13.46 9.24 13.64 9.66 13.64 10.09C13.64 10.53 13.46 10.94 13.16 11.25C12.85 11.56 12.43 11.73 12 11.73C11.57 11.73 11.15 11.55 10.84 11.25C10.54 10.94 10.36 10.53 10.36 10.09C10.36 9.66 10.54 9.24 10.84 8.93M10.07 12C10.58 12.53 11.28 12.82 12 12.82C12.72 12.82 13.42 12.53 13.93 12C14.44 11.5 14.73 10.81 14.73 10.09C14.73 9.37 14.44 8.67 13.93 8.16C13.42 7.65 12.72 7.36 12 7.36C11.28 7.36 10.58 7.65 10.07 8.16C9.56 8.67 9.27 9.37 9.27 10.09C9.27 10.81 9.56 11.5 10.07 12M6 10.09C6.94 7.7 9.27 6 12 6C14.73 6 17.06 7.7 18 10.09C17.06 12.5 14.73 14.18 12 14.18C9.27 14.18 6.94 12.5 6 10.09Z",
-                        version = "1.0.0",
+                        version = "1.0.1",
                         description = "Makes selected processes unavailable for screenshots and recording",
-                        sha3 = "3545f993f0e443594e79299a764a810cd52f2cb07829ddb72d0c1387d2056ce1",
+                        sha3 = "9b908eb4bc810b7edaf36ce5e7a99a3f868726395d54ee82097b11de42457313",
                         url = "https://raw.githubusercontent.com/WinBooster/WinBooster_Scripts/main/scripts/Process%20Screen%20Protector.cs",
                         winbooster_version = "2.0.8.9",
                         type = "Anti ScreenShare"
@@ -1124,7 +1145,7 @@ namespace DataBase_Adder
                         icon = "M8.14,14.94v4.53h4.53V14.94Zm6.8,0v4.53h4.53V14.94Zm6.79,0v4.53h4.54V14.94Zm6.8,0v4.53h4.53V14.94Zm6.8,0v4.53h4.53V14.94ZM8.14,21.73v4.54h4.53V21.73Zm6.8,0v4.54h4.53V21.73Zm6.79,0v4.54h4.54V21.73Zm6.8,0v4.54h4.53V21.73Zm6.8,0v4.54h4.53V21.73ZM8.14,28.53v4.53h4.53V28.53Zm6.8,0v4.53H33.06V28.53Zm20.39,0v4.53h4.53V28.53Z M43.5,35.5v-23a2,2,0,0,0-2-2H6.5a2,2,0,0,0-2,2v23a2,2,0,0,0,2,2h35A2,2,0,0,0,43.5,35.5Z",
                         version = "1.0.1",
                         description = "Fixes saving macros",
-                        sha3 = "cf712a4834831c65a174bcd884248165cbaf55e1ca3a3ec5d6fa2f13d50dd0bf",
+                        sha3 = "1623a919920cc7d6c46f81620be8e12621e067de34544623663412f1af0b7d30",
                         url = "https://raw.githubusercontent.com/WinBooster/WinBooster_Scripts/refs/heads/main/scripts/Oscar%20Keyboard%20Editor%20Fixer.cs",
                         winbooster_version = "2.0.9.4",
                         type = "Error fixer"
@@ -1136,13 +1157,14 @@ namespace DataBase_Adder
                         icon = "M19 9C19.9319 9 20.3978 9 20.7654 9.15224C21.2554 9.35523 21.6448 9.74458 21.8478 10.2346C22 10.6022 22 11.0681 22 12C22 12.9319 22 13.3978 21.8478 13.7654C21.6448 14.2554 21.2554 14.6448 20.7654 14.8478C20.3978 15 19.9319 15 19 15M19 9C19.9319 9 20.3978 9 20.7654 8.84776C21.2554 8.64477 21.6448 8.25542 21.8478 7.76537C22 7.39782 22 6.93188 22 6C22 5.06812 22 4.60218 21.8478 4.23463C21.6448 3.74458 21.2554 3.35523 20.7654 3.15224C20.3978 3 19.9319 3 19 3H17.7321M19 9H18M19 15C19.9319 15 20.3978 15 20.7654 15.1522C21.2554 15.3552 21.6448 15.7446 21.8478 16.2346C22 16.6022 22 17.0681 22 18C22 18.9319 22 19.3978 21.8478 19.7654C21.6448 20.2554 21.2554 20.6448 20.7654 20.8478C20.3978 21 19.9319 21 19 21H17.7321M19 15H18M5 15C4.06812 15 3.60218 15 3.23463 14.8478C2.74458 14.6448 2.35523 14.2554 2.15224 13.7654C2 13.3978 2 12.9319 2 12C2 11.0681 2 10.6022 2.15224 10.2346C2.35523 9.74458 2.74458 9.35523 3.23463 9.15224C3.60218 9 5.06812 9 6 9C5.06812 9 3.60218 9 3.23463 8.84776C2.74458 8.64477 2.35523 8.25542 2.15224 7.76537C2 7.39782 2 6.93188 2 6C2 5.06812 2 4.60218 2.15224 4.23463C2.35523 3.74458 2.74458 3.35523 3.23463 3.15224C3.60218 3 4.06812 3 5 3H12.2679M5 15C4.06812 15 3.60218 15 3.23463 15.1522C2.74458 15.3552 2.35523 15.7446 2.15224 16.2346C2 16.6022 2 17.0681 2 18C2 18.9319 2 19.3978 2.15224 19.7654C2.35523 20.2554 2.74458 20.6448 3.23463 20.8478C3.60218 21 4.06812 21 5 21M5 15H12M12.2679 3C12.2245 3.07519 12.1858 3.15353 12.1522 3.23463C12 3.60218 12 4.06812 12 5V9M12.2679 3C12.4869 2.62082 12.8257 2.32164 13.2346 2.15224C13.6022 2 14.0681 2 15 2C15.9319 2 16.3978 2 16.7654 2.15224C17.1743 2.32164 17.5131 2.62082 17.7321 3M17.7321 3C17.7755 3.07519 17.8142 3.15353 17.8478 3.23463C18 3.60218 18 4.06812 18 5V9M18 9L18 15M12 9V15M12 9H10M18 15V19C18 19.9319 18 20.3978 17.8478 20.7654C17.8142 20.8465 17.7755 20.9248 17.7321 21M12 15L12 19C12 19.9319 12 20.3978 12.1522 20.7654C12.1858 20.8465 12.2245 20.9248 12.2679 21M12.2679 21C12.4869 21.3792 12.8257 21.6784 13.2346 21.8478C13.6022 22 14.0681 22 15 22C15.9319 22 16.3978 22 16.7654 21.8478C17.1743 21.6784 17.5131 21.3792 17.7321 21M12.2679 21H9 M15 11L15 13",
                         version = "1.0.0",
                         description = "Activate WinRar Program",
-                        sha3 = "9c88e8f08378faedaaf8bb6912ce77cfd069c50366e0df80288251cfbc477ef0",
+                        sha3 = "ed44bb2f2f3b49bf26bac74b86d9f66beb897da38b89c103b82dcec3fc3e2fd4",
                         url = "https://raw.githubusercontent.com/WinBooster/WinBooster_Scripts/refs/heads/main/scripts/WinRar%20Activator.cs",
                         winbooster_version = "2.0.9.6",
                         type = "Tweaks"
                     });
 
                     ClipboardService.SetText(scriptsDataBase.ToJson());
+                    Console.WriteLine("Scripts saved to clipboard");
                 }
             }
         }

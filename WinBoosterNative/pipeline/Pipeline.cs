@@ -1,6 +1,5 @@
 ﻿using H.Formatters;
 using H.Pipes;
-using WinBooster_WPF.RemoteControl.Pipeline.Messages;
 using WinBoosterNative.pipeline.messages;
 
 namespace WinBooster_WPF.RemoteControl.Pipeline

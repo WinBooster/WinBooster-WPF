@@ -1,12 +1,5 @@
-﻿using Newtonsoft.Json.Converters;
-using Newtonsoft.Json;
-using Org.BouncyCastle.Crypto.Digests;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using WinBoosterNative.database.cleaner.workers.language;
 
 namespace WinBoosterNative.database.sha3

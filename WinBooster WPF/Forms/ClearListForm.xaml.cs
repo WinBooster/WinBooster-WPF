@@ -191,12 +191,10 @@ namespace WinBooster_WPF.Forms
                     bool all_enabled = true;
                     foreach (var enabled in enabledSettings.keyValues.Keys.ToArray())
                     {
-                        bool find = false;
                         foreach (var cleaner in list)
                         {
                             if (cleaner.Program == enabled)
                             {
-                                find = true;
                                 break;
                             }
                         }
@@ -225,15 +223,18 @@ namespace WinBooster_WPF.Forms
                     }
                 }
 
-                AESCryptor cryptor = new AESCryptor();
-                cryptor.SetPassword(WinBoosterNative.data.Settings.protection_password, WinBoosterNative.data.Settings.protection_salt);
+                if (enabledSettings.keyValues != new Dictionary<string, bool>())
+                {
+                    AESCryptor cryptor = new AESCryptor();
+                    cryptor.SetPassword(WinBoosterNative.data.Settings.protection_password, WinBoosterNative.data.Settings.protection_salt);
 
-                byte[] bytes = Encoding.UTF8.GetBytes(enabledSettings.ToJson());
-                byte[] encrypted = cryptor.Encrypt(bytes);
+                    byte[] bytes = Encoding.UTF8.GetBytes(enabledSettings.ToJson());
+                    byte[] encrypted = cryptor.Encrypt(bytes);
 
-                Directory.CreateDirectory("C:\\Program Files\\WinBooster\\Settings");
-                File.Create("C:\\Program Files\\WinBooster\\Settings\\Enabled.json").Close();
-                File.WriteAllBytes("C:\\Program Files\\WinBooster\\Settings\\Enabled.json", encrypted);
+                    Directory.CreateDirectory("C:\\Program Files\\WinBooster\\Settings");
+                    File.Create("C:\\Program Files\\WinBooster\\Settings\\Enabled.json").Close();
+                    File.WriteAllBytes("C:\\Program Files\\WinBooster\\Settings\\Enabled.json", encrypted);
+                }
             }
         }
         public void UpdateList2()
@@ -295,16 +296,13 @@ namespace WinBooster_WPF.Forms
                 }
                 set
                 {
-                    if (value != true)
+                    if (enabledSettings.keyValues.ContainsKey(Program))
                     {
-                        if (enabledSettings.keyValues.ContainsKey(Program))
-                        {
-                            enabledSettings.keyValues[Program] = value;
-                        }
-                        else
-                        {
-                            enabledSettings.keyValues.Add(Program, value);
-                        }
+                        enabledSettings.keyValues[Program] = value;
+                    }
+                    else
+                    {
+                        enabledSettings.keyValues.Add(Program, value);
                     }
                 }
             }
@@ -328,7 +326,7 @@ namespace WinBooster_WPF.Forms
 
         private void Window_Activated(object sender, EventArgs e)
         {
-            SettingsForm.UpdateCapture();
+            _ = SettingsForm.UpdateCapture();
         }
 
         public void SearchCmd(object sender, ExecutedRoutedEventArgs e)

@@ -1,9 +1,5 @@
 ﻿using Microsoft.Win32;
-using System.Management;
-using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace WinBoosterNative.security
 {

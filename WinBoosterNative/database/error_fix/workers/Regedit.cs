@@ -26,12 +26,12 @@ namespace WinBoosterNative.database.error_fix.workers
         public bool TryFix()
         {
             bool done = IsAvalible();
-            bool disabled = SetTaskManager(true);
+            bool disabled = SetRegeditManager(true);
 
             return done == disabled;
         }
 
-        public bool SetTaskManager(bool enable)
+        public bool SetRegeditManager(bool enable)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {

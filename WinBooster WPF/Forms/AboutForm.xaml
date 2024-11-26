@@ -24,7 +24,7 @@
 
 
                 <TextBlock>           
-                    <Hyperlink NavigateUri="https://github.com/WinBooster" Click="Hyperlink_Click">
+                    <Hyperlink NavigateUri="https://github.com/orgs/WinBooster/repositories" Click="Hyperlink_Click">
                         Github
                     </Hyperlink>
                 </TextBlock>
