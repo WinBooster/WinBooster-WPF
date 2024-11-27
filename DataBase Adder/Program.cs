@@ -488,7 +488,8 @@ namespace DataBase_Adder
                     "saxon-conditions.html",
                     "third-party-libraries.html",
                     "third-party-libraries.json",
-                    "yourkit-license-redist.txt"
+                    "yourkit-license-redist.txt",
+                    "remote-dev-server.html"
                 }));
                 JetBrains_category.listFiles.Add(new ListFiles("C:\\Program Files\\JetBrains\\{unknowfolder}", "Logs", new List<string>()
                 {
