@@ -11,4 +11,5 @@ namespace WinBooster_WPF.ScriptAPI
         public virtual void OnCleanerDone(CleanerResult result) { }
         public virtual void OnErrorFixerInit(ErrorFixDataBase dataBase) { }
     }
+    //# 1
 }

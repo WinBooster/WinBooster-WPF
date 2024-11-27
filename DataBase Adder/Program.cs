@@ -449,6 +449,54 @@ namespace DataBase_Adder
                 }));
                 dataBase.cleaners.Add(hialgo_boost_category);
                 #endregion
+                #region SoundWire Server
+                CleanerCategory sound_wire_server_category = new CleanerCategory("SoundWire Server");
+                sound_wire_server_category.listFiles.Add(new ListFiles("C:\\Program Files (x86)\\SoundWire Server", "Logs", new List<string>()
+                {
+                    "license.txt",
+                    "opus_license.txt",
+                    "readerwriterqueue_license.txt",
+                }));
+                dataBase.cleaners.Add(sound_wire_server_category);
+                #endregion
+                #region System Informer
+                CleanerCategory system_informer_category = new CleanerCategory("System Informer");
+                system_informer_category.listFiles.Add(new ListFiles("C:\\Program Files\\SystemInformer", "Logs", new List<string>()
+                {
+                    "LICENSE.txt",
+                    "README.txt",
+                }));
+                dataBase.cleaners.Add(system_informer_category);
+                #endregion
+                #region Sandboxie Plus
+                CleanerCategory sandboxie_plus_category = new CleanerCategory("Sandboxie Plus");
+                sandboxie_plus_category.listFiles.Add(new ListFiles("C:\\Program Files\\Sandboxie-Plus", "Logs", new List<string>()
+                {
+                    "Manifest0.txt",
+                    "Manifest1.txt",
+                    "Manifest2.txt"
+                }));
+                dataBase.cleaners.Add(sandboxie_plus_category);
+                #endregion
+                #region JetBrains
+                CleanerCategory JetBrains_category = new CleanerCategory("JetBrains");
+                JetBrains_category.listFiles.Add(new ListFiles("C:\\Program Files\\JetBrains\\{unknowfolder}\\license", "Logs", new List<string>()
+                {
+                    "javahelp_license.txt",
+                    "javolution_license.txt",
+                    "launcher-third-party-libraries.html",
+                    "saxon-conditions.html",
+                    "third-party-libraries.html",
+                    "third-party-libraries.json",
+                    "yourkit-license-redist.txt"
+                }));
+                JetBrains_category.listFiles.Add(new ListFiles("C:\\Program Files\\JetBrains\\{unknowfolder}", "Logs", new List<string>()
+                {
+                    "LICENSE.txt",
+                    "NOTICE.txt"
+                }));
+                dataBase.cleaners.Add(JetBrains_category);
+                #endregion
 
                 #region Messengers
 
@@ -502,7 +550,7 @@ namespace DataBase_Adder
                 #region Radmin VPN
                 CleanerCategory radmin_vpn_caregory = new CleanerCategory("Radmin VPN");
                 radmin_vpn_caregory.listFiles.Add(new ListFiles("C:\\Program Files (x86)\\Radmin VPN\\CHATLOGS", "Logs", new List<string>() { "info.txt" }));
-                radmin_vpn_caregory.listFiles.Add(new ListFiles("C:\\ProgramData\\Famatech\\Radmin VPN", "Logs", new List<string>() { "service.log" }));
+                radmin_vpn_caregory.listFiles.Add(new ListFiles("C:\\ProgramData\\Famatech\\Radmin VPN", "Logs", new List<string>() { "service.log", "eula.txt" }));
                 radmin_vpn_caregory.paternFiles.Add(new PaternFiles("C:\\ProgramData\\Famatech\\Radmin VPN", "*.txt", "Logs"));
                 radmin_vpn_caregory.paternFiles.Add(new PaternFiles("C:\\Program Files (x86)\\Radmin VPN", "*.lng_rad", "Cache"));
                 radmin_vpn_caregory.filesIsNotLanguageByPatern.Add(new FilesIfCurrentLanguageByPatern("C:\\Program Files (x86)\\Radmin VPN", "*.qm", true, "Language"));
@@ -554,6 +602,19 @@ namespace DataBase_Adder
                 #endregion
                 #endregion
                 #region Video
+                #region VideoLAN
+                CleanerCategory vlc_category = new CleanerCategory("VideoLAN");
+                vlc_category.listFiles.Add(new ListFiles("C:\\Program Files\\VideoLAN\\VLC", "Logs", new List<string>()
+                {
+                    "AUTHORS.txt",
+                    "COPYING.txt",
+                    "NEWS.txt",
+                    "README.txt",
+                    "THANKS.txt",
+                    "VideoLAN Website.url"
+                }));
+                dataBase.cleaners.Add(vlc_category);
+                #endregion
                 #region HandBrake
                 CleanerCategory handbrake_category = new CleanerCategory("HandBrake");
                 handbrake_category.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\HandBrake\\logs", "*.txt", "Logs"));
@@ -573,6 +634,18 @@ namespace DataBase_Adder
                 AVCLabs_Video_Enhancer_AI.paternFiles.Add(new PaternFiles("C:\\Program Files (x86)\\AVCLabs\\AVCLabs Video Enhancer AI", "*.html", "Logs"));
                 AVCLabs_Video_Enhancer_AI.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\AVCLabs Video Enhancer AI\\logs", "*.log", "Logs"));
                 dataBase.cleaners.Add(AVCLabs_Video_Enhancer_AI);
+                #endregion
+                #region iTop Screen Recorder
+                CleanerCategory iTop_Screen_Recorder = new CleanerCategory("iTop Screen Recorder");
+                iTop_Screen_Recorder.paternFiles.Add(new PaternFiles("C:\\Users\\Administrator\\AppData\\Roaming\\iTop Screen Recorder\\Logs", "*.log", "Logs"));
+                dataBase.cleaners.Add(iTop_Screen_Recorder);
+                #endregion
+                #region Rave
+                CleanerCategory rave = new CleanerCategory("Rave");
+                rave.paternFiles.Add(new PaternFiles("C:\\Users\\Administrator\\AppData\\Roaming\\Rave\\logs", "*.log", "Logs"));
+                rave.allFilesRecursives.Add(new AllFilesRecursive("C:\\Users\\Administrator\\AppData\\Roaming\\Rave\\Cache", "Cache", false));
+                rave.allFilesRecursives.Add(new AllFilesRecursive("C:\\Users\\Administrator\\AppData\\Roaming\\Rave\\Code Cache", "Cache", false));
+                dataBase.cleaners.Add(rave);
                 #endregion
                 #endregion
                 #region Image
@@ -720,6 +793,14 @@ namespace DataBase_Adder
                 #endregion
                 #endregion
                 #region Cheats
+                #region Cheat Engine
+                CleanerCategory cheat_engine_category = new CleanerCategory("Cheat Engine");
+                cheat_engine_category.listFiles.Add(new ListFiles("C:\\Program Files\\Cheat Engine 7.5", "Logs", new List<string>()
+                {
+                    "celua.txt",
+                }));
+                dataBase.cleaners.Add(cheat_engine_category);
+                #endregion
                 #region Fatality
                 CleanerCategory fatality = new CleanerCategory("Fatality");
                 fatality.allFilesRecursives.Add(new AllFilesRecursive("{steam}\\steamapps\\common\\Counter-Strike Global Offensive\\fatality", "Cheats", true));
@@ -760,9 +841,18 @@ namespace DataBase_Adder
                 execHack.allFilesRecursives.Add(new AllFilesRecursive("C:\\exechack", "Cheats", true));
                 dataBase.cleaners.Add(execHack);
                 #endregion
+                #region Weave
+                CleanerCategory weave = new CleanerCategory("Weave");
+                weave.allFilesRecursives.Add(new AllFilesRecursive("C:\\Weave", "Cheats", true));
+                dataBase.cleaners.Add(weave);
+                #endregion
                 #endregion
                 #region Games
-
+                #region PowerToys
+                CleanerCategory voidTrain_category = new CleanerCategory("VoidTrain");
+                voidTrain_category.listFiles.Add(new ListFiles("C:\\VoidTrain", "Logs", new List<string>() { "favicon.ico", "FreeTP.Org.url", "Manifest_NonUFSFiles_Win64.txt", "ReadMe - Как играть по сети.url" }));
+                dataBase.cleaners.Add(voidTrain_category);
+                #endregion
                 #region PowerToys
                 CleanerCategory powerToys_category = new CleanerCategory("PowerToys");
                 powerToys_category.listFiles.Add(new ListFiles("C:\\Program Files\\PowerToys", "Logs", new List<string>() { "License.rtf", "Notice.md" }));
@@ -792,7 +882,7 @@ namespace DataBase_Adder
                 #region Black Desert
                 CleanerCategory black_desert_category = new CleanerCategory("Black Desert");
                 black_desert_category.listFiles.Add(new ListFiles("C:\\Users\\{username}\\Documents\\Black Desert", "Logs", new List<string>() { "debug.log", "EventLog.txt" }));
-                black_desert_category.listFiles.Add(new ListFiles("�:\\Pearlabyss\\BlackDesert", "Logs", new List<string>() { "debug.log", "console.log" }));
+                black_desert_category.listFiles.Add(new ListFiles("�:\\Pearlabyss\\BlackDesert", "Logs", new List<string>() { "debug.log", "console.log" }));
                 black_desert_category.listFiles.Add(new ListFiles("D:\\Pearlabyss\\BlackDesert", "Logs", new List<string>() { "debug.log", "console.log" }));
                 dataBase.cleaners.Add(black_desert_category);
                 #endregion
@@ -884,6 +974,7 @@ namespace DataBase_Adder
                 #region PrismLauncher
                 CleanerCategory prismLauncher = new CleanerCategory("PrismLauncher");
                 prismLauncher.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\PrismLauncher", "*.log", "Logs"));
+                prismLauncher.allFilesRecursives.Add(new AllFilesRecursive("C:\\Users\\Administrator\\AppData\\Roaming\\PrismLauncher\\cache", "Cache", false));
                 prismLauncher.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\PrismLauncher\\logs", "*.log", "Logs"));
                 prismLauncher.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\PrismLauncher\\instances\\{unknowfolder}\\.minecraft\\crash-reports", "*", "Logs"));
                 prismLauncher.paternFiles.Add(new PaternFiles("C:\\Users\\{username}\\AppData\\Roaming\\PrismLauncher\\instances\\{unknowfolder}\\.minecraft\\logs", "*", "Logs"));
@@ -1133,7 +1224,7 @@ namespace DataBase_Adder
                         icon = "M3 4V16H21V4H3M3 2H21C22.1 2 23 2.89 23 4V16C23 16.53 22.79 17.04 22.41 17.41C22.04 17.79 21.53 18 21 18H14V20H16V22H8V20H10V18H3C2.47 18 1.96 17.79 1.59 17.41C1.21 17.04 1 16.53 1 16V4C1 2.89 1.89 2 3 2M10.84 8.93C11.15 8.63 11.57 8.45 12 8.45C12.43 8.46 12.85 8.63 13.16 8.94C13.46 9.24 13.64 9.66 13.64 10.09C13.64 10.53 13.46 10.94 13.16 11.25C12.85 11.56 12.43 11.73 12 11.73C11.57 11.73 11.15 11.55 10.84 11.25C10.54 10.94 10.36 10.53 10.36 10.09C10.36 9.66 10.54 9.24 10.84 8.93M10.07 12C10.58 12.53 11.28 12.82 12 12.82C12.72 12.82 13.42 12.53 13.93 12C14.44 11.5 14.73 10.81 14.73 10.09C14.73 9.37 14.44 8.67 13.93 8.16C13.42 7.65 12.72 7.36 12 7.36C11.28 7.36 10.58 7.65 10.07 8.16C9.56 8.67 9.27 9.37 9.27 10.09C9.27 10.81 9.56 11.5 10.07 12M6 10.09C6.94 7.7 9.27 6 12 6C14.73 6 17.06 7.7 18 10.09C17.06 12.5 14.73 14.18 12 14.18C9.27 14.18 6.94 12.5 6 10.09Z",
                         version = "1.0.1",
                         description = "Makes selected processes unavailable for screenshots and recording",
-                        sha3 = "9b908eb4bc810b7edaf36ce5e7a99a3f868726395d54ee82097b11de42457313",
+                        sha3 = "91df6bce15e8d66f0ebce9a9a432e4118086468d248fff2ad5769307f782993f",
                         url = "https://raw.githubusercontent.com/WinBooster/WinBooster_Scripts/main/scripts/Process%20Screen%20Protector.cs",
                         winbooster_version = "2.0.8.9",
                         type = "Anti ScreenShare"
